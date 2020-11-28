@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./public/stylesheets/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+      integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2"
+      crossorigin="anonymous"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  </head>
+
+  <body>
+    <div class="navigation">
+      <ul>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-tachometer" aria-hidden="true"></i>
+            </span>
+            <span class="title">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-cutlery" aria-hidden="true"></i>
+            </span>
+            <span class="title">Vendor Management</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-list-alt" aria-hidden="true"></i>
+            </span>
+            <span class="title">Caregory Management</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-gift" aria-hidden="true"></i>
+            </span>
+            <span class="title">Orders Management</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-users" aria-hidden="true"></i>
+            </span>
+            <span class="title">Users</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-sign-out" aria-hidden="true"></i>
+            </span>
+            <span class="title">sign out</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="navbar">
+        <ul>
+            <li>
+                <a href="">LOGO</a>
+
+            </li>
+        </ul>
+    </div> 
+    <div class="toggle" onclick="toggleMenu()">
+
+    </div>
+
+    <div class="main">
+     
+      <div class="totalproducts">
+        <span class="title">totalproducts </span><br />
+        <span class="data">10</span>
+      </div>
+      <div class="itemsaled">
+        <span class="title">itemsaled </span><br />
+        <span class="data">20</span>
+      </div>
+      <div class="totalamount">
+        <span class="title"> totalamount </span><br />
+        <span class="data">30</span>
+      </div>
+      <div class="salesamount">
+        <span class="title">salesamount </span><br />
+        <span class="data">40</span>
+      </div>
+      <div class="salesreport">
+        <h1>SALES REPORT</h1>
+        <canvas id="myChart1"></canvas>
+      </div>
+
+      <div class="totalsales">
+        <h1>TOTAL SALES IN THE MONTH</h1>
+        <canvas id="myChart"></canvas>
+      </div>
+      <div class="footer">
+        <h1>footer</h1>
+      </div>
+    </div>
+    <script>
+      function toggleMenu() {
+        let navigation = document.querySelector(".navigation");
+        let toggle = document.querySelector(".toggle");
+
+        navigation.classList.toggle("active");
+        toggle.classList.toggle("active");
+      }
+
+      let labels1 = ["PRO1", "PRO2"];
+      let data1 = [69, 31];
+      let color1 = ["#49A9EA", "#36CAAB"];
+
+      let mychart1 = document.getElementById("myChart").getContext("2d");
+      let chart1 = new Chart(mychart1, {
+        type: "doughnut",
+        data: {
+          labels: labels1,
+          datasets: [
+            {
+              data: data1,
+              backgroundColor: color1,
+            },
+          ],
+        },
+        options: {
+          // title:{
+          //     text:"do you like ",
+          //     fontColor: 'black',
+          //     display:true
+          // },
+          legend: {
+            labels: {
+              fontColor: "black",
+              fontNumber: 30,
+            },
+          },
+        },
+      });
+
+      let labels2 = ["THIS MONTH", "LAST MONTH"];
+      let data2 = [69, 31];
+      let color2 = ["#49A9EA", "#36CAAB"];
+
+      let mychart2 = document.getElementById("myChart1").getContext("2d");
+      let chart2 = new Chart(mychart2, {
+        type: "pie",
+        data: {
+          labels: labels2,
+          datasets: [
+            {
+              data: data2,
+              backgroundColor: color2,
+            },
+          ],
+        },
+        options: {
+          // title:{
+          //     text:"do you like ",
+          //     fontColor: 'black',
+          //     display:true
+          // },
+          legend: {
+            labels: {
+              fontColor: "black",
+              fontNumber: 30,
+            },
+          },
+        },
+      });
+    </script>
+    
+  </body>
+</html>

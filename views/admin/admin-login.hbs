@@ -1,0 +1,254 @@
+<div class="container-fluid bg-login">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 col-md-12 login-card">
+                <div class="row">
+                    <div class="col-md-5 detail-part">
+                        <h1>LOGO</h1>
+                        <p>Please use your credentials to login.
+                        </p>
+                    </div>
+                    <div class="col-md-7 logn-part">
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 mx-auto">
+                                <div class="logo-cover">
+                                    <img src="assets/images/logo.png" alt="">
+                                </div>
+                                <div class="form-cover">
+                                    <h6>Login Here</h6>
+                                    <form action="/admin/login" method="POST">
+                                        <div class="form-group">
+                                            <label for="email">Email:</label>
+                                            <input type="email" class="form-control" id="email"
+                                                placeholder="Enter email" name="Email">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="pwd">Password:</label>
+                                            <input type="password" class="form-control" id="pwd"
+                                                placeholder="Enter password" name="Password">
+                                        </div>
+                                        <div class="col-md-6 button-div float-right ">
+                                            <button class="btn btn-primary  float-right">Login</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+
+    }
+
+    img {
+        max-width: 100%;
+    }
+
+    a {
+        text-decoration: none;
+        outline: none;
+        color: #444;
+    }
+
+    a:hover {
+        color: #444;
+    }
+
+    ul {
+        margin-bottom: 0;
+        padding-left: 0;
+    }
+
+    a:hover,
+    a:focus,
+    input,
+    textarea {
+        text-decoration: none;
+        outline: none;
+    }
+
+    .center {
+        text-align: center;
+    }
+
+    .left {
+        text-align: left;
+    }
+
+    .right {
+        text-align: right;
+    }
+
+    .cp {
+        cursor: pointer
+    }
+
+    html,
+    body {
+        height: 100%;
+    }
+
+    p {
+        margin-bottom: 0px;
+        width: 100%;
+    }
+
+    .no-padding {
+        padding: 0px;
+    }
+
+    .no-margin {
+        margin: 0px;
+
+    }
+
+    .hid {
+        display: none;
+    }
+
+    .top-mar {
+        margin-top: 15px;
+    }
+
+    .h-100 {
+        height: 100%;
+        ;
+    }
+
+    ::placeholder {
+        color: #747f8a !important;
+        font-size: 13px;
+        opacity: .5 !important;
+    }
+
+    .container-fluid {
+        padding: 0px;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: font-regular;
+    }
+
+    strong {
+        font-family: 'Ubuntu', sans-serif;
+    }
+
+    body {
+        background-color: #fafafa !important;
+        font-family: 'Ubuntu', sans-serif;
+        color: #6A6A6A;
+        overflow-x: hidden;
+
+    }
+
+
+
+    .bg-login {
+        background-image: url(../images/bg-balloon.jpg);
+        min-height: 100%;
+        background-size: 100%;
+        padding: 20px;
+    }
+
+    .login-card {
+        background-color: #fff;
+        float: none;
+        margin: auto;
+        box-shadow: 0 1px 15px rgba(0, 0, 0, .04), 0 1px 6px rgba(0, 0, 0, .04);
+        margin-top: 8%;
+        margin-bottom: 5%;
+
+    }
+
+    .detail-part {
+        background-image: url(../images/photo-1559466273-d95e72debaf8.jpg);
+        max-width: 100%;
+        height: auto;
+        padding: 30px;
+        background-size: 100%;
+    }
+
+    .detail-part h1 {
+        color: rgb(214, 2, 2);
+    }
+
+    .detail-part p {
+        color: rgb(214, 18, 18);
+        margin-top: 30px;
+    }
+
+    .logn-part {
+        padding: 30px;
+    }
+
+    .logo-cover img {
+        margin-bottom: 30px;
+    }
+
+    .form-cover h6 {
+        margin-bottom: 30px;
+    }
+
+    .form-cover input {
+        margin-bottom: 30px;
+        border-radius: 0px;
+        background-color: #cccccc38;
+    }
+
+    .form-footer .forget-paswd {
+        text-align: left;
+    }
+
+    .button-div {
+        text-align: right;
+    }
+
+    .form-footer {
+        margin-bottom: 50px;
+    }
+
+    .button-div .btn {
+        background-color: #922c88 !important;
+        border-color: #922c88 !important;
+    }
+
+    .button-div .btn:hover {
+        background-color: #922c88 !important;
+        border-color: #922c88 !important;
+    }
+
+    .button-div .btn:active {
+        background-color: #922c88 !important;
+        border-color: #922c88 !important;
+    }
+
+    .button-div .btn:focus {
+        background-color: #922c88 !important;
+        border-color: #922c88 !important;
+    }
+
+    @media screen and (max-width: 1100px) {
+        .bg-login {
+            background-image: url(../images/bg-mobile.jpg);
+        }
+
+    }
+</style>

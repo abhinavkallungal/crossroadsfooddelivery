@@ -1,0 +1,450 @@
+{{!-- nav bar start
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">admin panel</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">all products<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"> all orders <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">all users<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">dummy <span class="sr-only">(current)</span></a>
+                </li>
+                
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav> --}}
+
+    {{!-- nav bar end --}}
+
+
+ <div class="navigation">
+      <ul>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-tachometer" aria-hidden="true"></i>
+            </span>
+            <span class="title">Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-cutlery" aria-hidden="true"></i>
+            </span>
+            <span class="title">Vendor Management</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-list-alt" aria-hidden="true"></i>
+            </span>
+            <span class="title">Caregory Management</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-gift" aria-hidden="true"></i>
+            </span>
+            <span class="title">Orders Management</span>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <span class="icon"
+              ><i class="fa fa-users" aria-hidden="true"></i>
+            </span>
+            <span class="title">Users</span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/logout">
+            <span class="icon"
+              ><i class="fa fa-sign-out" aria-hidden="true"></i>
+            </span>
+            <span class="title">sign out</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="navbar">
+        <ul>
+            <li>
+                <a href="">LOGO</a>
+
+            </li>
+        </ul>
+    </div> 
+    <div class="toggle" onclick="toggleMenu()">
+
+    </div>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Castoro&display=swap');
+*{
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+body{
+    min-height: 100vh;
+    background: #ffffff;
+}
+.navigation{
+    position: fixed;
+    
+    width: 60px;
+    height: 100%;
+    background: #001122;
+    transition: 0.5s;
+    overflow: hidden;
+}
+.navigation:hover,
+.navigation.active{
+    width: 300px;
+}
+.navigation ul{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    padding-top: 60px;
+
+}
+.navigation ul li{
+    position: relative;
+    width: 100%;
+    list-style: none;
+
+}
+.navigation ul li:hover{
+    background: rgba(4, 0, 255, 0.589) ;
+}
+.navigation ul li a{
+    position: relative;
+    display: block;
+    width: 100%;
+    display:flex ;
+    text-decoration: none;
+    color:#ffffff;
+
+
+}
+.navigation ul li a .icon{
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 60px;
+    line-height: 60px; 
+    text-align: center;
+}
+.navigation ul li a .icon .fa{
+    font-size: 24px;
+
+}
+.navigation ul li a .title{
+    position: relative;
+    display: block;
+    padding: 0 10px;
+    height: 60px;
+    line-height: 60px; 
+    text-align: start;
+    white-space: nowrap;
+}
+
+.toggle{
+    position: absolute;
+    top:0;
+    right: 0;
+    width: 60px;
+    height: 60px;
+    background: #001122;
+    cursor: pointer;
+
+}
+
+.toggle.active{
+    background: rgba(4, 0, 255, 0.589);
+}
+.toggle::before{
+    content:'\f0c9';
+    font-family: fontAwesome;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 60px;
+    text-align: center;
+    font-size: 24px;
+    color: #ffffff;
+
+}
+.toggle.active:before{
+    content: '\f00d' ;
+}
+
+
+
+.main{
+    margin-left:60px;
+    
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr ;
+    grid-template-rows: 4fr 8fr 1fr;
+    grid-template-areas: "totalproducts  itemsaled totalamount salesamount" 
+    " salesreport salesreport  totalsales totalsales " "footer footer footer footer ";
+    grid-gap: 50px;
+
+}
+
+.totalproducts{
+    background: #001aad;
+    grid-area:totalproducts;
+    margin-top: 50px;
+    margin-left: 50px;
+    border-radius: 10px;
+     
+}
+.totalproducts .title{
+    padding: 20px ;
+   font-size: 30px;
+   font-family: Georgia, 'Times New Roman', Times, serif;
+   color: #ffffff;
+}
+.totalproducts .data{
+    font-size: 50px;
+    color: #ffffff;
+    padding: 20px ;
+
+
+
+}
+
+.itemsaled{
+    background: #aa0202ea;
+    grid-area:itemsaled;
+    margin-top: 50px;
+    border-radius: 10px;
+    
+    
+
+}
+.itemsaled .title{
+    padding: 20px ;
+   font-size: 30px;
+   font-family: Georgia, 'Times New Roman', Times, serif;
+   color: #ffffff;
+}
+.itemsaled .data{
+    font-size: 50px;
+    color: #ffffff;
+    padding: 20px ;
+
+
+
+}
+
+
+.totalamount{
+    background: #ad7100;
+    grid-area: totalamount;
+    margin-top: 50px;
+    border-radius: 10px;
+ 
+    
+
+}
+.totalamount .title{
+    padding: 20px ;
+   font-size: 30px;
+   font-family: Georgia, 'Times New Roman', Times, serif;
+   color: #ffffff;
+
+}
+.totalamount .data{
+    font-size: 50px;
+    color: #ffffff;
+    padding: 20px ;
+
+
+
+}
+
+.salesamount{
+    background: #009218fa;
+    grid-area: salesamount;
+    margin-top: 50px;
+    margin-right: 50px;
+    border-radius: 10px;
+    
+   
+}
+.salesamount .title{
+    padding: 20px ;
+   font-size: 30px;
+   font-family: Georgia, 'Times New Roman', Times, serif;
+   color: #ffffff;
+}
+.salesamount .data{
+    font-size: 50px;
+    color: #ffffff;
+    padding: 20px ;
+
+
+
+}
+.salesreport{
+    background: #a3a2a2be;
+    grid-area:salesreport ;
+    margin-left: 50px ;
+}
+.salesreport h1{
+    background:#e45e5e ;
+    padding: 5px;
+    text-align: center;
+}
+
+.totalsales{
+    background: #a3a2a2be;
+    grid-area:totalsales ;
+    margin-right: 50px;
+    
+    
+}
+.totalsales h1{
+    background:#e45e5e ;
+    padding: 5px;
+    text-align: center;
+
+}
+footer{
+    background: #ffffff;
+    grid-area: footer;
+}
+
+
+
+.navbar{
+    background:#001122;
+    height: 60px;
+    width: 100%;
+    padding-left: 60px;
+}
+.navbar ul li a{
+    font-size: 40px;
+    text-decoration: none;
+    margin-left: 50px;
+    color: #ffffff;
+}
+@media only screen and (max-width:1040px){
+    
+   
+    .navigation.active{
+        left:0px;
+        width: 100%;
+
+    }
+    .main{
+        grid-gap: 10px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 7fr 7fr 7fr 7fr 12fr 12fr 2fr  ;
+        grid-template-areas: " totalproducts"" itemsaled "
+                            "totalamount ""salesamount"
+                            "salesreport"
+                            "totalsales"
+                            "footer";
+
+
+    }
+    .totalproducts,.itemsaled,.totalamount,.salesamount{
+        min-width: 400px;
+        max-width: 600px;
+        max-height: 150px;
+        align-items: center;
+        margin: auto;
+        padding: 0px;
+    }
+    .totalsales,.salesreport{
+        min-width: 400px;
+        max-width:600px ;  
+       
+        max-height: 600px;
+        align-items: center;
+        margin: auto;
+    }
+    .totalsales canvas,.salesreport canvas{
+        max-width: 600px ;
+        align-items: center;
+        
+    }
+    .detail-part{
+        display: none;
+    }
+   
+}
+
+@media only screen and (max-width:550px){
+    .main{
+        grid-gap: 0px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 7fr 7fr 7fr 7fr 12fr 12fr 2fr  ;
+        grid-template-areas: " totalproducts "
+                            " itemsaled "
+                            "totalamount"
+                            "salesamount"
+                            "salesreport"
+                            "totalsales"
+                            "footer";
+
+    }
+    .totalproducts,.itemsaled,.totalamount,.salesamount{
+        min-width: 200px;
+        max-width: 280px;
+        max-height: 150px;
+        margin:auto;
+        align-items: center;
+        padding: 0px;
+    }
+    .totalsales,.salesreport{
+        max-width:280px ;  
+        margin: 25px;
+        max-height: 400px;
+        align-items: center;
+    }
+    .totalsales canvas,.salesreport canvas{
+        max-width: 280px ;
+        
+    }
+
+
+}
+</style>
+
+<script>
+  function toggleMenu() {
+        let navigation = document.querySelector(".navigation");
+        let toggle = document.querySelector(".toggle");
+
+        navigation.classList.toggle("active");
+        toggle.classList.toggle("active");
+      }
+</script>
+

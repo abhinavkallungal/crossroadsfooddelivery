@@ -1,0 +1,96 @@
+ <div class="main">
+     
+      <div class="totalproducts">
+        <span class="title">totalproducts </span><br />
+        <span class="data">10</span>
+      </div>
+      <div class="itemsaled">
+        <span class="title">itemsaled </span><br />
+        <span class="data">20</span>
+      </div>
+      <div class="totalamount">
+        <span class="title"> totalamount </span><br />
+        <span class="data">30</span>
+      </div>
+      <div class="salesamount">
+        <span class="title">salesamount </span><br />
+        <span class="data">40</span>
+      </div>
+      <div class="salesreport">
+        <h1>SALES REPORT</h1>
+        <canvas id="myChart1"></canvas>
+      </div>
+
+      <div class="totalsales">
+        <h1>TOTAL SALES IN THE MONTH</h1>
+        <canvas id="myChart"></canvas>
+      </div>
+      <div class="footer">
+        <h1>footer</h1>
+      </div>
+    </div>
+    <script>
+      
+
+      let labels1 = ["PRO1", "PRO2"];
+      let data1 = [69, 31];
+      let color1 = ["#49A9EA", "#36CAAB"];
+
+      let mychart1 = document.getElementById("myChart").getContext("2d");
+      let chart1 = new Chart(mychart1, {
+        type: "doughnut",
+        data: {
+          labels: labels1,
+          datasets: [
+            {
+              data: data1,
+              backgroundColor: color1,
+            },
+          ],
+        },
+        options: {
+          // title:{
+          //     text:"do you like ",
+          //     fontColor: 'black',
+          //     display:true
+          // },
+          legend: {
+            labels: {
+              fontColor: "black",
+              fontNumber: 30,
+            },
+          },
+        },
+      });
+
+      let labels2 = ["THIS MONTH", "LAST MONTH"];
+      let data2 = [69, 31];
+      let color2 = ["#49A9EA", "#36CAAB"];
+
+      let mychart2 = document.getElementById("myChart1").getContext("2d");
+      let chart2 = new Chart(mychart2, {
+        type: "pie",
+        data: {
+          labels: labels2,
+          datasets: [
+            {
+              data: data2,
+              backgroundColor: color2,
+            },
+          ],
+        },
+        options: {
+          // title:{
+          //     text:"do you like ",
+          //     fontColor: 'black',
+          //     display:true
+          // },
+          legend: {
+            labels: {
+              fontColor: "black",
+              fontNumber: 30,
+            },
+          },
+        },
+      });
+    </script>

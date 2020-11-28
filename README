@@ -1,0 +1,21 @@
+/npm install express/ 
+
+/ npx express-generator --hbs/
+
+/npm install /
+
+/npm audit fixnpm audit fix/
+
+/npm install nodemon /
+
+/setup at package.json ("start": "nodemon ./bin/www"/)
+
+/npm start/
+
+/npm install express-handlebars/
+
+/npm fund   /
+
+/npm i express-fileupload /
+
+/npm install mongodb/ 
