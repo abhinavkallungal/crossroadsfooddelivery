@@ -14,6 +14,8 @@ module.exports = {
                 });
         });
     },
+
+    
     doLogin: (adminData) => {
         return new Promise(async (resolve, reject) => {
             let loginStatus = false;

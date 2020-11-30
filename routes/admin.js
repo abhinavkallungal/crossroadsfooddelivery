@@ -13,30 +13,35 @@ const  verifyLogin=(req,res,next)=>{
   }
 }
 
+
 /* GET users listing. */
 router.get('/',verifyLogin, function(req, res, next) {
-  productHelpers.getAllProducts().then((products)=>{
-    res.render('admin/dashboard',{admin:true,products})
-  })
+     let tiltes = [{title : "ADMIN DASHBOARD"}];
+     let css = [{css:'stylesheets/admindash.css'}];
+     let scripts = [{script:'javascripts/admindash.js'},{script:'https://cdn.jsdelivr.net/npm/chart.js@2.8.0'}];
+    res.render('admin/dashboard',{admin:true,scripts,css,tiltes})
+  
  
 });
 
-router.get('/signup',(req, res)=> {
-  res.render('admin/signup')  
+// router.get('/signup',(req, res)=> {
+//   res.render('admin/signup')  
 
-});
-router.post('/signup',(req, res)=> {
-  adminHelpers.doSignup(req.body).then((response)=>{
-     req.session.loggedIn=true
-     req.session.user=response
-     res.redirect('/')
-   })
+// });
+// router.post('/signup',(req, res)=> {
+//   adminHelpers.doSignup(req.body).then((response)=>{
+//      req.session.loggedIn=true
+//      req.session.user=response
+//      res.redirect('/')
+//    })
    
-});
+// });
 router.get('/login',(req, res)=> {
+ 
   if (req.session.loggedIn){
     res.redirect('/')
   }else{
+ 
   res.render('admin/admin-login',{"loginErr":req.session.loginErr}) 
   req.session.loginErr=false 
   
@@ -72,6 +77,7 @@ router.get('/add-product', verifyLogin, function(req, res) {
   res.render('admin/add-product',{admin:true})
  
 });
+
 
 router.post('/add-product', (req,res,)=> {
 

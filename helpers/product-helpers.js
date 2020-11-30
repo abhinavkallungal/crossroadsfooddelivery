@@ -12,6 +12,8 @@ module.exports={
 
 
     },
+
+    
     //=> product get from database
     getAllProducts:()=>{
         return new Promise(async(resolve,reject)=>{
