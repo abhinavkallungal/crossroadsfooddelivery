@@ -1,31 +1,31 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var productHelpers=require('../helpers/product-helpers');
-var adminHelpers=require('../helpers/admin-helpers');
+var productHelpers = require("../helpers/product-helpers");
+var adminHelpers = require("../helpers/admin-helpers");
+const { response } = require("express");
 
-
-const  verifyLogin=(req,res,next)=>{
-  if(req.session.loggedIn){
-    next()
-  }else{
-    res.redirect('admin/login')
-    next()
+const verifyLogin = (req, res, next) => {
+  if (req.session.loggedIn) {
+    next();
+  } else {
+    res.redirect("admin/login");
+    next();
   }
-}
-
+};
 
 /* GET users listing. */
-router.get('/',verifyLogin, function(req, res, next) {
-     let tiltes = [{title : "ADMIN DASHBOARD"}];
-     let css = [{css:'stylesheets/admindash.css'}];
-     let scripts = [{script:'javascripts/admindash.js'},{script:'https://cdn.jsdelivr.net/npm/chart.js@2.8.0'}];
-    res.render('admin/dashboard',{admin:true,scripts,css,tiltes})
-  
- 
+router.get("/", verifyLogin, function (req, res, next) {
+  let tiltes = [{ title: "ADMIN DASHBOARD" }];
+  let css = [{ css: "stylesheets/admindash.css" }];
+  let scripts = [
+    { script: "javascripts/admindash.js" },
+    { script: "https://cdn.jsdelivr.net/npm/chart.js@2.8.0" },
+  ];
+  res.render("admin/dashboard", { admin: true, scripts, css, tiltes });
 });
 
 // router.get('/signup',(req, res)=> {
-//   res.render('admin/signup')  
+//   res.render('admin/signup')
 
 // });
 // router.post('/signup',(req, res)=> {
@@ -34,69 +34,96 @@ router.get('/',verifyLogin, function(req, res, next) {
 //      req.session.user=response
 //      res.redirect('/')
 //    })
-   
+
 // });
-router.get('/login',(req, res)=> {
- 
-  if (req.session.loggedIn){
-    res.redirect('/')
-  }else{
- 
-  res.render('admin/admin-login',{"loginErr":req.session.loginErr}) 
-  req.session.loginErr=false 
-  
+router.get("/login", (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect("/");
+  } else {
+    res.render("admin/admin-login", { loginErr: req.session.loginErr });
+    req.session.loginErr = false;
   }
-
 });
 
-router.post('/login',(req,res)=>{
-  adminHelpers.doLogin(req.body).then((response)=>{
-    if (response.status){
-      req.session.loggedIn=true
-      req.session.user=response.user
-      res.redirect('/admin')
+router.post("/login", (req, res) => {
+  adminHelpers.doLogin(req.body).then((response) => {
+    if (response.status) {
+      req.session.loggedIn = true;
+      req.session.user = response.user;
+      res.redirect("/admin");
       console.log("logedin");
-    }else{
-      req.session.loginErr=true
-      res.redirect('/admin/login')
-      
+    } else {
+      req.session.loginErr = true;
+      res.redirect("/admin/login");
     }
-  })
-  
+  });
 });
 
-
-router.get('/logout',(req,res)=>{
-  req.session.destroy()
-  res.redirect('/admin/login')  
-  
+router.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.redirect("/admin/login");
 });
 
-
-router.get('/add-product', verifyLogin, function(req, res) {
-  res.render('admin/add-product',{admin:true})
- 
+router.get("/add-product", verifyLogin, function (req, res) {
+  res.render("admin/add-product", { admin: true });
 });
 
-
-router.post('/add-product', (req,res,)=> {
-
-  productHelpers.addProduct(req.body,(id)=>{
-    let image=req.files.Image
-    image.mv('./public/product-images/'+id+'.jpg',(err,done)=>{
-      if(!err){
-        res.render("admin/add-product")
-
-      }else{
+router.post("/add-product", (req, res) => {
+  productHelpers.addProduct(req.body, (id) => {
+    let image = req.files.Image;
+    image.mv("./public/product-images/" + id + ".jpg", (err, done) => {
+      if (!err) {
+        res.render("admin/add-product");
+      } else {
         console.log(err);
       }
-    })
-  })
- 
- 
+    });
+  });
 });
 
+router.get("/view-vendors", (req, res) => {
+  let css = [{ css: "/stylesheets/vendor-management.css" }];
+  let scripts = [{ script: "/javascripts/vendor-management.js" }];
+  adminHelpers.getAllVendors().then((vendors) => {
+    res.render("admin/view-vendors", { vendors, css, scripts });
+  });
+});
 
+router.get("/add-vendor", (req, res) => {
+  adminHelpers.addVendor(req.body).then((response) => {
+    console.log(response);
+  });
+  let css = [{ css: "/stylesheets/vendor-management.css" }];
+  let scripts = [{ script: "/javascripts/vendor-management.js" }];
+  res.render("admin/add-vendor", { admin: true, scripts, css });
+});
 
+router.post("/add-vendor", (req, res) => {
+  adminHelpers.addVendor(req.body).then((response) => {
+    res.redirect("/admin/add-vendor");
+  });
+});
+
+router.get("/edit-vendor/:id", async (req, res) => {
+  let vendorDetails = await adminHelpers.editVendor(req.params.id);
+  console.log(vendorDetails);
+  let css = [{ css: "/stylesheets/vendor-management.css" }];
+  let scripts = [{ script: "/javascripts/vendor-management.js" }];
+  res.render("admin/edit-vendor", { admin: true, scripts, css, vendorDetails });
+});
+
+router.post("/edit-vendor/:id", (req, res) => {
+  adminHelpers.updateVendor(req.params.id, req.body).then(() => {
+    res.redirect("/admin/view-vendors");
+  });
+});
+
+router.get("/delete-vendor/:id", (req, res) => {
+  let vendorId = req.params.id;
+  console.log(vendorId);
+  adminHelpers.deleteVendor(vendorId).then((response) => {
+    res.redirect("/admin/view-vendors");
+  });
+});
 
 module.exports = router;

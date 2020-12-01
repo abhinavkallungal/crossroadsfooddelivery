@@ -1,6 +1,7 @@
 var db = require("../config/connection");
 var collections = require("../config/collections");
 const bcrypt = require("bcrypt");
+var objectId=require('mongodb').ObjectID
 
 
 module.exports = {
@@ -41,6 +42,55 @@ module.exports = {
                 resolve({ status: false });
             }
         });
-    }
+    },
+
+
+    addVendor: (vendorData) => {
+        return new Promise(async (resolve, reject) => {
+            vendorData.Password = await bcrypt.hash(vendorData.Password, 10);
+            db.get().collection(collections.VENDOR_COLLECTIONS).insertOne(vendorData)
+                .then((data) => {
+                    console.log(data.ops)
+                    resolve(data.ops);
+                });
+        });
+    },
+    getAllVendors:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let vendors=await db.get().collection(collections.VENDOR_COLLECTIONS).find().toArray()
+            resolve(vendors)
+
+        })
+    },
+    editVendor:(vendorId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.VENDOR_COLLECTIONS).findOne({_id:objectId(vendorId)}).then((vendorDetails)=>{
+                resolve(vendorDetails)
+            })
+        })   
+    },
+    updateVendor:(vendorId,vendorDetails)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.VENDOR_COLLECTIONS).updateOne({_id:objectId(vendorId)},{
+               $set:{
+                   Name:vendorDetails.Name,
+                   Place:vendorDetails.Place,
+                   PhoneNumber:vendorDetails.PhoneNumber,
+                   EmailId:vendorDetails. EmailId
+               } 
+            }).then((response)=>{
+                resolve()
+            })
+
+            
+        })
+    },
+    deleteVendor:(vendorId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.VENDOR_COLLECTIONS).removeOne({_id:objectId(vendorId)}).then((response)=>{
+                 resolve(response)
+            })
+        })
+    },
 
 };

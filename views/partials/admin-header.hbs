@@ -39,7 +39,7 @@
                         </a>
                     </li>
                     <li class="">
-                        <a class="nav-link text-left " href="admin/logout" role="button" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link text-left " href="admin/logout" onclick=ClearHistory() role="button" aria-haspopup="true" aria-expanded="false">
                             <i class="flaticon-bar-chart-1"></i> LOGOUT
                         </a>
                     </li>
@@ -203,3 +203,12 @@
         <!-- /#page-content-wrapper -->
     </div>
     
+<SCRIPT LANGUAGE="javascript">
+//clears browser history and redirects url
+function ClearHistory()
+{
+     var backlen = history.length;
+     history.go(-backlen);
+     window.location.href = "/admin/login"
+}
+</SCRIPT>

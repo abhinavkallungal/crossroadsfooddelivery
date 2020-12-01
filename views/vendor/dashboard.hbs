@@ -239,4 +239,12 @@
   </div>
 </div>
   
-    
+
+
+  <script type="text/javascript">
+    function doLogout() {
+    var backlen = history.length;
+    history.go(-backlen);
+    window.location.replace("/admin/login");
+}
+</script>

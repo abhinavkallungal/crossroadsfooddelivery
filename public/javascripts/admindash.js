@@ -11,7 +11,7 @@
 
         navigation.classList.toggle("active");
         toggle.classList.toggle("active");
-      }
+       }
 
       let labels1 = ["PRO1", "PRO2"];
       let data1 = [69, 31];
