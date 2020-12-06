@@ -1,11 +1,12 @@
-var db =require('../config/connection')
-var collections=require('../config/collections')
+var db = require('../config/connection')
+var collections = require('../config/collections')
+var objectId=require('mongodb').ObjectID
 //=> product add to database
-module.exports={
+module.exports = {
 
-    addProduct:(product,callback)=>{
+    addProduct: (product, callback) => {
 
-        db.get().collection(collections.PRODUCT_COLLECTIONS).insertOne(product).then((data)=>{
+        db.get().collection(collections.PRODUCT_COLLECTIONS).insertOne(product).then((data) => {
             console.log(data);
             callback(data.ops[0]._id)
         })
@@ -13,12 +14,49 @@ module.exports={
 
     },
 
-    
+
     //=> product get from database
-    getAllProducts:()=>{
-        return new Promise(async(resolve,reject)=>{
-            let products=await db.get().collection(collections.PRODUCT_COLLECTIONS).find().toArray()
+    getAllProducts: () => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(collections.PRODUCT_COLLECTIONS).find().toArray()
             resolve(products)
+
+        })
+    },
+
+
+
+    deleteProduct: (proId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.PRODUCT_COLLECTIONS).removeOne({ _id: objectId(proId) }).then((response) => {
+                resolve(response)
+            })
+        })
+    },
+
+
+    getProductDetails: (proId) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.PRODUCT_COLLECTIONS).findOne({ _id: objectId(proId) }).then((product) => {
+                resolve(product)
+            })
+        })
+    },
+
+
+    updateProduct: (proId, proDetails) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collections.PRODUCT_COLLECTIONS).updateOne({ _id: objectId(proId) }, {
+                $set: {
+                    Name: proDetails.Name,
+                    Description: proDetails.Description,
+                    Price: proDetails.Price,
+                    Category: proDetails.Category
+                }
+            }).then((response) => {
+                resolve()
+            })
+
 
         })
     }

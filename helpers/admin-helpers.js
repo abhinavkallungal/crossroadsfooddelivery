@@ -47,12 +47,21 @@ module.exports = {
 
     addVendor: (vendorData) => {
         return new Promise(async (resolve, reject) => {
-            vendorData.Password = await bcrypt.hash(vendorData.Password, 10);
-            db.get().collection(collections.VENDOR_COLLECTIONS).insertOne(vendorData)
-                .then((data) => {
-                    console.log(data.ops)
-                    resolve(data.ops);
-                });
+            let Name = await db.get().collection(collections.VENDOR_COLLECTIONS).findOne({ Name: vendorData.Name})
+            if(Name){
+                console.log("if");
+                resolve({ status: true });
+            }else{
+                console.log("else");
+                vendorData.Password = await bcrypt.hash(vendorData.Password, 10);
+                db.get().collection(collections.VENDOR_COLLECTIONS).insertOne(vendorData)
+                    .then((data) => {
+                        status = false;
+                        console.log(data.ops)
+                        resolve(data.ops);
+                    });
+            }
+           
         });
     },
     getAllVendors:()=>{
@@ -88,6 +97,50 @@ module.exports = {
     deleteVendor:(vendorId)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.VENDOR_COLLECTIONS).removeOne({_id:objectId(vendorId)}).then((response)=>{
+                 resolve(response)
+            })
+        })
+    },
+    addCategory: (categoryData) => {
+        return new Promise(async (resolve, reject) => {
+            db.get().collection(collections.CATEGORY_COLLECTIONS).insertOne(categoryData)
+                .then((data) => {
+                    console.log(data.ops)
+                    resolve(data.ops);
+                });
+        });
+    },
+    getAllCategorys:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let Categorys=await db.get().collection(collections.CATEGORY_COLLECTIONS).find().toArray()
+            resolve(Categorys)
+
+        })
+    },
+    editCategory:(categoryId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.CATEGORY_COLLECTIONS).findOne({_id:objectId(categoryId)}).then((categoryDetails)=>{
+                resolve(categoryDetails)
+            })
+        })   
+    },
+    updateCategory:(categoryId,categoryDetails)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.CATEGORY_COLLECTIONS).updateOne({_id:objectId(categoryId)},{
+               $set:{
+                   Category:categoryDetails.Category,
+                   Commission:categoryDetails.Commission,
+               } 
+            }).then((response)=>{
+                resolve(response)
+            })
+
+            
+        })
+    },
+    deletecategory:(categoryId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.CATEGORY_COLLECTIONS).removeOne({_id:objectId(categoryId)}).then((response)=>{
                  resolve(response)
             })
         })

@@ -5,10 +5,10 @@
                 <div class="col-md-12 mt-lg-4 mt-4">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">VENDOR MANAGEMENT</h1>
-                        <a href="/admin/add-vendor" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <h1 class="h3 mb-0 text-gray-800">PRODUCT MANAGEMENT</h1>
+                        <a href="/vendor/add-product" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fa fa-upload fa-sm text-white-50"></i>
-                            ADD VENDORS</a>
+                            ADD PRODUCT</a>
                     </div>
                 </div>
 
@@ -24,7 +24,7 @@
                     <!-- title -->
                     <div class="d-md-flex align-items-center">
                         <div>
-                            <h4 class="card-title">ALL VENDORS</h4>
+                            <h4 class="card-title">ALL PRODUCTS</h4>
                             <h5 class="card-subtitle">
                                 Overview of Top Selling Items
                             </h5>
@@ -46,10 +46,10 @@
                     <table class="table v-middle">
                         <thead>
                             <tr class="bg-light">
-                                <th class="border-top-0">Logo</th>
+                                <th class="border-top-0">Image</th>
                                 <th class="border-top-0">Name</th>
-                                <th class="border-top-0">Place</th>
-                                <th class="border-top-0">Phone Number</th>
+                                <th class="border-top-0">Price</th>
+                                <th class="border-top-0">Category</th>
                                 <th class="border-top-0">Tickets</th>
                                 <th class="border-top-0">Sales</th>
                                 <th class="border-top-0">Earnings</th>
@@ -57,7 +57,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each vendors}}
+                            {{#each products}}
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
@@ -69,8 +69,8 @@
                                     </div>
                                 </td>
                                 <td><h4 class="m-b-0 font-16">{{this.Name}}</h4></td>
-                                <td>{{this.Place}}</td>
-                                <td>{{this.PhoneNumber}}</td>
+                                <td>{{this.Price}}</td>
+                                <td>{{this.Category}}</td>
                                 
                                 <td>46</td>
                                 <td>356</td>
@@ -78,12 +78,12 @@
                                     <h5 class="m-b-0">$2850.06</h5>
                                 </td>
                                 <td>
-                                    <a href="/admin/edit-vendor/{{this._id}}" class=" btn btn-success">edit</a>
+                                    <a href="/vendor/edit-product/{{this._id}}" class=" btn btn-success">edit</a>
                                    
                                 </td>
                                  <td>
                                     
-                                    <a href="/admin/delete-vendor/{{this._id}}" class=" btn btn-danger">delet</a>
+                                    <a href="/vendor/delete-product/{{this._id}}" class=" btn btn-danger">delet</a>
                                 </td>
                             </tr>
                             {{/each}}

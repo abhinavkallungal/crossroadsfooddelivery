@@ -1,0 +1,86 @@
+<style>
+    #imgView{
+       
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+    }
+</style>
+
+<div class="container-fluid px-lg-4">
+    <div class="row">
+        <div class="container-fluid px-lg-4">
+            <div class="row">
+                <div class="col-md-12 mt-lg-4 mt-4">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">PRODUCT MANAGEMENT</h1>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="row d-flex justify-content-center">
+        <section class=" card col-md-10 m-l-auto m-r-auto">
+            <h2 class="text-center p-2 m-2">Add Product</h2>
+            <div class="container mt-4">
+                <div class="row d-flex justify-content-center mb-4">
+                    <div class="col-md-9 ">
+
+
+                        <form action="/vendor/add-product" method="POST" enctype="multipart/form-data">
+                            <label for="">Name</label>
+                            <input type="text" name="Name" class="form-control">
+
+                            <div class="form-group">
+                                <label for="sel1">Category</label>
+                                <select class="form-control" name="Category" id="sel1">
+                                    {{#each categorys}}
+                                    <option value="{{this.Category}}">{{this.Category}}</option>
+                                    {{/each}}
+
+                                </select>
+                            </div>
+
+                            <label for="">Price</label>
+                            <input type="text" name="Price" class="form-control">
+
+                            <label for="">Description</label>
+                            <input type="text" name="Description" class="form-control">
+
+                            <label for="">Image</label>
+                             
+                            <input type="file" name="Image" class="form-control" onchange="viewImage(event)">
+
+                            <img  src="/product-images/{{product._id}}.jpg" alt="" id="imgView"><br>
+                            
+
+                            <button type="submit" class="btn btn-success mt-4">Submit</button>
+                            <a href="/vendor/products" class="btn btn-warning mt-4">Cancel</a>
+                        </form>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    function viewImage(event) {
+        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+    }
+</script>

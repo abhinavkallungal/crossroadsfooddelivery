@@ -1,0 +1,52 @@
+<div class="container-fluid px-lg-4">
+    <div class="row">
+        <div class="container-fluid px-lg-4">
+            <div class="row">
+                <div class="col-md-12 mt-lg-4 mt-4">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">CAREGORY MANAGEMENT</h1>
+                        
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+<div class="row d-flex justify-content-center">
+    <section class=" card col-md-10 m-l-auto m-r-auto">
+         <h2 class="text-center p-2 m-2">Edit Category</h2>
+         <hr>
+        <div class="container mt-4">
+        
+            <div class="row d-flex justify-content-center mb-4">
+            
+                <div class="col-md-6 ">
+
+                   
+                    <form action="/admin/edit-category/{{categoryDetails._id}}" method="POST" enctype="multipart/form-data">
+                        <label for="">Category</label>
+                        <input type="text" name="Category" class="form-control" value="{{categoryDetails.Category}}" required>
+
+                        <label for="">Commission</label>
+                        <input type="number" name="Commission" class="form-control"   value="{{categoryDetails.Commission}}" required>
+
+
+                        <button type="submit" class="btn btn-success mt-4">Submit</button>
+                        <a href="/admin/category" class="btn btn-warning mt-4">Cancel</a>
+
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+</div>
