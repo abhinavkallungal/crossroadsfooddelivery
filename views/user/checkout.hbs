@@ -1,0 +1,352 @@
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
+
+
+
+
+
+body {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    color: #5a5a5a;
+    background-color: #eee;
+}
+
+/* empty cart style */
+
+
+.emptyCart .card {
+    margin-bottom: 30px;
+    border: 0;
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+    letter-spacing: .5px;
+    border-radius: 8px;
+    -webkit-box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05);
+    box-shadow: 1px 5px 24px 0 rgba(68, 102, 242, .05)
+}
+
+.emptyCart .card .card-header {
+    background-color: #fff;
+    border-bottom: none;
+    padding: 24px;
+    border-bottom: 1px solid #f6f7fb;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px
+}
+
+.emptyCart .card-header:first-child {
+    border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0
+}
+
+.emptyCart .card .card-body {
+    padding: 30px;
+    background-color: transparent
+}
+
+.emptyCart .btn-primary,
+.emptyCart .btn-primary.disabled,
+.emptyCart .btn-primary:disabled {
+    background-color: #4466f2 !important;
+    border-color: #4466f2 !important
+}
+/* empty cart style */
+
+
+/* cart style */
+
+
+
+.card {
+    margin: auto;
+    max-width: 950px;
+    width: 90%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
+    border: transparent
+}
+
+@media(max-width:767px) {
+    .card {
+        margin: 3vh auto
+    }
+}
+
+.cart {
+    
+    padding: 4vh 5vh;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem;
+    color: #000;
+}
+
+@media(max-width:767px) {
+    .cart {
+        padding: 4vh;
+        border-bottom-left-radius: unset;
+        border-top-right-radius: 1rem
+    }
+}
+
+.summary {
+    background-color: #ddd;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 4vh;
+    color: rgb(65, 65, 65)
+}
+
+@media(max-width:767px) {
+    .summary {
+        border-top-right-radius: unset;
+        border-bottom-left-radius: 1rem
+    }
+}
+
+.summary .col-2 {
+    padding: 0
+}
+
+.summary .col-10 {
+    padding: 0
+}
+
+.row {
+    margin: 0
+}
+
+.title b {
+    font-size: 1.5rem
+}
+
+.main {
+    margin: 0;
+    padding: 2vh 0;
+    width: 100%
+}
+
+.col-2,
+.col {
+    padding: 0 1vh
+}
+
+a {
+    padding: 0 1vh
+}
+
+.close {
+    margin-left: auto;
+    font-size: 0.7rem
+}
+
+img {
+    width: 3.5rem
+}
+
+.back-to-shop {
+    margin-top: 4.5rem
+}
+
+h5 {
+    margin-top: 4vh
+}
+
+hr {
+    margin-top: 1.25rem
+}
+
+form {
+    padding: 2vh 0
+}
+
+select {
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1.5vh 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247)
+}
+
+input {
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247)
+}
+
+input:focus::-webkit-input-placeholder {
+    color: transparent
+}
+
+
+
+.btn:focus {
+    box-shadow: none;
+    outline: none;
+    box-shadow: none;
+    color: white;
+    -webkit-box-shadow: none;
+    -webkit-user-select: none;
+    transition: none
+}
+
+
+
+#code {
+    background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: center
+}
+
+</style>
+    <main>
+        <section>
+            <div class="container mt-5">
+                <div class="card">
+                    <div class="row">
+                        <div class="col-md-4 summary">
+                            <div>
+                                <h5><b>Summary</b></h5>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col" style="padding-left:0;">ITEMS 3</div>
+                                <div class="col text-right">&euro; 132.00</div>
+                            </div>
+                            <form>
+                                <p>SHIPPING</p> <select>
+                                    <option class="text-muted">Standard-Delivery- &euro;5.00</option>
+                                </select>
+                                <p>GIVE CODE</p> <input id="code" placeholder="Enter your code">
+                            </form>
+                            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                                <div class="col">TOTAL PRICE</div>
+                                <div class="col text-right"> RS:{{total}}</div>
+                            </div>
+                        
+                        </div>
+                        <div class="col-md-8 cart">
+                            <div class="col-md-7 col-lg-12">
+                                <h4 class="mb-3">Billing address</h4>
+                                <form action="/checkout" method="POST" id="checkout-form" class="needs-validation" >
+                                  <div class="row g-3">
+                                    <div class="col-sm-6">
+                                      <label for="firstName" class="form-label">First name</label>
+                                      <input type="text" name="firstName" class="form-control" id="firstName" placeholder="" value="" required>
+                                      <div class="invalid-feedback">
+                                        Valid first name is required.
+                                      </div>
+                                    </div>
+                        
+                                    <div class="col-sm-6">
+                                      <label for="lastName" class="form-label">Last name</label>
+                                      <input type="text" class="form-control"  name="lastName" id="lastName" placeholder="" value="" required>
+                                      <div class="invalid-feedback">
+                                        Valid last name is required.
+                                      </div>
+                                    </div>
+                        
+                                   
+                        
+                                    <div class="col-6">
+                                      <label for="email" class="form-label">Email <span class="text-muted">(Optional)</span></label>
+                                      <input type="email" class="form-control" name="Email" id="email" placeholder="you@example.com">
+                                      <div class="invalid-feedback">
+                                        Please enter a valid email address for shipping updates.
+                                      </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                      <label for="mobile" class="form-label">Mobile</label>
+                                      <input type="number" class="form-control" name="Mobile" id="Mobile" placeholder="" required>
+                                      <div class="invalid-feedback">
+                                        Mobile required.
+                                      </div>
+                                    </div>
+                        
+                                    <div class="col-12">
+                                      <label for="address" class="form-label">Address</label>
+                                      <input type="text" class="form-control " name="Address" id="address" placeholder="1234 Main St" required>
+                                      <div class="invalid-feedback">
+                                        Please enter your shipping address.
+                                      </div>
+                                    </div>
+                        
+                                    <div class="col-9">
+                                      <label for="address2" class="form-label">Address 2 <span class="text-muted">(Optional)</span></label>
+                                      <input type="text" class="form-control" name="Address2" id="address2" placeholder="Apartment or suite">
+                                    </div>
+                        
+                                
+                        
+                                    <div class="col-md-3">
+                                      <label for="zip" class="form-label">Zip</label>
+                                      <input type="number" class="form-control" name="zip" id="zip" placeholder="" required>
+                                      <div class="invalid-feedback">
+                                        Zip code required.
+                                      </div>
+                                    </div>
+                                  </div>
+                                   <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+                        
+                                  
+                                  <hr class="my-4">
+                        
+                                  <h4 class="mb-3">Payment</h4>
+                        
+                                  <div class="my-3">
+                                    <div class="form-check">
+                                      <input id="credit" name="payment-method" type="radio" value="COD" class="form-check-input" checked required>
+                                      <label class="form-check-label" for="credit">COD</label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input id="debit" name="payment-method" type="radio" class="form-check-input" required>
+                                      <label class="form-check-label" for="debit">Debit card</label>
+                                    </div>
+                                    <div class="form-check">
+                                      <input id="paypal" name="payment-method" type="radio" class="form-check-input" required>
+                                      <label class="form-check-label" for="paypal">PayPal</label>
+                                    </div>
+                                  </div>
+                        
+                                  
+                        
+                                  <hr class="my-4">
+                        
+                                  <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+                                </form>
+                              </div>
+                        </div>
+                       
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+
+<script>
+   
+    $("#checkout-form").submit((e)=>{
+        e.preventDefault()
+        $.ajax({
+            url:'/checkout',
+            method:'post',
+            data:$('#checkout-form').serialize(),
+            success:(response)=>{
+            
+                if (response.codsuccess){
+                    location.href='/order-success'
+                }else{
+                    razorpayPayment(response)
+                }
+            }
+        })
+    })
+</script>
+

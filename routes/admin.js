@@ -64,8 +64,16 @@ router.get("/logout", (req, res) => {
   res.redirect("/admin/login");
 });
 
-router.get("/add-product", verifyLogin, function (req, res) {
-  res.render("admin/add-product", { admin: true });
+router.get("/add-product", function (req, res) {
+  res.render("admin/add-product");
+});
+
+router.get("/crop", function (req, res) {
+  res.sendFile('/crop.html', {root: __dirname })
+  
+});
+router.post("/post", (req, res) => {
+  
 });
 
 router.post("/add-product",verifyLogin, (req, res) => {

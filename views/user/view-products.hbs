@@ -1,24 +1,83 @@
-{{!-- product  section start --}}
+<style>
+    @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css");
 
-    <section>
+    .body {
+        color: #5a5a5a;
+        background-color: #eee;
+    }
+    main{
+        margin-top: 100px;
+    }
+    .card {
+        background: #DCFAFB;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        border-radius: 10px;
+        
+    }
+    .card:hover{
+        border-color: darkgray;
+    }
 
-        <div class="row">
-            {{#each products}}
-            <div class="col-md-3">
-                <div class="card" style="width: 18rem;">
-                    <img src="/product-images/{{this._id}}.jpg"     
-                        class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{this.Name}}</h5>
-                        <p class="card-text">{{this.Category}}</p>
-                         <p class="card-text">{{this.Price}}</p>
+    .buttons {}
 
-                        <a href="#" class="btn btn-primary">ADD TO CART</a>
-                    </div>
+    .btn {
+        border-radius: 25px;
+        height: 50;
+        padding: 10px;
+    }
+
+    .card-body {
+        width: 100%;
+        text-align: center;
+        padding-bottom: 5px;
+    }
+</style>
+
+<main>
+     
+     <h2 style="text-align: center;" >products</h2>
+      <hr class="featurette-divider">
+    <div class="row ">
+        {{#each products}}
+        <div class="card mx-auto" style="width: 18rem;">
+            <img class="rounded-circle" width="140" height="140" alt="100x100"
+                src="/product-images/{{this._id}}.jpg" data-holder-rendered="true">
+            <div class="card-body">
+                <h5 class="card-title">{{this.Name}}</h5>
+                <h3><span>RS:</span>{{this.Price}}</h3>
+                <h6>{{this.Category}}</h6>
+                <p>{{this.Vendor}}</p>
+                <div class="row buttons">
+                    <button onclick="addToCart('{{this._id}}')" class="btn btn-primary btn-squared col-5"><i class="fas fa-cart-plus"></i></button>
+                    <a href="#" class="btn btn-success col-7">buy now </a>
                 </div>
             </div>
-            {{/each}}
         </div>
+        {{/each}}
+        
+        
 
-    </section>
-    {{!-- product  section end --}}
+    </div>
+</main>
+
+
+<script>
+ function addToCart(proId) {
+  $.ajax({
+    url: "/add-to-cart/" + proId,
+    method: "get",
+    success: (response) => {
+      if (response.status) {
+        let count = $("#cart-count").html();
+        count = parseInt(count) + 1;
+        $("#cart-count").html(count);
+      }
+    },
+  });
+}
+
+</script>

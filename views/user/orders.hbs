@@ -1,0 +1,36 @@
+<section>
+    <div class="container">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    
+                    <th >Date</th>
+                    <th>Address</th>
+                    <th >Mobile</th>
+                    <th>Total amount</th>
+                    <th>Payment Method</th>
+                    <th>Status</th>
+                    <th> </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orders}}
+                <tr>
+                   <td>{{this.date}}</td>
+                   <td>{{this.deliveryDetails.Address}} </td>
+                   <td>{{this.deliveryDetails.Mobile}}</td>
+                   <td>{{this.toatlAmount}}</td>
+                   <td>{{this.paymentMethod}}</td>
+                   <td>{{this.status}} </td>
+                   <td>
+                       <a href="/view-order-products/{{this._id}}" class="btn btn-primary">View Products</a>
+                   </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+</section>

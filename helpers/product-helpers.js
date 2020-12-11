@@ -24,6 +24,14 @@ module.exports = {
         })
     },
 
+    getvendorProducts: (VendorId) => {
+        return new Promise(async (resolve, reject) => {
+            let products = await db.get().collection(collections.PRODUCT_COLLECTIONS).find({VendorId:VendorId}).toArray()
+            resolve(products)
+
+        })
+    },
+
 
 
     deleteProduct: (proId) => {

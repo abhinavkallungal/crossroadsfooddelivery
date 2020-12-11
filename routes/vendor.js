@@ -14,13 +14,14 @@ const verifyLogin = (req, res, next) => {
 
 /* GET home page. */
 router.get("/", verifyLogin, function (req, res, next) {
+  vendordetails=req.session.user;
   let tiltes = [{ title: "vendor " }];
   let css = [{ css: "stylesheets/admindash.css" }];
   let scripts = [
     { script: "javascripts/vendordash.js" },
     { script: "https://cdn.jsdelivr.net/npm/chart.js@2.8.0" },
   ];
-  res.render("vendor/dashboard", { vendor: true, scripts, css, tiltes });
+  res.render("vendor/dashboard", { vendordetails,vendor: true, scripts, css, tiltes });
 });
 
 router.get("/login", (req, res) => {
@@ -52,7 +53,9 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/products", verifyLogin, function (req, res) {
-  productHelpers.getAllProducts().then((products) => {
+  VendorId=req.session.user._id;
+  
+  productHelpers.getAllProducts(VendorId).then((products) => {
     let tiltes = [{ title: "vendor " }];
     let css = [{ css: "/stylesheets/product-management.css" }];
     let scripts = [{ script: "/javascripts/vendordash.js" }];
@@ -61,20 +64,24 @@ router.get("/products", verifyLogin, function (req, res) {
 });
 
 router.get("/add-product", verifyLogin, function (req, res) {
+  vendordetails=req.session.user;
   vendorHelpers.getAllCategorys().then((categorys) => {
     let tiltes = [{ title: "vendor " }];
     let css = [{ css: "/stylesheets/product-management.css" }];
     let scripts = [{ script: "/javascripts/vendordash.js" }];
-    res.render("vendor/add-product", { categorys,vendor: true, scripts, css, tiltes });
+    res.render("vendor/add-product", {vendordetails, categorys,vendor: true, scripts, css, tiltes });
   });
 });
+router.post("/imgupload", (req,res)=>{
 
-router.post("/add-product", verifyLogin, (req, res) => {
+})
+
+router.post("/add-product",  (req, res) => {
   productHelpers.addProduct(req.body, (id) => {
     let image = req.files.Image;
     image.mv("./public/product-images/" + id + ".jpg", (err, done) => {
       if (!err) {
-        res.render("vendor/add-product");
+        res.redirect("/vendor/add-product");
       } else {
         console.log(err);
       }

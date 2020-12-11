@@ -1,35 +1,77 @@
+<style>
+.nav .nav-item .nav-link{
+    color: #fff;
+    border: cornsilk;
+}
+.nav .nav-item:hover{
+ color: #000;
+
+}
+</style>
+
+
 {{!-- nav bar start --}}
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">shopping cart </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Food Delivery</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav navbar-right me-auto mb-2 mb-md-0">
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">products<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"> orders <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">cart<span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">dummy <span class="sr-only">(current)</span></a>
-                </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right ">
+                    <li class="nav-item active">
+                        <a class="nav-link" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/aboutus">About Us </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" aria-current="page" href="/ourbakers">our bakers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contactus">conatact us Us </a>
+                    </li>
+                   
+                   
+                   
+                   
+                </ul>
+                <ul class="nav navbar-nav navbar-right ">
+                  
+                     <li class="nav-item">
+                        <a class="nav-link" href="/signup">Sign Up </a>
+                        
+                    </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/login">Login </a>
+                    </li>
+                  
+                   {{#if user}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart">Cart <span class="badge badge-light" id="cart-count">{{cartCount}}</span></a>
+                        
+                    </li>
+                      <li class="nav-item">
+                        <a class="nav-link" href="/orders">Orders</a>
+                    </li>
+                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Log Out</a>
+                        
+                    </li>
+                    {{/if}}
+                </ul>
                 
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
+            </div>
         </div>
     </nav>
+</header>
 
-    {{!-- nav bar end --}}
 
-
+{{!-- nav bar end --}}
