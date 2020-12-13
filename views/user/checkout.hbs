@@ -339,7 +339,6 @@ input:focus::-webkit-input-placeholder {
             method:'post',
             data:$('#checkout-form').serialize(),
             success:(response)=>{
-            
                 if (response.codsuccess){
                     location.href='/order-success'
                 }else{

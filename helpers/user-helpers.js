@@ -35,8 +35,7 @@ module.exports = {
       let loginStatus = false;
       let response = {};
       let user = await db
-        .get()
-        .collection(collections.USER_COLLECTIONS)
+        .get().collection(collections.USER_COLLECTIONS)
         .findOne({ Email: userData.Email });
       if (user) {
         bcrypt.compare(userData.Password, user.password).then((status) => {
@@ -56,10 +55,10 @@ module.exports = {
       }
     });
   },
-  doemailvalidation: (email) => {
+  doemailvalidation: (Email) => {
     return new Promise(async (resolve, reject) => {
       let user = await db.get().collection(collections.USER_COLLECTIONS)
-        .findOne({ Email: userData.Email })
+        .findOne({ Email:Email })
       if (user) {
         resolve({ emailavailability: false });
       } else {
@@ -70,8 +69,21 @@ module.exports = {
 
 
   },
+  doMobileValidation: (mobile) => {
+    return new Promise(async (resolve, reject) => {
+      let user = await db.get().collection(collections.USER_COLLECTIONS)
+        .findOne({ mobileno:mobile })
+      if (user) {
+        resolve({ available: true });
+      } else {
+        resolve({ available: false });
+      }
+
+    })
+
+
+  },
   addToCart: (proId,userId) => {
-    console.log("test");
     let proObj = {
       item: objectId(proId),
       quantity: 1,
@@ -80,8 +92,7 @@ module.exports = {
       let userCart = await db.get().collection(collections.CART_COLLECTIONS)
         .findOne({ user: objectId(userId) });
       if (userCart) {
-        let proExist = userCart.products.findIndex(
-          (product) => product.item == proId
+        let proExist = userCart.products.findIndex((product) => product.item == proId
         );
         console.log(proExist);
         if (proExist != -1) {
@@ -206,6 +217,7 @@ module.exports = {
           {
             $group:{
               _id:null,
+              total:0,
               total:{$sum:{$multiply:["$quantity","$products.Price"]}}
               
             }

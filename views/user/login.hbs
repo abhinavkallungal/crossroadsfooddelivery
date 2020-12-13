@@ -10,7 +10,7 @@
 	}
 
 	.bg-image {
-		background-image: url('https://res.cloudinary.com/dxfq3iotg/image/upload/v1561631318/img-123.jpg');
+		background-image: url('/images/Untitled\ design.png');
 		background-size: cover;
 		background-position: center center
 	}
@@ -42,28 +42,36 @@
 											in</button>
 									</form>
 									<hr>
-									<h3>Login With otp</h3>		
-									<form action="/login" method="POST">
+									<h3>Login With otp</h3>
+									<form action="/otpLogin" method="POST">
 										<div class="form-group mb-3">
-											 <input id="inputmobileno" type="number"
-												placeholder="MOBILE NUMBER" required="" autofocus="" name="Mobile number"
-												class="form-control rounded-pill border-0 shadow-sm px-4"> 
-												<button type="submit"
-											       class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">Send OTP</button>
-											 </div>
-										<div class="form-group mb-3"> <input id="otp" type="number"
-												placeholder="OTP" required="" name="Otp"
-												class="form-control rounded-pill border-0 shadow-sm px-4 text-danger"><br>
+											<input type="text" value="+91" name="CountryCode">
+											<input id="inputmobileno" type="number" placeholder="MOBILE NUMBER"
+												required="true" autofocus="" name="MobileNumber" 
+												class="form-control rounded-pill border-0 shadow-sm px-4">
+											<button type="submit"
+												class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">Send
+												OTP</button>
 										</div>
-										 <button type="submit"
-											class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">verify OTP
-											</button>
-									</form>	
-										<div class="text-center d-flex justify-content-between mt-4">
-											<p> OR &nbsp<a href=" " class="font-italic text-muted"> <u>Create
-														Account</u></a></p>
+									</form>
+									<form action="/verifyotp" method="POST">
+										<div class="form-group mb-3"> <input type="text" id="verifyno" name="mobileno"> <input id="otp" type="number" placeholder="OTP"
+												required="" name="Otp"
+												class="form-control rounded-pill border-0 shadow-sm px-4 text-danger">
+												<br>
 										</div>
-									
+										<button type="submit"
+											class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">verify
+											OTP
+										</button>
+
+									</form>
+
+									<div class="text-center d-flex justify-content-between mt-4">
+										<p> OR &nbsp<a href=" " class="font-italic text-muted"> <u>Create
+													Account</u></a></p>
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -74,3 +82,5 @@
 	</section>
 </main>
 <!-- login -->
+
+>
