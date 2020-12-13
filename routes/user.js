@@ -169,25 +169,28 @@ router.get("/contactus", async function (req, res) {
   res.render("user/contactus", { userhead: true, user, cartCount });
 });
 
+
 router.get("/add-to-cart/:id", verifyLogin, (req, res) => {
   userId = req.session.user._id;
   userHelpers.addToCart(req.params.id, userId).then(() => {
     res.json({ status: true });
   });
 });
+router.get("/emptycart",verifyLogin, async function (req, res) {
+  let user = req.session.user;
+  res.render("user/emptycart", { userhead: true, user  });
+});
+
 
 router.get("/cart", verifyLogin, async (req, res) => {
-  try {
-    user = req.session.user;
-    total = await userHelpers.getTotelAmount(req.session.user._id);
-    if (total > 0) {
-      total = total;
-    } else {
-      total = 0;
-    }
+  user = req.session.user
+  userId = req.session.user._id
+  let userCart = await userHelpers.checkCartAvaiable(userId)
+  if (userCart) {
+    let total = await userHelpers.getTotelAmount(req.session.user._id);
     let cartCount = await userHelpers.getCartCount(req.session.user._id);
     let cartProducts = await userHelpers.getCartProducts(req.session.user._id);
-    console.log(cartProducts);
+    console.log("userjs184"+cartProducts);
     res.render("user/cart", {
       cartProducts,
       user,
@@ -195,8 +198,8 @@ router.get("/cart", verifyLogin, async (req, res) => {
       total,
       userhead: true,
     });
-  } catch {
-    res.redirect("/aboutus");
+  } else {
+    res.redirect("/emptycart");
   }
 });
 

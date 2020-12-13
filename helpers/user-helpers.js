@@ -83,7 +83,15 @@ module.exports = {
 
 
   },
-  addToCart: (proId,userId) => {
+  checkCartAvaiable:(userId) =>{
+   return new Promise(async (resolve,reject) =>{
+    let userCart = await db.get().collection(collections.CART_COLLECTIONS)
+    .findOne({ user: objectId(userId) });
+    resolve(userCart)
+   })
+  },
+
+  addToCart: (proId,c) => {
     let proObj = {
       item: objectId(proId),
       quantity: 1,
@@ -179,11 +187,13 @@ module.exports = {
           },
         ])
         .toArray();
-      console.log(cartItems[0].products);
+      
       resolve(cartItems);
     });
   },
   getTotelAmount:(userId)=>{
+
+
   
     return new Promise(async (resolve, reject) => {
       let total = await db.get().collection(collections.CART_COLLECTIONS).aggregate([
