@@ -33,7 +33,7 @@
 									<div class="form-group">
 										<label for="">EMAIL</label>
 										<input type="email" class="form-control form-control-user" name="Email"
-											id="email" aria-describedby="emailHelp" onchange="emailvalidation()"
+											id="email" aria-describedby="emailHelp"
 											placeholder="Enter Email Address..." />
 									</div>
 									{{#if emailErr}}
@@ -41,20 +41,20 @@
 									{{/if}}
 
 									<div class="form-group">
-										<label for="">mobile no</label>
-										<input type="tel" class="form-control form-control-user" id="mobileno"
-											name="mobileno" pattern="[0-9]{10}" placeholder="Enter mobile no..." />
+										<label for="">Mobile Number</label>
+										<input type="number" class="form-control form-control-user" id="mobileno"
+											name="MobileNo"  placeholder="Enter mobile no..." />
 									</div>
 
 									<div class="form-group">
 										<label for="">PASSWORD</label>
 										<input type="password" class="form-control form-control-user" id="password"
-											placeholder="Enter password" name="password" />
+											placeholder="Enter password" name="Password" />
 									</div>
 									<div class="form-group">
 										<label for="">2 PASSWORD</label>
 										<input type="password" class="form-control form-control-user" id="cPassword"
-											placeholder="Enter password" name="password_again" />
+											placeholder="Enter password" name="PasswordAgain" />
 									</div>
 
 									<div class="form-group">
@@ -97,18 +97,18 @@
 					minlength: 5,
 					number: false
 				},
-				mobileno: {
+				MobileNo: {
 					required: true,
 					minlength: 10,
 					maxlength: 13
 				},
-				password: {
+				Password: {
 					required: true,
 					minlength: 5
 				},
-				password_again: {
+				PasswordAgain: {
 					required: true,
-					equalTo: "#password"
+					equalTo: "#Password"
 				},
 
 			}

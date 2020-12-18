@@ -101,6 +101,56 @@ module.exports = {
             })
         })
     },
+    getAllUsers:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let users=await db.get().collection(collections.USER_COLLECTIONS).find().toArray()
+            resolve(users)
+
+        })
+    },
+    addUser: (userData) => {
+        return new Promise(async (resolve, reject) => {
+    
+          let Email = await db.get().collection(collections.USER_COLLECTIONS).findOne({ Email: userData.Email })
+          if (Email) {
+            console.log("if")
+            resolve({ status: true });
+          } else {
+            console.log("else");
+            userData.Password = await bcrypt.hash(userData.Password, 10);
+            db.get().collection(collections.USER_COLLECTIONS).insertOne(userData)
+              .then((data) => {
+                status = false;
+                resolve(data.ops[0]);
+              });
+          }
+        });
+    },
+
+    editUsers:(userId)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.USER_COLLECTIONS).findOne({_id:objectId(userId)}).then((userDetails)=>{
+                resolve(userDetails)
+            })
+        })   
+    },
+
+    updateUser:(userId,userDetails)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.USER_COLLECTIONS).updateOne({_id:objectId(userId)},{
+               $set:{
+                   Email:userDetails.Email,
+                   Status:userDetails.Status,
+                   Mobile:userDetails.Mobile,
+               } 
+            }).then((response)=>{
+                resolve()
+            })
+
+            
+        })
+    },
+
     addCategory: (categoryData) => {
         return new Promise(async (resolve, reject) => {
             db.get().collection(collections.CATEGORY_COLLECTIONS).insertOne(categoryData)

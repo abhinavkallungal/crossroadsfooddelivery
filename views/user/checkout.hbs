@@ -339,8 +339,9 @@ input:focus::-webkit-input-placeholder {
             method:'post',
             data:$('#checkout-form').serialize(),
             success:(response)=>{
+               orderId = response.orderId
                 if (response.codsuccess){
-                    location.href='/order-success'
+                   location.href="/order-success/"+orderId;
                 }else{
                     razorpayPayment(response)
                 }

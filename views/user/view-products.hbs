@@ -52,7 +52,7 @@
                 <h6>{{this.Category}}</h6>
                 <p>{{this.Vendor}}</p>
                 <div class="row buttons">
-                    <button onclick="addToCart('{{this._id}}')" class="btn btn-primary btn-squared col-5"><i class="fas fa-cart-plus"></i></button>
+                    <button onclick="addToCart('{{this._id}}','{{VendorId}}')" class="btn btn-primary btn-squared col-5"><i class="fas fa-cart-plus"></i></button>
                     <a href="#" class="btn btn-success col-7">buy now </a>
                 </div>
             </div>
@@ -66,11 +66,11 @@
 
 
 <script>
- function addToCart(proId) {
+ function addToCart(proId,vendorId) {
   $.ajax({
-    url: "/add-to-cart/" + proId,
+    url: "/add-to-cart/" + proId +"/"+ vendorId,
     method: "get",
-    success: (response) => {
+    success: (response) => { 
       if (response.status) {
         let count = $("#cart-count").html();
         count = parseInt(count) + 1;

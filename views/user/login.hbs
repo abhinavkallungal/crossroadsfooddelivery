@@ -43,13 +43,12 @@
 									</form>
 									<hr>
 									<h3>Login With otp</h3>
-									<form action="/otpLogin" method="POST">
+									<form action="/otpLogin" id="otplogin" method="POST">
 										<div class="form-group mb-3">
-											<input type="text" value="+91" name="CountryCode">
 											<input id="inputmobileno" type="number" placeholder="MOBILE NUMBER"
 												required="true" autofocus="" name="MobileNumber" 
 												class="form-control rounded-pill border-0 shadow-sm px-4">
-											<button type="submit"
+											<button type="submit" onclick="sendotp()"
 												class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">Send
 												OTP</button>
 										</div>
@@ -83,4 +82,29 @@
 </main>
 <!-- login -->
 
->
+
+ <script>
+        function sendotp() {
+            let Mobile = document.getElementById(inputmobileno).innerHTML
+			 
+    
+            $.ajax({
+                url: '/otpLogin',
+                data: {
+                   Mobile:Mobile
+                },
+                method: 'post',
+                success: (response) => {
+                    if (response === "pending") {
+                        alert("product removed from cart")
+                    } else {
+
+                       
+                    }
+
+                }
+            })
+        }
+
+
+    </script>

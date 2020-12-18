@@ -88,6 +88,45 @@ router.post("/add-product",verifyLogin, (req, res) => {
     })
   })
 });
+router.get("/view-users",verifyLogin,(req,res)=>{
+  let css = [{ css: "/stylesheets/vendor-management.css" }];
+  let scripts = [{ script: "/javascripts/vendor-management.js" }];
+  adminHelpers.getAllUsers().then((users) => {
+    res.render("admin/view-users", {admin:true, users, css, scripts });
+  })
+});
+router.get("/add-users", verifyLogin, (req, res) => {
+  let css = [{ css: "/stylesheets/vendor-management.css" }];
+  let scripts = [{ script: "/javascripts/vendor-management.js" }];
+  res.render("admin/add-user", { admin: true, scripts, css ,"nameErr":req.session.nameErr });
+  req.session.nameErr = false
+});
+
+router.post("/add-users",verifyLogin, (req, res) => {
+  req.body.Mobile = "+91"+req.body.Mobile
+  adminHelpers.addUser(req.body).then((response) => {
+    if (response.status) {
+      req.session.emailErr = true;
+      res.redirect("/admin/add-users");
+    } else {
+      console.log(response);
+      res.redirect("/admin/view-users");
+    }
+  });
+});
+router.get("/edit-users/:id", verifyLogin, async (req, res) => {
+  let userDetails = await adminHelpers.editUsers(req.params.id);
+  console.log(userDetails);
+  let css = [{ css: "/stylesheets/vendor-management.css" }];
+  let scripts = [{ script: "/javascripts/vendor-management.js" }];
+  res.render("admin/edit-users", { admin: true, scripts, css, userDetails });
+});
+
+router.post("/edit-users/:id",verifyLogin, (req, res) => {
+  adminHelpers.updateUser(req.params.id, req.body).then(() => {
+    res.redirect("/admin/view-users");
+  })
+});
 
 router.get("/view-vendors", verifyLogin, (req, res) => {
   let css = [{ css: "/stylesheets/vendor-management.css" }];

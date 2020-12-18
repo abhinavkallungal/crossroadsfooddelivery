@@ -9,7 +9,16 @@ const client = require("twilio")(config.accountSID, config.authToken);
 
 const verifyLogin = (req, res, next) => {
   if (req.session.loggedIn) {
-    next();
+    userHelpers.getUserStatus(req.session.user._id).then((response)=>{
+      if(response.UserStatus =="active"){
+        next();
+      }else{
+        req.session.destroy();
+        
+        res.redirect("/");
+        next();
+      }
+    })
   } else {
     res.redirect("/login");
     next();
@@ -39,6 +48,8 @@ router.get("/signup", function (req, res) {
 });
 
 router.post("/signup", (req, res) => {
+  req.body.MobileNo = "+91"+req.body.MobileNo
+  console.log(req.body.MobileNo);
   userHelpers.doSignup(req.body).then((response) => {
     if (response.status) {
       req.session.emailErr = true;
@@ -67,9 +78,17 @@ router.get("/login", (req, res) => {
 router.post("/login", (req, res) => {
   userHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      req.session.loggedIn = true;
-      req.session.user = response.user;
-      res.redirect("/");
+      if(response.user.Status=="active"){
+        req.session.loggedIn = true;
+       req.session.user = response.user;
+       console.log(req.session.user.Status);
+       res.redirect("/");
+      }else{
+        req.session.statusErr = true;
+        req.session.destroy();
+        res.redirect("/login");
+      }
+      
     } else {
       req.session.loginErr = true;
       res.redirect("/login");
@@ -78,42 +97,41 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/otpLogin", (req, res) => {
-  CountryCode = req.body.CountryCode;
-  number = req.body.MobileNumber;
-  MobileNumber = CountryCode + number;
+  MobileNumber = "+91"+ req.body.MobileNumber;
+  console.log("mobile", MobileNumber);
   userHelpers.doMobileValidation(MobileNumber).then((response) => {
     if (response.available) {
-      client.verify
-        .services("VA8cd480f75d3e7d3f45949aa50a1f305f")
-        .verifications.create({
-          to: MobileNumber,
-          channel: "sms",
-        })
-        .then((data) => {
-          console.log(data);
-          res.status(200);
-          res.redirect("/login");
-        });
+      userHelpers.doSendOtp(MobileNumber).then((response)=>{
+        res.status(200);
+        res.json(response.Status)
+      })
     } else {
-      res.send("mobile no is not availabel");
+      res.json(response)
     }
   });
 });
 
 router.post("/verifyotp", (req, res) => {
-  mobileno = req.body.mobileno, otp = req.body.Otp;
-  client.verify
-    .services("VA8cd480f75d3e7d3f45949aa50a1f305f")
-    .verificationChecks
-    .create({
-      to: mobileno,
-      code: otp
-    })
-    .then((data) => {
-      console.log(data);
-      res.status(200);
-      res.redirect("/");
-    });
+  MobileNumber = req.body.mobileno, 
+  Otp = req.body.Otp;
+  console.log(MobileNumber, Otp);
+  userHelpers.doVerifyOtp(MobileNumber,Otp).then((response)=>{
+    console.log("response",response);
+    if(response.status){
+      if(response.user.Status=="active"){
+        req.session.loggedIn = true;
+       req.session.user = response.user;
+       console.log("ready",req.session.user);
+       res.redirect("/");
+      }else{
+        req.session.statusErr = true;
+        req.session.destroy();
+        res.redirect("/login");
+      }
+    } 
+    
+  })
+  
 });
 
 router.get("/logout", (req, res) => {
@@ -170,9 +188,11 @@ router.get("/contactus", async function (req, res) {
 });
 
 
-router.get("/add-to-cart/:id", verifyLogin, (req, res) => {
+router.get("/add-to-cart/:id/:vid", verifyLogin, (req, res) => {
+  productId = req.params.id
+  vendorId = req.params.vid
   userId = req.session.user._id;
-  userHelpers.addToCart(req.params.id, userId).then(() => {
+  userHelpers.addToCart(productId,vendorId, userId).then(() => {
     res.json({ status: true });
   });
 });
@@ -220,11 +240,12 @@ router.get("/checkout", verifyLogin, async function (req, res) {
 
 router.post("/checkout", verifyLogin, async (req, res) => {
   let products = await userHelpers.getCartProductList(req.body.userId);
-  console.log("products" + products);
   let totalPrice = await userHelpers.getTotelAmount(req.body.userId);
   userHelpers.placeOrder(req.body, products, totalPrice).then((orderId) => {
-    if (req.body["payment-method"] == "COD") {
-      res.redirect("'/order-success");
+    if (req.body["payment-method"] === "COD") {
+      response.codsuccess= true;
+      response.orderId = orderId;
+      res.json(response);
     } else {
       userHelpers.generateRazorpay(orderId, totalPrice).then((response) => {
         res.json(response);
@@ -233,8 +254,14 @@ router.post("/checkout", verifyLogin, async (req, res) => {
   });
   console.log(req.body);
 });
-router.get("/order-success", (req, res) => {
-  res.render("user/ordersuccess", { user: req.session.user });
+
+router.get("/order-success/:id",verifyLogin,async (req, res) => {
+  let orderId = req.params.id
+  console.log(orderId);
+  let user = req.session.user;
+  let order = await userHelpers.getOrderDetails(orderId);
+  console.log(order);
+  res.render("user/ordersuccess", { userhead: true, user, order })
 });
 
 router.get("/orders", verifyLogin, async (req, res) => {

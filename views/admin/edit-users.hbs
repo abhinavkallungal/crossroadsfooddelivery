@@ -1,0 +1,61 @@
+<div class="container-fluid px-lg-4">
+    <div class="row">
+        <div class="container-fluid px-lg-4">
+            <div class="row">
+                <div class="col-md-12 mt-lg-4 mt-4">
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">USERS MANAGEMENT</h1>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <div class="row d-flex justify-content-center">
+        <section class=" card col-md-10 m-l-auto m-r-auto">
+            <h2 class="text-center p-2 m-2">Edit Users</h2>
+            <div class="container mt-4">
+                <div class="row d-flex justify-content-center mb-4">
+                    <div class="col-md-9 ">
+
+
+                        <form action="/admin/edit-users/{{userDetails._id}}" method="POST"
+                            enctype="multipart/form-data">
+
+                            <label for="">Name</label>
+                            <input type="email" name="Email" class="form-control" value="{{userDetails.Email}}">
+
+                            <label for="">status</label>
+                            <select class="form-control" name="Status" id="sel1">
+                                <option value="{{userDetails.Status}}">{{userDetails.Status}}</option>
+                                <option value="block">Block</option>
+                                <option value="active">Active</option>
+                            </select>
+                            
+                            <label for="">Mobile</label>
+                            <input type="text" name="Mobile" class="form-control"
+                                value="{{userDetails.Mobile}}">
+                            <button type="submit" class="btn btn-success mt-4">Submit</button>
+                            <a href="/admin/view-users" class="btn btn-warning mt-4">Cancel</a>
+                        </form>
+
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+
+
