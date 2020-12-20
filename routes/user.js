@@ -100,8 +100,11 @@ router.post("/otpLogin", (req, res) => {
   MobileNumber = "+91"+ req.body.MobileNumber;
   console.log("mobile", MobileNumber);
   userHelpers.doMobileValidation(MobileNumber).then((response) => {
+    console.log("response",response);
     if (response.available) {
+      console.log("mobile", MobileNumber)
       userHelpers.doSendOtp(MobileNumber).then((response)=>{
+        console.log(response);
         res.status(200);
         res.json(response.Status)
       })
@@ -243,6 +246,7 @@ router.post("/checkout", verifyLogin, async (req, res) => {
   let totalPrice = await userHelpers.getTotelAmount(req.body.userId);
   userHelpers.placeOrder(req.body, products, totalPrice).then((orderId) => {
     if (req.body["payment-method"] === "COD") {
+      let response= {};
       response.codsuccess= true;
       response.orderId = orderId;
       res.json(response);
@@ -273,6 +277,20 @@ router.get("/orders", verifyLogin, async (req, res) => {
   let orders = await userHelpers.getUserOrders(req.session.user._id);
   res.render("user/orders", { userhead: true, user, orders, cartCount });
 });
+
+router.post("/verify-Payment",(req,res)=>{
+  console.log(req.body);
+  orderId=req.body['order[receipt]']
+  userHelpers.verifyRazorpay(req.body).then(()=>{
+    userHelpers.changePayementStatus(req.body['order[receipt]']).then(()=>{
+      console.log('payment success');
+      res.json({status:true,orderId:orderId})
+    })
+  }).catch((err)=>{
+    console.log(err);
+    res.json({status:'payment failed'})
+  })
+})
 
 router.get("/view-order-products/:id", async (req, res) => {
   let products = await userHelpers.getOrderProduct(req.params.id);

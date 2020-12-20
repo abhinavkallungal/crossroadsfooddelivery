@@ -4,8 +4,13 @@ const bcrypt = require("bcrypt");
 var objectId = require('mongodb').ObjectID
 const config = require("../config/config");
 const client = require("twilio")(config.accountSID, config.authToken);
-
-
+const Razorpay = require("razorpay")
+const crypto = require('crypto');
+const { resolve } = require("path");
+var instance = new Razorpay({
+  key_id: 'rzp_test_GyVJAdzPLcnbjg',
+  key_secret: 'L23H9XwK9v1B9XsD9vArpHXm',
+});
 
 
 module.exports = {
@@ -84,10 +89,12 @@ module.exports = {
 
   },
   doMobileValidation: (mobile) => {
+    console.log(mobile);
     return new Promise(async (resolve, reject) => {
       let user = await db.get().collection(collections.USER_COLLECTIONS)
         .findOne({ Mobile: mobile })
       if (user) {
+        console.log(user);
         resolve({ available: true });
       } else {
         resolve({ available: false });
@@ -417,10 +424,46 @@ module.exports = {
       resolve(orderItems);
     });
   },
+  generateRazorpay:(orderId,totalPrice) =>{
+    return new Promise((resolve,reject)=>{
+      var options = {
+        amount: totalPrice*100,  // amount in the smallest currency unit
+        currency: "INR",
+        receipt:""+orderId
+      };
+      instance.orders.create(options, function(err, order) {
+        console.log("new order",order);
+        resolve(order)
+      });
+    })
 
+  },
+  verifyRazorpay:(details)=>{
+    return new Promise((resolve,reject)=>{
+      let hmac = crypto.createHmac('sha256', "L23H9XwK9v1B9XsD9vArpHXm")
+      hmac.update(details['Payment[razorpay_order_id]']+'|'+details['Payment[razorpay_payment_id]']);
+      hmac=hmac.digest('hex')
+      if(hmac=== details['Payment[razorpay_signature]']){
+        resolve()
+      }else{
+        reject()
+      }
+    })
 
-
-
+  },
+  changePayementStatus:(orderId)=>{
+    return new Promise((resolve,reject)=>{
+      db.get().collection(collections.ORDER_COLLECTIONS).updateOne({_id:objectId(orderId)},
+      {
+        $set:{
+          status:'placed'
+        }
+      }
+      ).then(()=>{
+        resolve()
+      })
+    })
+  }
 
 };
 
