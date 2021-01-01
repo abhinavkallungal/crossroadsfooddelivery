@@ -43,6 +43,17 @@ module.exports = {
             }
         });
     },
+    getEnquiries:()=>{
+        return new Promise (async(resolve,reject)=>{
+            let enquiries =await db.get().collection(collections.ENQUIRIES_COLLECTIONS).aggregate([
+                { 
+                    $sort : { Date : -1 }
+                },
+            ]).toArray()
+            console.log(enquiries);
+            resolve(enquiries)
+        })
+    },
 
 
     addVendor: (vendorData) => {
@@ -64,6 +75,9 @@ module.exports = {
            
         });
     },
+
+    
+
     getAllVendors:()=>{
         return new Promise(async(resolve,reject)=>{
             let vendors=await db.get().collection(collections.VENDOR_COLLECTIONS).find().toArray()
@@ -85,7 +99,8 @@ module.exports = {
                    Name:vendorDetails.Name,
                    Place:vendorDetails.Place,
                    PhoneNumber:vendorDetails.PhoneNumber,
-                   EmailId:vendorDetails. EmailId
+                   EmailId:vendorDetails. EmailId,
+                   Status:vendorDetails.Status
                } 
             }).then((response)=>{
                 resolve()
@@ -195,5 +210,153 @@ module.exports = {
             })
         })
     },
+    getSalesReport:()=>{
+        return new Promise(async(resolve,reject)=>{
+          sales = await db.get().collection(collections.ORDER_COLLECTIONS).aggregate([
+                {
+                  $unwind: "$products",
+                },
+                {
+                 $match: { "products.status": "Delivered" },
+                },
+                {
+                    $project: {
+                      orderId: "$_id",
+                      vendorId:"$products._id",
+                      price:"$products.totalPrice",
+                      date:{ "$dateToString": { "format": "%d-%m-%Y", "date": "$date" } },
+                      paymentMethod:"$paymentMethod"
+                    },
+                },
+                
+                {
+                    $lookup: {
+                      from: collections.VENDOR_COLLECTIONS,
+                      localField: "vendorId",
+                      foreignField: "_id",
+                      as: "vendor",
+                    },
+                },
+                {
+                    $project: {
+                        orderId: 1,
+                        vendorId:1,
+                        price:1,
+                        date:1,
+                        paymentMethod:1,
+                        vendorName: { $arrayElemAt: ["$vendor.Name", 0] },
+                    },
+                },
+                { 
+                    $sort : { date : -1 }
+                },
+               
+              ]).toArray()
+              console.log("sales", sales);
+              resolve(sales)
+        })
+    },
+    getBestSellingProducts:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let bestSelling = await db.get().collection(collections.ORDER_COLLECTIONS).aggregate([
+                {
+                  $unwind: "$products",
+                },
+                {
+                  $unwind: "$products.items",
+                },
+                {
+                    $project: {
+                        _id:null,
+                        item: "$products.items.item",
+                        quantity:"$products.items.quantity"
+                    },
+                },
+                {
+                    $group: {
+                      _id: "$item",
+                      total: { $sum: "$quantity"  }
+          
+                    }
+                },
+                { 
+                    $sort : { total : -1 }
+                },
+                {
+                    $lookup: {
+                      from: collections.PRODUCT_COLLECTIONS,
+                      localField: "_id",
+                      foreignField: "_id",
+                      as: "product",
+                    },
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        product: { $arrayElemAt: ["$product.Name", 0] },
+                        total:1
+                    },
+                },
+                { 
+                    $limit : 5 
+                }
+                
+                
+              ]).toArray()
+              console.log("bestSelling", bestSelling);
+              resolve(bestSelling)
+        })
+    },
+    getDaySales:()=>{
+        return new Promise(async(resolve,reject)=>{
+            let bestSelling = await db.get().collection(collections.ORDER_COLLECTIONS).aggregate([
+                {
+                  $unwind: "$products",
+                },
+                {
+                  $unwind: "$products.items",
+                },
+                {
+                    $project: {
+                        _id:null,
+                        item: "$products.items.item",
+                        quantity:"$products.items.quantity"
+                    },
+                },
+                {
+                    $group: {
+                      _id: "$item",
+                      total: { $sum: "$quantity"  }
+          
+                    }
+                },
+                { 
+                    $sort : { total : -1 }
+                },
+                {
+                    $lookup: {
+                      from: collections.PRODUCT_COLLECTIONS,
+                      localField: "_id",
+                      foreignField: "_id",
+                      as: "product",
+                    },
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        product: { $arrayElemAt: ["$product.Name", 0] },
+                        total:1
+                    },
+                },
+                { 
+                    $limit : 5 
+                }
+                
+                
+              ]).toArray()
+              console.log("bestSelling", bestSelling);
+              resolve(bestSelling)
+        })
+    }
 
 };

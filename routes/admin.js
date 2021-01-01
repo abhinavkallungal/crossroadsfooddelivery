@@ -16,12 +16,7 @@ const verifyLogin = (req, res, next) => {
 /* GET users listing. */
 router.get("/", verifyLogin, function (req, res, next) {
 
-  let css = [{ css: "stylesheets/admindash.css" }];
-  let scripts = [
-    { script: "javascripts/admindash.js" },
-    { script: "https://cdn.jsdelivr.net/npm/chart.js@2.8.0" },
-  ]
-  res.render("admin/dashboard", { admin: true, scripts, css })
+  res.render("admin/dashboard", { admin: true })
 });
 
 // router.get('/signup',(req, res)=> {
@@ -68,14 +63,6 @@ router.get("/add-product", function (req, res) {
   res.render("admin/add-product");
 });
 
-router.get("/crop", function (req, res) {
-  res.sendFile('/crop.html', {root: __dirname })
-  
-});
-router.post("/post", (req, res) => {
-  
-});
-
 router.post("/add-product",verifyLogin, (req, res) => {
   productHelpers.addProduct(req.body, (id) => {
     let image = req.files.Image;
@@ -89,16 +76,12 @@ router.post("/add-product",verifyLogin, (req, res) => {
   })
 });
 router.get("/view-users",verifyLogin,(req,res)=>{
-  let css = [{ css: "/stylesheets/vendor-management.css" }];
-  let scripts = [{ script: "/javascripts/vendor-management.js" }];
   adminHelpers.getAllUsers().then((users) => {
-    res.render("admin/view-users", {admin:true, users, css, scripts });
+    res.render("admin/view-users", {admin:true, users});
   })
 });
 router.get("/add-users", verifyLogin, (req, res) => {
-  let css = [{ css: "/stylesheets/vendor-management.css" }];
-  let scripts = [{ script: "/javascripts/vendor-management.js" }];
-  res.render("admin/add-user", { admin: true, scripts, css ,"nameErr":req.session.nameErr });
+  res.render("admin/add-user", { admin: true ,"nameErr":req.session.nameErr });
   req.session.nameErr = false
 });
 
@@ -117,9 +100,8 @@ router.post("/add-users",verifyLogin, (req, res) => {
 router.get("/edit-users/:id", verifyLogin, async (req, res) => {
   let userDetails = await adminHelpers.editUsers(req.params.id);
   console.log(userDetails);
-  let css = [{ css: "/stylesheets/vendor-management.css" }];
-  let scripts = [{ script: "/javascripts/vendor-management.js" }];
-  res.render("admin/edit-users", { admin: true, scripts, css, userDetails });
+ 
+  res.render("admin/edit-users", { admin: true,  userDetails });
 });
 
 router.post("/edit-users/:id",verifyLogin, (req, res) => {
@@ -129,10 +111,8 @@ router.post("/edit-users/:id",verifyLogin, (req, res) => {
 });
 
 router.get("/view-vendors", verifyLogin, (req, res) => {
-  let css = [{ css: "/stylesheets/vendor-management.css" }];
-  let scripts = [{ script: "/javascripts/vendor-management.js" }];
   adminHelpers.getAllVendors().then((vendors) => {
-    res.render("admin/view-vendors", {admin:true, vendors, css, scripts });
+    res.render("admin/view-vendors", {admin:true, vendors});
   })
 });
 
@@ -140,33 +120,39 @@ router.get("/add-vendor", verifyLogin, (req, res) => {
   adminHelpers.addVendor(req.body).then((response) => {
     console.log(response);
   })
-  let css = [{ css: "/stylesheets/vendor-management.css" }];
-  let scripts = [{ script: "/javascripts/vendor-management.js" }];
-  res.render("admin/add-vendor", { admin: true, scripts, css ,"nameErr":req.session.nameErr });
+ 
+  res.render("admin/add-vendor", { admin: true ,"nameErr":req.session.nameErr });
   req.session.nameErr = false
 });
 
-router.post("/add-vendor",verifyLogin, (req, res) => {
-  adminHelpers.addVendor(req.body).then((response) => {
+router.post("/add-vendor",verifyLogin, async (req, res) => {
+   await adminHelpers.addVendor(req.body).then((response) => {
+    let logo = req.files.logo;
+    let id =response[0]._id
+    console.log(response);
     if(response.status){
       console.log("test1");
       req.session.nameErr=true
       res.redirect('/admin/add-vendor')
-      
     }else{
-      console.log("test2");
-      res.redirect("/admin/view-vendors");
+      console.log("test2",id);
+      logo.mv("./public/vendor-logo/" + id + ".jpg", (err, done) => {
+      if (!err) {
+        res.redirect('/admin/view-vendors');
+      } else {
+        console.log(err);
+        res.redirect('/admin/add-vendor')
+      }
+    });
     }
-    
   })
 });
 
 router.get("/edit-vendor/:id", verifyLogin, async (req, res) => {
   let vendorDetails = await adminHelpers.editVendor(req.params.id);
   console.log(vendorDetails);
-  let css = [{ css: "/stylesheets/vendor-management.css" }];
-  let scripts = [{ script: "/javascripts/vendor-management.js" }];
-  res.render("admin/edit-vendor", { admin: true, scripts, css, vendorDetails });
+ 
+  res.render("admin/edit-vendor", { admin: true, vendorDetails });
 });
 
 router.post("/edit-vendor/:id",verifyLogin, (req, res) => {
@@ -184,11 +170,9 @@ router.get("/delete-vendor/:id", verifyLogin, (req, res) => {
 });
 
 router.get("/category", verifyLogin,(req,res)=>{
-  let css = [{ css: "/stylesheets/category-management.css" }];
-  let scripts = [{ script: "/javascripts/vendor-management.js" }];
   adminHelpers.getAllCategorys().then((categorys) => {
     console.log(categorys)
-    res.render("admin/category", { categorys, css, scripts ,admin:true});
+    res.render("admin/category", { categorys,admin:true});
   })
   
 });
@@ -202,11 +186,10 @@ router.post("/add-category",verifyLogin, (req, res) => {
 
 
 router.get("/edit-category/:id", verifyLogin, async (req, res) => {
-  let css = [{ css: "/stylesheets/vendor-management.css" }];
-  let scripts = [{ script: "/javascripts/vendor-management.js" }];
+  
   let categoryDetails = await adminHelpers.editCategory(req.params.id);
   console.log(categoryDetails);
-  res.render("admin/edit-category", { categoryDetails, css, scripts ,admin:true});
+  res.render("admin/edit-category", { categoryDetails,admin:true});
 });
 
 router.post("/edit-category/:id", verifyLogin, (req, res) => {
@@ -223,5 +206,22 @@ router.get("/delete-category/:id", verifyLogin, (req, res) => {
     res.redirect("/admin/category");
   })
 });
+
+router.get("/sales",verifyLogin,async (req,res)=>{
+  let sales = await adminHelpers.getSalesReport();
+  res.render("admin/sales", {admin:true, sales,  });
+});
+router.get("/bestSelling",verifyLogin,async(req,res)=>{
+  let bestSelling= await adminHelpers.getBestSellingProducts();
+   response.labels = bestSelling.map( item => item.product)
+   response.data = bestSelling.map( item => item.total)
+  console.log("calltest")
+  res.json(response)
+});
+router.get("/enquiries",verifyLogin,async(req,res)=>{
+  let enquiries=await adminHelpers.getEnquiries();
+  res.render("admin/enquiery",{admin:true,enquiries}) 
+});
+
 
 module.exports = router;

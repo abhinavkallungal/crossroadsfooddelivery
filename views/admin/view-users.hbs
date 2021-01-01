@@ -1,3 +1,14 @@
+<style>
+  .navbar-nav>li>a.userdelails {
+    color: #e9ecef !important;
+    background: linear-gradient(90deg,
+            rgba(59, 125, 221, 0.1),
+            rgba(59, 125, 221, 0.0875) 50%,
+            transparent);
+    border-left: 4px solid #3b7ddd;
+}
+</style>
+
 <div class="container-fluid px-lg-4">
     <div class="row">
         <div class="container-fluid px-lg-4">
@@ -6,14 +17,11 @@
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">USER MANAGEMENT</h1>
-                        <a href="/admin/add-users" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
+                        <a href="/admin/add-users" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                                 class="fa fa-upload fa-sm text-white-50"></i>
                             ADD USERS</a>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
 
@@ -29,21 +37,12 @@
                                 Overview of Top Selling Items
                             </h5>
                         </div>
-                        <div class="mr-auto">
-                            <div class="dl">
-                                <select class="custom-select">
-                                    <option value="0" selected="">Monthly</option>
-                                    <option value="1">Daily</option>
-                                    <option value="2">Weekly</option>
-                                    <option value="3">Yearly</option>
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
                     <!-- title -->
                 </div>
                 <div class="table-responsive horizontal-scrollable">
-                    <table class="table v-middle">
+                    <table class="table v-middle" id="viewUser">
                         <thead>
                             <tr class="bg-light">
                                 <th class="border-top-0">Logo</th>
@@ -81,10 +80,7 @@
                                     <a href="/admin/edit-users/{{this._id}}" class=" btn btn-success">edit</a>
                                    
                                 </td>
-                                 <td>
-                                    
-                                    <a href="/admin/delete-vendor/{{this._id}}" class=" btn btn-danger">delet</a>
-                                </td>
+                                 
                             </tr>
                             {{/each}}
                            
@@ -96,3 +92,21 @@
 
     </div>
 </div>
+<script>
+      $(document).ready( function () {
+    $('#viewUser').DataTable();
+    } );
+
+      $("#bar").click(function () {
+            $(this).toggleClass("open");
+            $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
+        });
+        //
+         function toggleMenu() {
+        let navigation = document.querySelector(".navigation");
+        let toggle = document.querySelector(".toggle");
+
+        navigation.classList.toggle("active");
+        toggle.classList.toggle("active");
+       }
+</script>

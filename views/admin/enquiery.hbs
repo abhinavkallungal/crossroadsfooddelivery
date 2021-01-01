@@ -1,5 +1,5 @@
 <style>
-  .navbar-nav>li>a.vendormanagement {
+  .navbar-nav>li>a.enquiery {
     color: #e9ecef !important;
     background: linear-gradient(90deg,
             rgba(59, 125, 221, 0.1),
@@ -17,10 +17,8 @@
                 <div class="col-md-12 mt-lg-4 mt-4">
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">VENDOR MANAGEMENT</h1>
-                        <a href="/admin/add-vendor" class=" d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fa fa-upload fa-sm text-white-50"></i>
-                            ADD VENDORS</a>
+                        <h1 class="h3 mb-0 text-gray-800">ENQUIRYS</h1>
+                        
                     </div>
                 </div>
             </div>
@@ -33,9 +31,9 @@
                     <!-- title -->
                     <div class="d-md-flex align-items-center">
                         <div>
-                            <h4 class="card-title">ALL VENDORS</h4>
+                            <h4 class="card-title">ALL ENQUIRYS</h4>
                             <h5 class="card-subtitle">
-                                Overview Of Top Vendors 
+                                Overview Of  Enquirys
                             </h5>
                         </div>
                         <div class="ml-auto">
@@ -55,41 +53,24 @@
                     <table class="table v-middle" id="viewVendor">
                         <thead>
                             <tr class="bg-light">
-                                <th class="border-top-0">Logo</th>
                                 <th class="border-top-0">Name</th>
-                                <th class="border-top-0">Place</th>
+                                <th class="border-top-0">Email</th>
                                 <th class="border-top-0">Phone Number</th>
-                                <th class="border-top-0">Status</th>
-                                <th class="border-top-0">Sales</th>
-                                <th class="border-top-0">Earnings</th>
-                                <th class="border-top-0">Actions</th>
+                                <th class="border-top-0">Date</th>
+                                <th class="border-top-0">Message</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                            {{#each vendors}}
+                            {{#each enquiries}}
                             <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="m-r-10">
-                                            <img style="width: 50px; hight:50px;" src="/vendor-logo/{{this._id}}.jpg" alt="">
-                                            {{!-- <a class="btn btn-circle btn-info text-white">EA</a> --}}
-                                        </div>
-                                       
-                                    </div>
-                                </td>
-                                <td><h4 class="m-b-0 font-16">{{this.Name}}</h4></td>
-                                <td>{{this.Place}}</td>
-                                <td>{{this.PhoneNumber}}</td>
                                 
-                                <td>{{this.Status}}</td>
-                                <td>356</td>
-                                <td>
-                                    <h5 class="m-b-0">$2850.06</h5>
-                                </td>
-                                <td>
-                                    <a href="/admin/edit-vendor/{{this._id}}" class=" btn btn-success">edit</a>
-                                   
-                                </td> 
+                                <td><h4 class="m-b-0 font-16">{{this.Name}}</h4></td>
+                                <td>{{this.Email}}</td>
+                                <td>{{this.Phone}}</td>
+                                <td>{{this.Date}}</td>
+                                <td>{{this.Message}}</td>
+                                
                             </tr>
                             {{/each}}
                            

@@ -225,13 +225,13 @@
                                         alt="" srcset=""></td>
                                 <td>{{this.product.Name}}</td>
                                 <td>{{this.product.Price}}</td>
-
+                                
                                 <td>
                                     <button class="cart-item-count mr-3"
-                                        onclick='changeQuantity("{{this._id}}","{{this.item}}","{{../user._id}}",-1)'>-</button>
+                                        onclick='changeQuantity("{{this.item}}","{{this.product.VendorId}}","{{../user._id}}",-1)'>-</button>
                                     <span id="{{this.product._id}}">{{this.quantity}}</span>
                                     <button class="cart-item-count  ml-3"
-                                        onclick='changeQuantity("{{this._id}}","{{this.item}}","{{../user._id}}",1)'>+</button>
+                                        onclick='changeQuantity("{{this.item}}","{{this.product.VendorId}}","{{../user._id}}",1)'>+</button>
                                 </td>
                                 <td>
                                     <a href="" onclick='removeCartProduct("{{this._id}}","{{this.item}}")'
@@ -348,7 +348,7 @@
 
 
     <script>
-        function changeQuantity(cartId, proId, userId, count) {
+        function changeQuantity( proId,vendorId, userId, count) {
             let quantity = parseInt(document.getElementById(proId).innerHTML)
             count = parseInt(count)
 
@@ -356,20 +356,19 @@
             $.ajax({
                 url: '/change-product-quantity',
                 data: {
-                    cart: cartId,
+                    vendorId:vendorId,
                     product: proId,
                     count: count,
                     quantity: quantity,
                     user: userId
                 },
                 method: 'post',
-                success: (response) => {
+                success: (response) => { 
                     if (response.removeProduct) {
                         alert("product removed from cart")
                         location.reload()
 
                     } else {
-
                         document.getElementById(proId).innerHTML = quantity + count
                         document.getElementById('total').innerHTML = response.total
                     }

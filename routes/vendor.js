@@ -72,9 +72,7 @@ router.get("/add-product", verifyLogin, function (req, res) {
     res.render("vendor/add-product", {vendordetails, categorys,vendor: true, scripts, css, tiltes });
   });
 });
-router.post("/imgupload", (req,res)=>{
 
-})
 
 router.post("/add-product",  (req, res) => {
   productHelpers.addProduct(req.body, (id) => {
@@ -116,5 +114,38 @@ router.post("/edit-product/:id", (req, res) => {
     }
   });
 });
+router.get("/orders",verifyLogin,async(req,res)=>{
+  let css = [{ css: "/stylesheets/product-management.css" }];
+  let scripts = [{ script: "/javascripts/vendordash.js" }];
+  console.log(req.session.user._id);
+  orders=await vendorHelpers.getVendorsOrder(req.session.user._id)
+  res.render("vendor/order", {  orders,scripts, css,vendor: true })
+});
+router.get("/vieworder/:id",verifyLogin,async(req,res)=>{
+  let css = [{ css: "/stylesheets/product-management.css" }];
+  let scripts = [{ script: "/javascripts/vendordash.js" }];
+  console.log(req.session.user._id);
+  let orderId=req.params.id
+  order=await vendorHelpers.getOrderDetails(orderId,req.session.user._id)
+  res.render("vendor/each-order-view", { order,scripts, css,vendor: true })
+});
+router.post("/changestatus",(req,res)=>{
+  console.log(req.body);
+  let  status = req.body.status
+  let orderId =req.body.orderId
+  vendorHelpers.updateOrderStatus(orderId,status, req.session.user._id).then(() => {
+    res.redirect("/vendor/products");
+    let id = req.params.id;
+    
+  });
+})
+
+router.get("/sales",verifyLogin,async (req,res)=>{
+  let css = [{ css: "/stylesheets/product-management.css" }];
+  let scripts = [{ script: "/javascripts/vendordash.js" }];
+  let sales = await vendorHelpers.getSalesReport(req.session.user._id)
+  res.render("vendor/sales", {vendor:true,sales,css,scripts});
+});
+
 
 module.exports = router;

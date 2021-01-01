@@ -5,12 +5,12 @@
         {{#each products}}
         <div class="col-md-3">
             <div class="card" style="width: 18rem;">
-                <img src="/product-images/{{this.products._id}}.jpg" class="card-img-top" alt="...">
+                <img src="/product-images/{{this.item}}.jpg" class="card-img-top" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">{{this.Name}}</h5>
-                    <p class="card-text">{{this.Category}}</p>
-                    <p class="card-text">{{this.Price}}</p>
-                    <button onclick="addToCart('{{this._id}}')" class="btn btn-primary">ADD TO CART</button>
+                    <h5 class="card-title">{{this.product.Name}}</h5>
+                    <p class="card-text">{{this.product.Category}}</p>
+                    <p class="card-text">{{this.product.Price}}</p>
+                    <p class="card-text">{{this.quantity}}</p>
                 </div>
             </div>
         </div>

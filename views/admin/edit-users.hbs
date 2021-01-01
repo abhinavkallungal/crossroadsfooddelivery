@@ -1,3 +1,14 @@
+<style>
+  .navbar-nav>li>a.userdelails {
+    color: #e9ecef !important;
+    background: linear-gradient(90deg,
+            rgba(59, 125, 221, 0.1),
+            rgba(59, 125, 221, 0.0875) 50%,
+            transparent);
+    border-left: 4px solid #3b7ddd;
+}
+</style>
+
 <div class="container-fluid px-lg-4">
     <div class="row">
         <div class="container-fluid px-lg-4">
@@ -15,9 +26,6 @@
         </div>
 
     </div>
-
-
-
     <div class="row d-flex justify-content-center">
         <section class=" card col-md-10 m-l-auto m-r-auto">
             <h2 class="text-center p-2 m-2">Edit Users</h2>
@@ -54,6 +62,21 @@
         </section>
     </div>
 </div>
+
+<script>
+      $("#bar").click(function () {
+            $(this).toggleClass("open");
+            $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
+        });
+        //
+         function toggleMenu() {
+        let navigation = document.querySelector(".navigation");
+        let toggle = document.querySelector(".toggle");
+
+        navigation.classList.toggle("active");
+        toggle.classList.toggle("active");
+       }
+</script>
 
 
 

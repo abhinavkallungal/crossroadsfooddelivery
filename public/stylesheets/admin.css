@@ -74,14 +74,7 @@ sidebar
     color: #c1c1c1 !important;
 }
 
-.navbar-nav>li>a.dashboard {
-    color: #e9ecef !important;
-    background: linear-gradient(90deg,
-            rgba(59, 125, 221, 0.1),
-            rgba(59, 125, 221, 0.0875) 50%,
-            transparent);
-    border-left: 4px solid #3b7ddd;
-}
+
 
 .navbar-nav .has-sub>a.collapsed::after {
     transition: 0.4s ease;

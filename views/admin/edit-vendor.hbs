@@ -1,3 +1,14 @@
+<style>
+     .navbar-nav>li>a.vendormanagement {
+    color: #e9ecef !important;
+    background: linear-gradient(90deg,
+            rgba(59, 125, 221, 0.1),
+            rgba(59, 125, 221, 0.0875) 50%,
+            transparent);
+    border-left: 4px solid #3b7ddd;
+    }
+</style>
+
 <div class="container-fluid px-lg-4">
     <div class="row">
         <div class="container-fluid px-lg-4">
@@ -39,12 +50,17 @@
                             <input type="text" name="PhoneNumber" class="form-control"
                                 value="{{vendorDetails.PhoneNumber}}">
 
+                             <label for="">Status</label>
+                            <select class="form-control" name="Status" id="sel1">
+                                <option value="{{vendorDetails.Status}}">{{vendorDetails.Status}}</option>
+                                <option value="Block">Block</option>
+                                <option value="Active">Active</option>
+                            </select>    
+
                             <label for="">Email Id</label>
                             <input type="text" name="EmailId" class="form-control" value="{{vendorDetails.EmailId}}">
 
-                            {{!-- <label for="">Image</label>
-                    <img style="width: 50px; hight:50px;" src="/product-images/{{}}.jpg" alt="" id="imgView">
-                    <input type="file" name="Image" class="form-control" onchange="viewImage(event)"> --}}
+                           
 
                             <button type="submit" class="btn btn-success mt-4">Submit</button>
                             <a href="/admin/view-vendors" class="btn btn-warning mt-4">Cancel</a>
@@ -59,14 +75,23 @@
     </div>
 </div>
 
-
-
-
-
 <script>
-    function viewImage(event) {
+      $("#bar").click(function () {
+            $(this).toggleClass("open");
+            $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
+        });
+        //
+         function toggleMenu() {
+        let navigation = document.querySelector(".navigation");
+        let toggle = document.querySelector(".toggle");
+
+        navigation.classList.toggle("active");
+        toggle.classList.toggle("active");
+       },
+        function viewImage(event) {
         document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
     }
 </script>
-</div>
-</section>
+
+
+

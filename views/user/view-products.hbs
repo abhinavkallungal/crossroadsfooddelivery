@@ -69,7 +69,7 @@
  function addToCart(proId,vendorId) {
   $.ajax({
     url: "/add-to-cart/" + proId +"/"+ vendorId,
-    method: "get",
+    method: "post",
     success: (response) => { 
       if (response.status) {
         let count = $("#cart-count").html();

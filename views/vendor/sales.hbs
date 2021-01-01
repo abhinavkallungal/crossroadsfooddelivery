@@ -1,0 +1,68 @@
+<div class="col-md-12 mt-4">
+    <div class="card">
+        <div class="card-body">
+            <!-- title -->
+            <div class="d-md-flex align-items-center">
+                <div>
+                    <h4 class="card-title">Top Selling Products</h4>
+                    <h5 class="card-subtitle">
+                        Overview of Top Selling Items
+                    </h5>
+                </div>
+                <div class="ml-auto">
+                    <div class="dl">
+                        <select class="custom-select">
+                            <option value="0" selected="">Monthly</option>
+                            <option value="1">Daily</option>
+                            <option value="2">Weekly</option>
+                            <option value="3">Yearly</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- title -->
+        </div>
+        <div class="table-responsive ">
+            <table class="table v-middle" id="sales_table">
+                <thead>
+                    <tr class="bg-light">
+                        <th class="border-top-0">ORDER ID</th>
+                        <th class="border-top-0">DATE</th>
+                        <th class="border-top-0">PRICE</th>
+                        <th class="border-top-0">PAYMENT METHOD</th>
+                      
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each sales}}
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="">
+                                    <h4 class="m-b-0 font-16">{{this.date}}</h4>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{this.orderId}}</td>
+                        <td>{{this.price}}</td>
+                        <td>{{this.paymentMethod}}</td>
+                        
+                        
+                    </tr>
+                    {{/each}}
+                  
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready( function () {
+    $('#sales_table').DataTable();
+    } );
+
+    $('#sales_table').DataTable( {
+     ordering: false
+    } );
+</script>

@@ -13,9 +13,8 @@ const verifyLogin = (req, res, next) => {
       if(response.UserStatus =="active"){
         next();
       }else{
-        req.session.destroy();
-        
-        res.redirect("/");
+        req.session.destroy(); 
+        res.redirect("/login");
         next();
       }
     })
@@ -30,7 +29,13 @@ router.get("/", async function (req, res, next) {
   let user = req.session.user;
   let cartCount = null;
   if (user) {
-    cartCount = await userHelpers.getCartCount(req.session.user._id);
+    userCart= await userHelpers.checkCartAvaiable(req.session.user._id)
+    if(userCart){
+      cartCount = await userHelpers.getCartCount(req.session.user._id);
+    }else{
+      cartCount = 0
+    }
+    
   }
   productHelpers.getAllProducts().then((products) => {
     res.render("user/homepage", { userhead: true, user, products, cartCount });
@@ -177,7 +182,6 @@ router.get("/aboutus", async function (req, res) {
   if (user) {
     cartCount = await userHelpers.getCartCount(req.session.user._id);
   }
-
   res.render("user/aboutus", { userhead: true, user, cartCount });
 });
 
@@ -189,9 +193,16 @@ router.get("/contactus", async function (req, res) {
   }
   res.render("user/contactus", { userhead: true, user, cartCount });
 });
+router.post("/contactus",async (req,res)=>{
+  console.log(req.body);
+  req.body.Date =new Date()
+  userHelpers.addEnquiery(req.body).then((response)=>{
+    res.redirect("/")
+  })
+})
 
 
-router.get("/add-to-cart/:id/:vid", verifyLogin, (req, res) => {
+router.post("/add-to-cart/:id/:vid", verifyLogin, (req, res) => {
   productId = req.params.id
   vendorId = req.params.vid
   userId = req.session.user._id;
@@ -242,9 +253,11 @@ router.get("/checkout", verifyLogin, async function (req, res) {
 });
 
 router.post("/checkout", verifyLogin, async (req, res) => {
-  let products = await userHelpers.getCartProductList(req.body.userId);
+  let vendorPrice=await userHelpers.getvendorPrice(req.body.userId)
+  console.log("getTotelAmount");
   let totalPrice = await userHelpers.getTotelAmount(req.body.userId);
-  userHelpers.placeOrder(req.body, products, totalPrice).then((orderId) => {
+  console.log("placeOrder");
+  userHelpers.placeOrder(req.body, totalPrice,vendorPrice).then((orderId) => {
     if (req.body["payment-method"] === "COD") {
       let response= {};
       response.codsuccess= true;
@@ -292,10 +305,14 @@ router.post("/verify-Payment",(req,res)=>{
   })
 })
 
-router.get("/view-order-products/:id", async (req, res) => {
-  let products = await userHelpers.getOrderProduct(req.params.id);
+router.get("/view-order-products/:id/:vendorId", async (req, res) => {
+  let products = await userHelpers.getOrderProduct(req.params.id,req.params.vendorId);
   console.log(products);
   res.render("user/view-orderproduct", { user: req.session.user, products });
 });
+
+router.get("/crop",(req,res)=>{
+  res.render("user/crop")
+})
 
 module.exports = router;

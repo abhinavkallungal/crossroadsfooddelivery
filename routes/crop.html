@@ -67,7 +67,7 @@
 						<div class="col-md-9 ">
 
 
-							<form action="/vendor/add-product" method="POST" enctype="multipart/form-data">
+							<form  method="POST" enctype="multipart/form-data">
 								<label for="">Name</label>
 								<input type="text" name="Name" class="form-control">
 
@@ -80,6 +80,7 @@
 								<input type="text" name="Description" class="form-control">
 
 								<label for="">Image</label>
+								<input type="file" id="test" name="test" value="">
 
 								<!-- <input type="file" name="Image" value="" id="inputimg" class="form-control"
 									onchange="viewImage(event)"> -->
@@ -90,7 +91,7 @@
 												src="https://avatars0.githubusercontent.com/u/3456749?s=160" alt="avatar">
 											<input type="file" class="sr-only form-control" name="Image" id="input" accept="image/*">
 										</label>
-										<button id="upload">UPLOA</button>
+										<button id="upload">Upload</button>
 										<div class="progress">
 											<div class="progress-bar progress-bar-striped progress-bar-animated"
 												role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%
@@ -156,6 +157,7 @@
 
 		window.addEventListener('DOMContentLoaded', function () {
 			var avatar = document.getElementById('avatar');
+			var test =document.getElementById('test');
 			var image = document.getElementById('image');
 			var input = document.getElementById('input');
 			var inputimg = document.getElementById('inputimg')
@@ -217,13 +219,16 @@
 					});
 					initialAvatarURL = avatar.src;
 					avatar.src = canvas.toDataURL();
+					
 					$progress.show();
 					$alert.removeClass('alert-success alert-warning');
 					canvas.toBlob(function (blob) {
+						console.log(blob)
 						var formData = new FormData();
 
 						formData.append('avatar', blob, 'avatar.jpg');
-						$.ajax("/vendor/add-product", {
+						$.ajax({
+							url: '/vendor/imgupload',
 							method: "post",
 							data: formData,
 							processData: false,

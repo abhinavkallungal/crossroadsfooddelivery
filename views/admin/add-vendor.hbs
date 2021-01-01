@@ -1,3 +1,21 @@
+<style>
+     .navbar-nav>li>a.vendormanagement {
+    color: #e9ecef !important;
+    background: linear-gradient(90deg,
+            rgba(59, 125, 221, 0.1),
+            rgba(59, 125, 221, 0.0875) 50%,
+            transparent);
+    border-left: 4px solid #3b7ddd;
+}
+    #imgView{
+       
+        width: 200px;
+        height: auto;
+        margin: 20px;
+    }
+</style>
+
+
 <div class="container-fluid px-lg-4">
     <div class="row">
         <div class="container-fluid px-lg-4">
@@ -31,7 +49,7 @@
                             <input type="text" name="Name" class="form-control" required>
 
                             {{#if nameErr}}
-                            <p class="error  text-danger"> <i class="fa fa-exclamation-circle"> </i> email address is
+                            <p class="error  text-danger"> <i class="fa fa-exclamation-circle"> </i> Name is
                                 already in use </p>
                             {{/if}}
 
@@ -43,12 +61,16 @@
 
                             <label for="">Phone Number</label>
                             <input type="text" name="PhoneNumber" class="form-control" required>
+                            
+                            <input type="text" name="Status" class="form-control" value="Active" hidden>
 
                             <label for="">Email Id</label>
                             <input type="text" name="EmailId" class="form-control" required>
-
-                            {{!-- <label for="">logo</label>
-                        <input type="file" name="logo" class="form-control"> --}}
+                            
+                            <label for="">logo</label>
+                            <input type="file" name="logo" class="form-control" onchange="viewImage(event)">
+                            <img style="display: none;" src="/product-images/{{product._id}}.jpg" alt=""
+                                id="imgView"><br>
 
                             <button type="submit" class="btn btn-success mt-4">Submit</button>
                             <a href="/admin/view-vendors" class="btn btn-warning mt-4">Cancel</a>
@@ -61,3 +83,24 @@
         </section>
     </div>
 </div>
+
+<script>
+    function viewImage(event) {
+        document.getElementById("imgView").style.display = "block";
+        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+    }
+    
+      $("#bar").click(function () {
+            $(this).toggleClass("open");
+            $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
+        });
+        //
+         function toggleMenu() {
+        let navigation = document.querySelector(".navigation");
+        let toggle = document.querySelector(".toggle");
+
+        navigation.classList.toggle("active");
+        toggle.classList.toggle("active");
+       }
+
+</script>
