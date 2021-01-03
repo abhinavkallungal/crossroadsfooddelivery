@@ -8,7 +8,7 @@ const config = require("../config/config");
 const client = require("twilio")(config.accountSID, config.authToken);
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.loggedIn) {
+  if (req.session.userLoggedIn) {
     userHelpers.getUserStatus(req.session.user._id).then((response)=>{
       if(response.UserStatus =="active"){
         next();
@@ -61,7 +61,7 @@ router.post("/signup", (req, res) => {
       res.redirect("/signup");
     } else {
       console.log(response);
-      req.session.loggedIn = true;
+      req.session.userLoggedIn = true;
       req.session.user = response;
       res.redirect("/");
     }
@@ -69,7 +69,7 @@ router.post("/signup", (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-  if (req.session.loggedIn) {
+  if (req.session.userLoggedIn) {
     res.redirect("/");
   } else {
     res.render("user/login", {
@@ -83,18 +83,22 @@ router.get("/login", (req, res) => {
 router.post("/login", (req, res) => {
   userHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      if(response.user.Status=="active"){
-        req.session.loggedIn = true;
+      console.log("1");
+      if(response.user.Status==="active"){
+        console.log("2");
+        req.session.userLoggedIn = true;
        req.session.user = response.user;
        console.log(req.session.user.Status);
        res.redirect("/");
       }else{
+        console.log("3");
         req.session.statusErr = true;
         req.session.destroy();
         res.redirect("/login");
       }
       
     } else {
+      console.log("4");
       req.session.loginErr = true;
       res.redirect("/login");
     }
@@ -127,7 +131,7 @@ router.post("/verifyotp", (req, res) => {
     console.log("response",response);
     if(response.status){
       if(response.user.Status=="active"){
-        req.session.loggedIn = true;
+        req.session.userLoggedIn = true;
        req.session.user = response.user;
        console.log("ready",req.session.user);
        res.redirect("/");
@@ -143,9 +147,48 @@ router.post("/verifyotp", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.session.destroy();
+  req.session.userLoggedIn=false;
+  req.session.user=null;
   res.redirect("/");
 });
+
+router.get("/profile",verifyLogin,(req,res)=>{
+  let user= req.session.user
+res.render("user/profile",{userhead: true,user})
+});
+router.post("/updateprofile/:id",verifyLogin,async(req,res)=>{
+  userId=req.params.id;
+  userData= req.body;
+  await userHelpers.updateProfile(userId,userData).then((response)=>{
+    res.redirect("/")
+  })
+});
+
+router.get("/resetpassword",verifyLogin,(req,res)=>{
+  userId=req.session.user._id
+  user= req.session.user
+  res.render("user/resetpassword",{userhead:true,userId,user})
+ 
+})
+
+router.post("/resetpassword/:id",verifyLogin,async(req,res)=>{
+  userId=req.params.id
+  oldPassword=req.body.oldPassword,
+  newPassword=req.body.Password
+ await userHelpers.checkPassword(userId,oldPassword).then((response)=>{
+   if(response.status){
+    console.log(response.status);
+     userHelpers.resetPassword(userId,newPassword).then((response)=>{
+      res.redirect("/profile")
+    })
+   }else{
+    console.log(response.status);
+    passwordErr=true;
+    res.redirect("/resetpassword")
+   }
+ })
+  res.redirect("/resetpassword")
+})
 
 router.get("/ourbakers", async function (req, res) {
   let user = req.session.user;
@@ -153,7 +196,7 @@ router.get("/ourbakers", async function (req, res) {
   if (user) {
     cartCount = await userHelpers.getCartCount(req.session.user._id);
   }
-  adminHelpers.getAllVendors(response).then((vendors) => {
+  userHelpers.getAllVendors(response).then((vendors) => {
     res.render("user/ourbakers", { userhead: true, vendors, user, cartCount });
   });
 });
@@ -164,9 +207,8 @@ router.get("/viewproducts/:id", verifyLogin, async function (req, res) {
   if (user) {
     cartCount = await userHelpers.getCartCount(req.session.user._id);
   }
-
   let vendorId = req.params.id;
-  productHelpers.getvendorProducts(vendorId).then((products) => {
+   await productHelpers.getVendorProducts(vendorId).then((products) => {
     res.render("user/view-products", {
       userhead: true,
       products,

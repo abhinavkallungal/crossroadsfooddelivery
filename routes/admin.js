@@ -3,9 +3,10 @@ var router = express.Router();
 var productHelpers = require("../helpers/product-helpers");
 var adminHelpers = require("../helpers/admin-helpers");
 const { response } = require("express");
+var moment = require('moment')
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.loggedIn) {
+  if (req.session.adminLoggedIn) {
     next()
   } else {
     res.redirect("/admin/login")
@@ -14,9 +15,25 @@ const verifyLogin = (req, res, next) => {
 };
 
 /* GET users listing. */
-router.get("/", verifyLogin, function (req, res, next) {
+router.get("/", verifyLogin,async (req, res) =>{
+  let salesReport= await adminHelpers.getSalesReport();
+  let todaySales=await adminHelpers.todaySales();
+  let thisMonhtSales=await adminHelpers.thisMonthSales();
+  let totalEarnings=await adminHelpers.totalEarnings();
+  let totalOrder= await adminHelpers.totalOrder();
+  res.render("admin/dashboard", { admin: true,salesReport,totalOrder,totalEarnings,thisMonhtSales,todaySales})
+});
 
-  res.render("admin/dashboard", { admin: true })
+router.get("/chartData",verifyLogin,async(req,res)=>{
+  let bestSelling= await adminHelpers.getBestSellingProducts();
+   response.BSPlabel = bestSelling.map( item => item.product)
+   response.BSPdata = bestSelling.map( item => item.total)
+   let daysales=await adminHelpers.getDaySales();
+   response.DSlabel= daysales.map( item => item._id)
+   response.DSdata = daysales.map( item => item.total)
+   response.salesReport= await adminHelpers.getSalesReport();
+  console.log("calltest")
+  res.json(response)
 });
 
 // router.get('/signup',(req, res)=> {
@@ -25,14 +42,14 @@ router.get("/", verifyLogin, function (req, res, next) {
 // });
 // router.post('/signup',(req, res)=> {
 //   adminHelpers.doSignup(req.body).then((response)=>{
-//      req.session.loggedIn=true
+//      req.session.adminLoggedIn=true
 //      req.session.user=response
 //      res.redirect('/')
 //    })
 
 // });
 router.get("/login", (req, res) => {
-  if (req.session.loggedIn) {
+  if (req.session.adminLoggedIn) {
     res.redirect("/admin");
   } else {
     res.render("admin/admin-login", { loginErr: req.session.loginErr });
@@ -43,8 +60,8 @@ router.get("/login", (req, res) => {
 router.post("/login", (req, res) => {
   adminHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      req.session.loggedIn = true;
-      req.session.user = response.user;
+      req.session.adminLoggedIn = true;
+      req.session.admin = response.user;
       res.redirect("/admin");
       console.log("logedin");
     } else {
@@ -55,8 +72,47 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.session.destroy();
+  req.session.adminLoggedIn=false;
   res.redirect("/admin/login");
+});
+
+
+router.get("/profile",verifyLogin,(req,res)=>{
+  let admindata= req.session.admin
+res.render("admin/profile",{admindata})
+});
+router.post("/updateprofile/:id",verifyLogin,async(req,res)=>{
+  adminId=req.params.id;
+  adminData= req.body;
+  await adminHelpers.updateProfile(adminId,adminData).then((response)=>{
+    res.redirect("/admin/")
+  })
+});
+
+router.get("/resetpassword",verifyLogin,(req,res)=>{
+  adminId=req.session.admin._id
+  admindata= req.session.admin
+  res.render("admin/resetpassword",{adminId,admindata})
+ 
+});
+
+router.post("/resetpassword/:id",verifyLogin,async(req,res)=>{
+  adminId=req.params.id
+  oldPassword=req.body.oldPassword,
+  newPassword=req.body.Password
+ await adminHelpers.checkPassword(adminId,oldPassword).then((response)=>{
+   if(response.status){
+    console.log(response.status);
+     adminHelpers.resetPassword(adminId,newPassword).then((response)=>{
+      res.redirect("/admin/profile")
+    })
+   }else{
+    console.log(response.status);
+    passwordErr=true;
+    res.redirect("/admin/resetpassword")
+   }
+ })
+  res.redirect("/admin/resetpassword")
 });
 
 router.get("/add-product", function (req, res) {
@@ -86,7 +142,7 @@ router.get("/add-users", verifyLogin, (req, res) => {
 });
 
 router.post("/add-users",verifyLogin, (req, res) => {
-  req.body.Mobile = "+91"+req.body.Mobile
+  req.body.MobileNo = "+91"+req.body.MobileNo
   adminHelpers.addUser(req.body).then((response) => {
     if (response.status) {
       req.session.emailErr = true;
@@ -211,17 +267,38 @@ router.get("/sales",verifyLogin,async (req,res)=>{
   let sales = await adminHelpers.getSalesReport();
   res.render("admin/sales", {admin:true, sales,  });
 });
-router.get("/bestSelling",verifyLogin,async(req,res)=>{
+
+router.get("/salesdata",verifyLogin,async(req,res)=>{
   let bestSelling= await adminHelpers.getBestSellingProducts();
-   response.labels = bestSelling.map( item => item.product)
-   response.data = bestSelling.map( item => item.total)
-  console.log("calltest")
+   response.BSPlabel = bestSelling.map( item => item.product)
+   response.BSPdata = bestSelling.map( item => item.total)
+   let daysales=await adminHelpers.getDaySales();
+   response.DSlabel= daysales.map( item => item._id)
+   response.DSdata = daysales.map( item => item.total)
+   response.salesReport= await adminHelpers.getSalesReport();
   res.json(response)
 });
+
+router.get("/salesfilter/:filter",verifyLogin,async(req,res)=>{
+  let filter =req.params.filter
+   if(filter ==="Today"){
+    response.salesReport= await adminHelpers.getThisDaySalesReport();
+   }else if(filter ==="ThisMonth"){
+    response.salesReport= await adminHelpers.getThisMonthSalesReport();
+   }else if(filter ==="All"){
+    response.salesReport= await adminHelpers.getSalesReport();
+   }
+  res.json(response)
+});
+
 router.get("/enquiries",verifyLogin,async(req,res)=>{
   let enquiries=await adminHelpers.getEnquiries();
   res.render("admin/enquiery",{admin:true,enquiries}) 
 });
 
+router.get("/test",async(req,res)=>{
+  let date =moment().format('DD-MM-YYYY')
+  let thisMonhtSales = await adminHelpers.getThisDaySalesReport()
+})
 
 module.exports = router;

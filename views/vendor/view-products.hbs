@@ -1,3 +1,15 @@
+<style>
+    @import url("/stylesheets/admin.css");
+    .navbar-nav>li>a.productmanagement {
+    color: #e9ecef !important;
+    background: linear-gradient(90deg,
+        rgba(59, 125, 221, 0.1),
+        rgba(59, 125, 221, 0.0875) 50%,
+        transparent);
+    border-left: 4px solid #3b7ddd;
+  }
+</style>
+
 <div class="container-fluid px-lg-4">
     <div class="row">
         <div class="container-fluid px-lg-4">
@@ -29,31 +41,21 @@
                                 Overview of Top Selling Items
                             </h5>
                         </div>
-                        <div class="ml-auto">
-                            <div class="dl">
-                                <select class="custom-select">
-                                    <option value="0" selected="">Monthly</option>
-                                    <option value="1">Daily</option>
-                                    <option value="2">Weekly</option>
-                                    <option value="3">Yearly</option>
-                                </select>
-                            </div>
-                        </div>
+                       
                     </div>
                     <!-- title -->
                 </div>
                 <div class="table-responsive horizontal-scrollable">
-                    <table class="table v-middle">
+                    <table class="table v-middle" id="products">
                         <thead>
                             <tr class="bg-light">
                                 <th class="border-top-0">Image</th>
                                 <th class="border-top-0">Name</th>
                                 <th class="border-top-0">Price</th>
                                 <th class="border-top-0">Category</th>
-                                <th class="border-top-0">Tickets</th>
-                                <th class="border-top-0">Sales</th>
-                                <th class="border-top-0">Earnings</th>
+                                
                                 <th class="border-top-0">Actions</th>
+                                <th class="border-top-0"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,11 +75,7 @@
                                 <td>{{this.Price}}</td>
                                 <td>{{this.Category}}</td>
                                 
-                                <td>46</td>
-                                <td>356</td>
-                                <td>
-                                    <h5 class="m-b-0">$2850.06</h5>
-                                </td>
+                                
                                 <td>
                                     <a href="/vendor/edit-product/{{this._id}}" class=" btn btn-success">edit</a>
                                    
@@ -97,3 +95,23 @@
 
     </div>
 </div>
+
+<script>
+    $(document).ready( function () {
+    $('#products').DataTable();
+    } ); 
+
+    $("#bar").click(function () {
+            $(this).toggleClass("open");
+            $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
+        });
+        //
+         function toggleMenu() {
+        let navigation = document.querySelector(".navigation");
+        let toggle = document.querySelector(".toggle");
+
+        navigation.classList.toggle("active");
+        toggle.classList.toggle("active");
+       };
+       
+</script>

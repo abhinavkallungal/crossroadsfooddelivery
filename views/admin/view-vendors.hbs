@@ -1,4 +1,6 @@
 <style>
+    @import url("/stylesheets/admin.css");
+
   .navbar-nav>li>a.vendormanagement {
     color: #e9ecef !important;
     background: linear-gradient(90deg,
@@ -38,16 +40,7 @@
                                 Overview Of Top Vendors 
                             </h5>
                         </div>
-                        <div class="ml-auto">
-                            <div class="dl">
-                                <select class="custom-select">
-                                    <option value="0" selected="">Monthly</option>
-                                    <option value="1">Daily</option>
-                                    <option value="2">Weekly</option>
-                                    <option value="3">Yearly</option>
-                                </select>
-                            </div>
-                        </div>
+                        
                     </div>
                     <!-- title -->
                 </div>
@@ -60,8 +53,6 @@
                                 <th class="border-top-0">Place</th>
                                 <th class="border-top-0">Phone Number</th>
                                 <th class="border-top-0">Status</th>
-                                <th class="border-top-0">Sales</th>
-                                <th class="border-top-0">Earnings</th>
                                 <th class="border-top-0">Actions</th>
                             </tr>
                         </thead>
@@ -82,10 +73,7 @@
                                 <td>{{this.PhoneNumber}}</td>
                                 
                                 <td>{{this.Status}}</td>
-                                <td>356</td>
-                                <td>
-                                    <h5 class="m-b-0">$2850.06</h5>
-                                </td>
+                                
                                 <td>
                                     <a href="/admin/edit-vendor/{{this._id}}" class=" btn btn-success">edit</a>
                                    

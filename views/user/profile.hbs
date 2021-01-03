@@ -1,0 +1,116 @@
+<style>
+    body {
+    height: 100vh;
+}
+.container{
+    margin-top: 110px;
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #d50000
+}
+
+.profile-button {
+    background: #d50000;
+    box-shadow: none;
+    border: none
+}
+
+.profile-button:hover {
+    background:#d50000
+}
+a{
+    text-decoration: none;
+    color:  #d50000;
+}
+
+
+
+.profile-button:focus {
+    background: #d50000;
+    box-shadow: none
+}
+
+.profile-button:active {
+    background: #d50000;
+    box-shadow: none
+}
+
+.back:hover {
+    color: #d50000;
+    cursor: pointer
+}
+.text{
+    border: 1px #dbdadb solid;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+}
+</style>
+
+<div class="container rounded bg-white ">
+    <div class="row">
+        <div class="col-md-6 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" src="/images/profile.jpg" width="100"><span class="font-weight-bold">{{user.fname}}</span><span class="text-black-50">{{user.Email}}</span></div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <a href="/"><div class="d-flex flex-row align-items-center back"><i class="fa fa-long-arrow-left mr-1 mb-1"></i>
+                        <h6>Back to home</h6>
+                    </div></a>
+                    
+                    <a href="/resetpassword"><h6 class="text-right">Reset Password</h6></a>
+                </div>
+                <form action="/updateprofile/{{user._id}}" method="POST" id="profileupdate">
+                     <div class="row mt-2">
+                    <div class="col-md-12"><h6>First Name</h6><input type="text" class="form-control" name="Fname" placeholder="first name" value="{{user.Fname}}"></div>
+                    <div class="col-md-12"><h6>Second Name</h6><input type="text" class="form-control" name="Sname" placeholder="second name" value="{{user.Sname}}"></div>
+                    <div class="col-md-12"><h6>Email</h6><input type="text" class="form-control" name="Email" placeholder="email" value="{{user.Email}}"></div>
+                    <div class="col-md-12"><h6>Mobile</h6><input type="text" class="form-control" name="MobileNo" placeholder="mobile " value="{{user.MobileNo}}"></div>
+                    
+                </div>
+                
+                <div class="mt-1 text-right"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                </form>
+               
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+	$(document).ready(function () {
+		$("#profileupdate").validate({
+			rules: {
+				Email: {
+					required: true,
+					email: true,
+					minlength: 5
+
+				},
+				Fname: {
+					required: true,
+					minlength: 5,
+					number: false
+				},
+				MobileNo: {
+					required: true,
+					length: 10,
+					
+				},
+				
+
+			}
+		})
+	})
+
+
+
+
+
+</script>

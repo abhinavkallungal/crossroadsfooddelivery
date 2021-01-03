@@ -1,4 +1,6 @@
 <style>
+    @import url("/stylesheets/admin.css");
+
   .navbar-nav>li>a.userdelails {
     color: #e9ecef !important;
     background: linear-gradient(90deg,
@@ -45,37 +47,25 @@
                     <table class="table v-middle" id="viewUser">
                         <thead>
                             <tr class="bg-light">
-                                <th class="border-top-0">Logo</th>
+                               
                                 <th class="border-top-0">Name</th>
+                                <th class="border-top-0"> S Name</th>
                                 <th class="border-top-0">Status</th>
                                 <th class="border-top-0">Phone Number</th>
-                                <th class="border-top-0">Tickets</th>
-                                <th class="border-top-0">Sales</th>
-                                <th class="border-top-0">Earnings</th>
+                                <th class="border-top-0">Email</th>
+                                
                                 <th class="border-top-0">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {{#each users}}
                             <tr>
-                                <td>
-                                    <div class="d-flex align-items-center">
-                                        <div class="m-r-10">
-                                            <img src="" alt="">
-                                            {{!-- <a class="btn btn-circle btn-info text-white">EA</a> --}}
-                                        </div>
-                                       
-                                    </div>
-                                </td>
-                                <td><h4 class="m-b-0 font-16">{{this.Email}}</h4></td>
-                                <td>{{this.Status}}</td>
-                                <td>{{this.Mobile}}</td>
                                 
-                                <td>46</td>
-                                <td>356</td>
-                                <td>
-                                    <h5 class="m-b-0">$2850.06</h5>
-                                </td>
+                                <td><h4 class="m-b-0 font-16">{{this.Fname}}</h4></td>
+                                <td>{{this.Sname}}</td>
+                                <td>{{this.Status}}</td>
+                                <td>{{this.MobileNo}}</td>
+                                <td>{{this.Email}}</td>
                                 <td>
                                     <a href="/admin/edit-users/{{this._id}}" class=" btn btn-success">edit</a>
                                    

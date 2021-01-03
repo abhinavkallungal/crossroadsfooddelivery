@@ -1,3 +1,60 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200&display=swap');
+body {
+    display: grid;
+    place-items: center;
+    font-family: 'Manrope', sans-serif;
+    background: linear-gradient(to left top, #f0042d, #f52726, #f93a1d, #fc4a12, #ff5900);
+    color: #fff
+}
+
+html,
+body {
+    height: 100%
+}
+
+.not-found {
+    font-size: 220px;
+    font-weight: 700
+}
+
+
+#button i {
+    font-size: 23px
+}
+
+
+.send {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    border-radius: 1px;
+    box-shadow: 2px 3px #dc3545
+}
+
+.send:hover {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    border-radius: 1px;
+    box-shadow: 2px 3px #dc3545
+}
+</style>
+
 <h1>{{message}}</h1>
 <h2>{{error.status}}</h2>
 <pre>{{error.stack}}</pre>
+
+
+<div class="container-fluid text-center">
+    <div class="row">
+        <div class="col-md-6 pull-right"> <img src="https://i.imgur.com/1dJs49H.png" width="400" class="mt-2"> </div>
+        <div class="col-md-6">
+            <div class="pull-left">
+                <h1 class="not-found">404</h1>
+                <h3>Page you are looking for is not found!</h3>
+                <div class="text-center mt-4 mb-5"> <a href="/"  class="btn btn-success send px-3"><i class="fa fa-long-arrow-left mr-1"></i> Home page</a> <a href="/contactus" class="btn btn-success send ml-2 px-3"><i class="fa fa-phone mr-1"></i> Contact us</a> </div>
+            </div>
+        </div>
+    </div>
+</div>

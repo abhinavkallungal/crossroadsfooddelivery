@@ -1,3 +1,16 @@
+<style>
+    @import url("/stylesheets/admin.css");
+    .navbar-nav>li>a.sales {
+    color: #e9ecef !important;
+    background: linear-gradient(90deg,
+        rgba(59, 125, 221, 0.1),
+        rgba(59, 125, 221, 0.0875) 50%,
+        transparent);
+    border-left: 4px solid #3b7ddd;
+  }
+
+</style>
+
 <div class="col-md-12 mt-4">
     <div class="card">
         <div class="card-body">
@@ -58,6 +71,18 @@
 </div>
 
 <script>
+    $("#bar").click(function () {
+            $(this).toggleClass("open");
+            $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
+        });
+        //
+         function toggleMenu() {
+        let navigation = document.querySelector(".navigation");
+        let toggle = document.querySelector(".toggle");
+
+        navigation.classList.toggle("active");
+        toggle.classList.toggle("active");
+       };
     $(document).ready( function () {
     $('#sales_table').DataTable();
     } );

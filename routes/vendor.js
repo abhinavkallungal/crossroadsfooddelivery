@@ -4,7 +4,7 @@ var productHelpers = require("../helpers/product-helpers");
 const vendorHelpers = require("../helpers/vendor-helpers");
 
 const verifyLogin = (req, res, next) => {
-  if (req.session.loggedIn) {
+  if (req.session.vendorLoggedIn) {
     next();
   } else {
     res.redirect("/vendor/login");
@@ -14,18 +14,12 @@ const verifyLogin = (req, res, next) => {
 
 /* GET home page. */
 router.get("/", verifyLogin, function (req, res, next) {
-  vendordetails=req.session.user;
-  let tiltes = [{ title: "vendor " }];
-  let css = [{ css: "stylesheets/admindash.css" }];
-  let scripts = [
-    { script: "javascripts/vendordash.js" },
-    { script: "https://cdn.jsdelivr.net/npm/chart.js@2.8.0" },
-  ];
-  res.render("vendor/dashboard", { vendordetails,vendor: true, scripts, css, tiltes });
+  vendordetails=req.session.vendor;
+  res.render("vendor/dashboard", { vendordetails,vendor: true});
 });
 
 router.get("/login", (req, res) => {
-  if (req.session.loggedIn) {
+  if (req.session.vendorLoggedIn) {
     res.redirect("/vendor");
   } else {
     res.render("vendor/vendor-login", { loginErr: req.session.loginErr });
@@ -36,8 +30,8 @@ router.get("/login", (req, res) => {
 router.post("/login", (req, res) => {
   vendorHelpers.doLogin(req.body).then((response) => {
     if (response.status) {
-      req.session.loggedIn = true;
-      req.session.user = response.user;
+      req.session.vendorLoggedIn = true;
+      req.session.vendor = response.user;
       res.redirect("/vendor");
       console.log("logedin");
     } else {
@@ -48,14 +42,14 @@ router.post("/login", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.session.destroy();
+  req.session.vendorLoggedIn=false;
+  req.session.vendor=null
   res.redirect("/vendor/login");
 });
 
 router.get("/products", verifyLogin, function (req, res) {
-  VendorId=req.session.user._id;
-  
-  productHelpers.getAllProducts(VendorId).then((products) => {
+  VendorId=req.session.vendor._id;
+  productHelpers.getVendorProducts(VendorId).then((products) => {
     let tiltes = [{ title: "vendor " }];
     let css = [{ css: "/stylesheets/product-management.css" }];
     let scripts = [{ script: "/javascripts/vendordash.js" }];
@@ -64,7 +58,7 @@ router.get("/products", verifyLogin, function (req, res) {
 });
 
 router.get("/add-product", verifyLogin, function (req, res) {
-  vendordetails=req.session.user;
+  vendordetails=req.session.vendor;
   vendorHelpers.getAllCategorys().then((categorys) => {
     let tiltes = [{ title: "vendor " }];
     let css = [{ css: "/stylesheets/product-management.css" }];
@@ -117,23 +111,23 @@ router.post("/edit-product/:id", (req, res) => {
 router.get("/orders",verifyLogin,async(req,res)=>{
   let css = [{ css: "/stylesheets/product-management.css" }];
   let scripts = [{ script: "/javascripts/vendordash.js" }];
-  console.log(req.session.user._id);
-  orders=await vendorHelpers.getVendorsOrder(req.session.user._id)
+  console.log(req.session.vendor._id);
+  orders=await vendorHelpers.getVendorsOrder(req.session.vendor._id)
   res.render("vendor/order", {  orders,scripts, css,vendor: true })
 });
 router.get("/vieworder/:id",verifyLogin,async(req,res)=>{
   let css = [{ css: "/stylesheets/product-management.css" }];
   let scripts = [{ script: "/javascripts/vendordash.js" }];
-  console.log(req.session.user._id);
+  console.log(req.session.vendor._id);
   let orderId=req.params.id
-  order=await vendorHelpers.getOrderDetails(orderId,req.session.user._id)
+  order=await vendorHelpers.getOrderDetails(orderId,req.session.vendor._id)
   res.render("vendor/each-order-view", { order,scripts, css,vendor: true })
 });
 router.post("/changestatus",(req,res)=>{
   console.log(req.body);
   let  status = req.body.status
   let orderId =req.body.orderId
-  vendorHelpers.updateOrderStatus(orderId,status, req.session.user._id).then(() => {
+  vendorHelpers.updateOrderStatus(orderId,status, req.session.vendor._id).then(() => {
     res.redirect("/vendor/products");
     let id = req.params.id;
     
@@ -143,7 +137,7 @@ router.post("/changestatus",(req,res)=>{
 router.get("/sales",verifyLogin,async (req,res)=>{
   let css = [{ css: "/stylesheets/product-management.css" }];
   let scripts = [{ script: "/javascripts/vendordash.js" }];
-  let sales = await vendorHelpers.getSalesReport(req.session.user._id)
+  let sales = await vendorHelpers.getSalesReport(req.session.vendor._id)
   res.render("vendor/sales", {vendor:true,sales,css,scripts});
 });
 

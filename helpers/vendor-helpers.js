@@ -50,6 +50,9 @@ module.exports = {
                 {
                  $match: { "products._id": objectId(vendorId) },
                 },
+                { 
+                    $sort : { date : -1 }
+                },
                 {
                     $project: {
                         _id: 1,
@@ -59,9 +62,7 @@ module.exports = {
                         deliveryDetails:1
                       },
                 },
-                { 
-                    $sort : { date : -1 }
-                },
+                
               ]).toArray()
               console.log("vendorOrder",vendorOrder);
               resolve(vendorOrder)

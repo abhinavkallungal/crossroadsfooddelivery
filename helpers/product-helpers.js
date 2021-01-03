@@ -16,7 +16,7 @@ module.exports = {
 
 
     //=> product get from database
-    getAllProducts: () => {
+    getAllProducts: (vendorId) => {
         return new Promise(async (resolve, reject) => {
             let products = await db.get().collection(collections.PRODUCT_COLLECTIONS).find().toArray()
             resolve(products)
@@ -24,7 +24,7 @@ module.exports = {
         })
     },
 
-    getvendorProducts: (VendorId) => {
+    getVendorProducts: (VendorId) => {
         return new Promise(async (resolve, reject) => {
             let products = await db.get().collection(collections.PRODUCT_COLLECTIONS).find({VendorId:VendorId}).toArray()
             resolve(products)

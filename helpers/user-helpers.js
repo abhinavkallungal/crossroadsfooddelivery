@@ -7,6 +7,7 @@ const client = require("twilio")(config.accountSID, config.authToken);
 const Razorpay = require("razorpay")
 const crypto = require('crypto');
 const { resolve } = require("path");
+const { response } = require("express");
 var instance = new Razorpay({
   key_id: 'rzp_test_GyVJAdzPLcnbjg',
   key_secret: 'L23H9XwK9v1B9XsD9vArpHXm',
@@ -82,8 +83,6 @@ module.exports = {
       }
 
     })
-
-
   },
   doMobileValidation: (mobile) => {
     console.log(mobile);
@@ -147,6 +146,55 @@ module.exports = {
 
     })
   },
+  updateProfile:(userId, userDetails) => {
+    return new Promise((resolve, reject) => {
+        db.get().collection(collections.USER_COLLECTIONS).updateOne({ _id: objectId(userId) }, {
+            $set: {
+                Fname: userDetails.Fname,
+                Sname: userDetails.Sname,
+                Email: userDetails.Email,
+                MobileNo: userDetails.MobileNo, 
+            }
+        }).then((response) => {
+            resolve()
+        })
+    })
+   },
+   checkPassword:(userId,oldPassword)=>{
+    return new Promise (async(resolve,reject)=>{
+      let response={};
+      let user = await db.get().collection(collections.USER_COLLECTIONS)
+        .findOne({ _id: objectId(userId) });
+      if (user) {
+        bcrypt.compare(oldPassword,user.Password).then((status) => {
+          if (status) {
+            console.log("login success");
+            response.status = true;
+            resolve(response);
+          } else {
+            console.log("login failed 1");
+            resolve({ status: false });
+          }
+        });
+      }else {
+        console.log("login failed 2");
+        resolve({ status: false });
+      }
+    })
+   },
+
+  resetPassword:(userId,newPassword)=>{
+   return new Promise (async(resolve ,reject)=>{
+    newPassword = await bcrypt.hash(newPassword, 10);
+     await db.get().collection(collections.USER_COLLECTIONS).updateOne({_id:objectId(userId)}, {
+      $set: {
+          Password: newPassword
+      }
+    }).then(response)
+    resolve(response)
+   })
+   },
+   
   addEnquiery:(enquiery)=>{
     return new Promise (async (resolve,reject)=>{
       db.get().collection(collections.ENQUIRIES_COLLECTIONS).insertOne(enquiery)
@@ -155,7 +203,12 @@ module.exports = {
       })
     })
   },
-
+  getAllVendors:()=>{
+    return new Promise(async(resolve,reject)=>{
+        let vendors=await db.get().collection(collections.VENDOR_COLLECTIONS).find({Status:"Active"}).toArray()
+        resolve(vendors)
+    })
+},
   checkCartAvaiable: (userId) => {
     return new Promise(async (resolve, reject) => {
       let userCart = await db.get().collection(collections.CART_COLLECTIONS)

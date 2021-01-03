@@ -1,4 +1,6 @@
 <style>
+  @import url("/stylesheets/admin.css");
+
   .navbar-nav>li>a.dashboard {
     color: #e9ecef !important;
     background: linear-gradient(90deg,
@@ -32,9 +34,9 @@
         <div class="col-sm-3">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title mb-4">Sales</h5>
-              <h1 class="display-5 mt-1 mb-3">2.382</h1>
-              <div class="mb-1">
+              <h5 class="card-title mb-4">today Earnings</h5>
+              <h1 class="display-5 mt-1 mb-3" id="todaySales"> RS:{{todaySales}}</h1>
+              <div class="mb-1" hidden>
                 <span class="text-danger">
                   <i class="mdi mdi-arrow-bottom-right"></i> -3.65%
                 </span>
@@ -46,9 +48,9 @@
         <div class="col-sm-3">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title mb-4">Sales</h5>
-              <h1 class="display-5 mt-1 mb-3">2.382</h1>
-              <div class="mb-1">
+              <h5 class="card-title mb-4">Monht Earnings</h5>
+              <h1 class="display-5 mt-1 mb-3">RS:{{thisMonhtSales}}</h1>
+              <div class="mb-1" hidden> 
                 <span class="text-danger">
                   <i class="mdi mdi-arrow-bottom-right"></i> -3.65%
                 </span>
@@ -60,9 +62,9 @@
         <div class="col-sm-3">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title mb-4">Sales</h5>
-              <h1 class="display-5 mt-1 mb-3">2.382</h1>
-              <div class="mb-1">
+              <h5 class="card-title mb-4">Total Order</h5>
+              <h1 class="display-5 mt-1 mb-3">{{totalOrder}}</h1>
+              <div class="mb-1" hidden>
                 <span class="text-danger">
                   <i class="mdi mdi-arrow-bottom-right"></i> -3.65%
                 </span>
@@ -74,9 +76,9 @@
         <div class="col-sm-3">
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title mb-4">Earnings</h5>
-              <h1 class="display-5 mt-1 mb-3">$21.300</h1>
-              <div class="mb-1">
+              <h5 class="card-title mb-4">Total Earnings</h5>
+              <h1 class="display-5 mt-1 mb-3">RS:{{totalEarnings}}</h1>
+              <div class="mb-1" hidden>
                 <span class="text-success">
                   <i class="mdi mdi-arrow-bottom-right"></i> 6.65%
                 </span>
@@ -95,128 +97,47 @@
           <!-- title -->
           <div class="d-md-flex align-items-center">
             <div>
-              <h4 class="card-title">Top Selling Products</h4>
+              <h4 class="card-title">All Sales</h4>
               <h5 class="card-subtitle">
-                Overview of Top Selling Items
+                Overview of Sales
               </h5>
             </div>
             <div class="ml-auto">
-              <div class="">
-                <select class="custom-select">
-                  <option value="0" selected="">Monthly</option>
-                  <option value="1">Daily</option>
-                  <option value="2">Weekly</option>
-                  <option value="3">Yearly</option>
-                </select>
-              </div>
+              
             </div>
           </div>
           <!-- title -->
         </div>
         <div class="table-responsive">
-          <table class="table v-middle">
+          <table class="table v-middle" id="sales_table">
             <thead>
               <tr class="bg-light">
-                <th class="border-top-0">Products</th>
-                <th class="border-top-0">License</th>
-                <th class="border-top-0">Support Agent</th>
-                <th class="border-top-0">Technology</th>
-                <th class="border-top-0">Tickets</th>
-                <th class="border-top-0">Sales</th>
-                <th class="border-top-0">Earnings</th>
+                <th class="border-top-0">Date</th>
+                <th class="border-top-0">Order Id</th>
+                <th class="border-top-0">Price</th>
+                <th class="border-top-0">payment Method</th>
+                <th class="border-top-0">vendorName</th>
+                
               </tr>
             </thead>
-            <tbody>
+            <tbody id="salestable">
+              {{#each salesReport}}
               <tr>
                 <td>
                   <div class="d-flex align-items-center">
-                    <div class="m-r-10">
-                      <a class="btn btn-circle btn-info text-white">EA</a>
-                    </div>
                     <div class="">
-                      <h4 class="m-b-0 font-16">Elite Admin</h4>
+                      <h4 class="m-b-0 font-16">{{this.date}}</h4>
                     </div>
                   </div>
                 </td>
-                <td>Single Use</td>
-                <td>John Doe</td>
-                <td>
-                  <label class="label label-danger">Angular</label>
-                </td>
-                <td>46</td>
-                <td>356</td>
-                <td>
-                  <h5 class="m-b-0">$2850.06</h5>
-                </td>
+                <td>{{this.orderId}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.paymentMethod}}</td>
+                <td>{{this.vendorName}}</td>
+                
               </tr>
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="m-r-10">
-                      <a class="btn btn-circle btn-orange text-white">MA</a>
-                    </div>
-                    <div class="">
-                      <h4 class="m-b-0 font-16">Monster Admin</h4>
-                    </div>
-                  </div>
-                </td>
-                <td>Single Use</td>
-                <td>Venessa Fern</td>
-                <td>
-                  <label class="label label-info">Vue Js</label>
-                </td>
-                <td>46</td>
-                <td>356</td>
-                <td>
-                  <h5 class="m-b-0">$2850.06</h5>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="m-r-10">
-                      <a class="btn btn-circle btn-success text-white">MP</a>
-                    </div>
-                    <div class="">
-                      <h4 class="m-b-0 font-16">
-                        Material Pro Admin
-                      </h4>
-                    </div>
-                  </div>
-                </td>
-                <td>Single Use</td>
-                <td>John Doe</td>
-                <td>
-                  <label class="label label-success">Bootstrap</label>
-                </td>
-                <td>46</td>
-                <td>356</td>
-                <td>
-                  <h5 class="m-b-0">$2850.06</h5>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="m-r-10">
-                      <a class="btn btn-circle btn-purple text-white">AA</a>
-                    </div>
-                    <div class="">
-                      <h4 class="m-b-0 font-16">Ample Admin</h4>
-                    </div>
-                  </div>
-                </td>
-                <td>Single Use</td>
-                <td>John Doe</td>
-                <td>
-                  <label class="label label-purple">React</label>
-                </td>
-                <td>46</td>
-                <td>356</td>
-                <td>
-                  <h5 class="m-b-0">$2850.06</h5>
-                </td>
-              </tr>
+              {{/each}}
+              
             </tbody>
           </table>
         </div>
@@ -251,89 +172,137 @@
 </div>
 
 
+
 <script>
-   $("#bar").click(function () {
-            $(this).toggleClass("open");
-            $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
-        });
-        //
-         function toggleMenu() {
+      $("#bar").click(function () {
+        $(this).toggleClass("open");
+        $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
+    });
+    //
+    function toggleMenu() {
         let navigation = document.querySelector(".navigation");
         let toggle = document.querySelector(".toggle");
 
         navigation.classList.toggle("active");
         toggle.classList.toggle("active");
-       }
+    }
 
-  let labels1 = ["PRO1", "PRO2"];
-  let data1 = [69, 31];
-  let color1 = ["#49A9EA", "#36CAAB"];
+   let BSPlabel
+   let BSPdata
+   let DSlabel
+   let DSdata
+   let todaySales
 
-  let mychart1 = document.getElementById("myChart1").getContext("2d");
-  let chart1 = new Chart(mychart1, {
-    type: "doughnut",
-    data: {
-      labels: labels1,
-      datasets: [
-        {
-          data: data1,
-          backgroundColor: color1,
+    $(document).ready(function () {
+        console.log("test api call")
+        $.ajax({
+            url: '/admin/chartData',
+            method: 'get',
+            success: (response) => {
+                if (response) {
+                    BSPlabel=response.BSPlabel
+                    BSPdata=response.BSPdata
+                    DSlabel=response.DSlabel
+                    DSdata=response.DSdata
+                    salesReport=response.salesReport
+                    todaySales=response.todaySales
+                    chart() 
+                   
+                    
+                } 
+            }
+        })
+         
+    });
+
+   
+
+
+    function table(salesReport){
+      let table =document.getElementById("sales_table")
+      for (var i=0; i<salesReport.length;i++){
+        var row = `<tr>
+                      <td>${salesReport[i].date}</td>
+                      <td>${salesReport[i]._id}</td>
+                      <td>${salesReport[i].toatlAmount}</td>
+                      <td>${salesReport[i].paymentMethod}</td>
+                      <td>${salesReport[i].vendorName}</td>
+                   </tr>`
+
+             table.innerHTML+=row      
+      }
+     
+    };
+
+
+
+    function chart(){
+    
+    let color1 = ["#49A9EA", "#36CAAB", "#49EA", "#36CAAB"];
+
+    let mychart1 = document.getElementById("myChart1").getContext("2d");
+    let chart1 = new Chart(mychart1, {
+        type: "doughnut",
+        data: {
+            labels: BSPlabel,
+            datasets: [
+                {
+                    data: BSPdata,
+                    backgroundColor: color1,
+                },
+            ],
         },
-      ],
-    },
-    options: {
-      // title:{
-      //     text:"do you like ",
-      //     fontColor: 'black',
-      //     display:true
-      // },
-      legend: {
-        labels: {
-          fontColor: "black",
-          fontNumber: 30,
+        options: {
+            
+            legend: {
+                labels: {
+                    fontColor: "black",
+                    fontNumber: 30,
+                },
+            },
         },
-      },
-    },
-  });
+    });
 
-  let labels2 = ["THIS MONTH", "LAST MONTH"];
-  let data2 = [69, 31];
-  let color2 = ["#49A9EA", "#36CAAB"];
+    
 
-  let mychart2 = document.getElementById("myChart2").getContext("2d");
-  let chart2 = new Chart(mychart2, {
-    type: "pie",
-    data: {
-      labels: labels2,
-      datasets: [
-        {
-          data: data2,
-          backgroundColor: color2,
+    let color2 = ["#49A9EA", "#36CAAB"];
+
+    let mychart2 = document.getElementById("myChart2").getContext("2d");
+    let chart2 = new Chart(mychart2, {
+        type: "pie",
+        data: {
+            labels: DSlabel,
+            datasets: [
+                {
+                    data: DSdata,
+                    backgroundColor: color2,
+                },
+            ],
         },
-      ],
-    },
-    options: {
-      // title:{
-      //     text:"do you like ",
-      //     fontColor: 'black',
-      //     display:true
-      // },
-      legend: {
-        labels: {
-          fontColor: "black",
-          fontNumber: 30,
+        options: {
+            // title:{
+            //     text:"do you like ",
+            //     fontColor: 'black',
+            //     display:true
+            // },
+            legend: {
+                labels: {
+                    fontColor: "black",
+                    fontNumber: 30,
+                },
+            },
         },
-      },
-    },
-  });
+    });
 
+    }
 
-
-  $(document).ready(function () {
+    $(document).ready( function () {
     $('#sales_table').DataTable();
-  });
+    } );
 
-  $('#sales_table').DataTable({
-    ordering: false
-  }); 
+    $('#sales_table').DataTable( {
+     ordering: false
+    } );
+
+    
 </script>

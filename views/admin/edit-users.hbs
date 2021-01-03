@@ -1,4 +1,6 @@
 <style>
+    @import url("/stylesheets/admin.css");
+
   .navbar-nav>li>a.userdelails {
     color: #e9ecef !important;
     background: linear-gradient(90deg,
@@ -49,7 +51,7 @@
                             
                             <label for="">Mobile</label>
                             <input type="text" name="Mobile" class="form-control"
-                                value="{{userDetails.Mobile}}">
+                                value="{{userDetails.MobileNo}}">
                             <button type="submit" class="btn btn-success mt-4">Submit</button>
                             <a href="/admin/view-users" class="btn btn-warning mt-4">Cancel</a>
                         </form>
