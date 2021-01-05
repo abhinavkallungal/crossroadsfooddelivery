@@ -2,7 +2,7 @@ var db = require("../config/connection");
 var collections = require("../config/collections");
 const bcrypt = require("bcrypt");
 var objectId = require('mongodb').ObjectID
-var moment = require('moment')
+let  moment = require('moment')
 
 module.exports = {
     doSignup: (adminData) => {
@@ -487,6 +487,9 @@ module.exports = {
     getDaySales: () => {
         return new Promise(async (resolve, reject) => {
             let sales = await db.get().collection(collections.ORDER_COLLECTIONS).aggregate([
+                {
+                    $sort: { date: -1 }
+                },
                 {
                     $project: {
                         toatlAmount: "$toatlAmount",

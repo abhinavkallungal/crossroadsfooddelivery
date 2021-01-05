@@ -11,24 +11,39 @@
 
 </style>
 
-<div class="col-md-12 mt-4">
-    <div class="card">
+<div class="row">
+    <div class="container-fluid px-lg-4">
+        <div class="row">
+            <div class="col-md-12 mt-lg-4 mt-4">
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">SALES REPORT</h1>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+<div class=" container-fluid col-md-12 mt-4">
+    <div class="card container-fluid">
         <div class="card-body">
             <!-- title -->
             <div class="d-md-flex align-items-center">
                 <div>
-                    <h4 class="card-title">Top Selling Products</h4>
+                    <h4 class="card-title">Sales</h4>
                     <h5 class="card-subtitle">
-                        Overview of Top Selling Items
+                        Overview of Sales
                     </h5>
                 </div>
                 <div class="ml-auto">
                     <div class="dl">
-                        <select class="custom-select">
-                            <option value="0" selected="">Monthly</option>
-                            <option value="1">Daily</option>
-                            <option value="2">Weekly</option>
-                            <option value="3">Yearly</option>
+                        <select class="custom-select" onChange="myFunction(this.options[this.selectedIndex].value)">
+                            <option value="All" selected="">All</option>
+                            <option value="Today">Today</option>
+                            <option value="ThisMonth">This Month</option>
                         </select>
                     </div>
                 </div>
@@ -43,51 +58,91 @@
                         <th class="border-top-0">DATE</th>
                         <th class="border-top-0">PRICE</th>
                         <th class="border-top-0">PAYMENT METHOD</th>
-                      
+                        
                     </tr>
                 </thead>
-                <tbody>
-                    {{#each sales}}
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <div class="">
-                                    <h4 class="m-b-0 font-16">{{this.date}}</h4>
-                                </div>
-                            </div>
-                        </td>
-                        <td>{{this.orderId}}</td>
-                        <td>{{this.price}}</td>
-                        <td>{{this.paymentMethod}}</td>
-                        
-                        
-                    </tr>
-                    {{/each}}
-                  
+                <tbody id="salestable">
+
+
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
+
+
 <script>
     $("#bar").click(function () {
-            $(this).toggleClass("open");
-            $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
-        });
-        //
-         function toggleMenu() {
+        $(this).toggleClass("open");
+        $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
+    });
+    //
+    function toggleMenu() {
         let navigation = document.querySelector(".navigation");
         let toggle = document.querySelector(".toggle");
 
         navigation.classList.toggle("active");
         toggle.classList.toggle("active");
-       };
-    $(document).ready( function () {
-    $('#sales_table').DataTable();
-    } );
+    }
 
-    $('#sales_table').DataTable( {
-     ordering: false
-    } );
+    
+    let salesReport
+
+    $(document).ready(function () {
+        console.log("test api call")
+        $.ajax({
+            url: '/vendor/salesdata',
+            method: 'get',
+            success: (response) => {
+                if (response) { 
+                    salesReport = response.salesReport
+                     table(salesReport)
+
+
+                }
+
+
+            }
+        })
+
+    });
+    function myFunction(chosen) {
+        console.log(chosen);
+        $.ajax({
+            url: '/vendor/salesfilter/'+chosen,
+            method: 'get',
+            success: (response) => {
+                if (response) {
+                    salesReport = response.salesReport
+                    table(salesReport)
+                }
+
+
+            }
+        })
+    };
+    
+
+    function table(salesReport) {
+        let table = document.getElementById("salestable")
+        table.innerHTML =""
+        for (var i = 0; i < salesReport.length; i++) {
+            var row = `<tr>
+                      <td>${salesReport[i].date}</td>
+                      <td>${salesReport[i].orderId}</td>
+                      <td>${salesReport[i].price}</td>
+                      <td>${salesReport[i].paymentMethod}</td>
+                   </tr>`
+
+            table.innerHTML += row
+        }
+
+    };
+
+  
+
+
+
+
 </script>

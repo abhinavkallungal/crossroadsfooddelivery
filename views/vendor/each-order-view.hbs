@@ -1,14 +1,15 @@
 <style>
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
     @import url("/stylesheets/admin.css");
+
     .navbar-nav>li>a.ordermanagement {
-    color: #e9ecef !important;
-    background: linear-gradient(90deg,
-        rgba(59, 125, 221, 0.1),
-        rgba(59, 125, 221, 0.0875) 50%,
-        transparent);
-    border-left: 4px solid #3b7ddd;
-  }
+        color: #e9ecef !important;
+        background: linear-gradient(90deg,
+                rgba(59, 125, 221, 0.1),
+                rgba(59, 125, 221, 0.0875) 50%,
+                transparent);
+        border-left: 4px solid #3b7ddd;
+    }
 
 
 
@@ -201,11 +202,11 @@
         transition: none
     }
 
-    .test{
+    .test {
         width: 100%;
         background: #fff;
         padding: 5px;
-       
+
         border-radius: 10px;
         margin-bottom: 0%;
     }
@@ -216,6 +217,66 @@
         background-position-x: 95%;
         background-position-y: center
     }
+    @import url('https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800,900|Rubik:300,400,500,700,900');
+
+.bbb_advs {
+    width: 100%;
+    padding-top: 80px;
+    padding-bottom: 80px
+}
+
+.bbb_adv {
+    width: 100%;
+    height: 180px;
+    border: solid 1px #e8e8e8;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1)
+}
+
+.bbb_adv_content {
+    padding-left: 30px
+}
+
+.bbb_adv_subtitle {
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 26px
+}
+
+.bbb_adv_title a {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000000
+}
+
+.bbb_adv_title a:hover {
+    color: #0e8ce4
+}
+
+.bbb_adv_title_2 a {
+    font-size: 18px;
+    font-weight: 500;
+    color: #0e8ce4
+}
+
+.bbb_adv_title_2 a:hover {
+    opacity: 0.8
+}
+
+.bbb_adv_text {
+    color: #828282;
+    margin-top: 10px;
+    font-size: 14px
+}
+
+.bbb_adv_image {
+    width: 178px;
+    height: 100%
+}
+
+.bbb_adv_image img {
+    display: block;
+    max-width: 100%
+}
 </style>
 <main>
     <section>
@@ -228,155 +289,81 @@
                         </div>
                         <hr>
                         <div class="col" style="padding-left:0;">ORDER ID:{{order._id}}</div>
-                        <div class="col" style="padding-left:0;">PAYMENT:RS:{{order.products.totalPrice}} ({{order.paymentMethod}} )</div>
-                        <form  id="update-form">
+                        <div class="col" style="padding-left:0;">PAYMENT:RS:{{order.products.totalPrice}}
+                            ({{order.paymentMethod}} )</div>
+                        <form id="update-form">
                             <label for="sel1">Order Status</label>
-                                <select class="form-control" name="status" id="sel1">
-                                    <option value="{{order.products.status}}">{{order.products.status}}</option>
-                                    <option value="Accept">Accept</option>
-                                    <option value="Dispatched">Dispatched</option>
-                                    <option value="Delivered">Delivered</option>
-                                </select>
-                                <input type="text" name="orderId" id="" value="{{order._id}}" hidden>
-                                <button class="w-100 btn btn-primary btn-lg" type="submit">UPDATE STATUS</button>
+                            <select class="form-control" name="status" id="sel1">
+                                <option value="{{order.products.status}}">{{order.products.status}}</option>
+                                <option value="Accept">Accept</option>
+                                <option value="Dispatched">Dispatched</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+                            <input type="text" name="orderId" id="" value="{{order._id}}" hidden>
+                            <button class="w-100 btn btn-primary btn-lg" type="submit">UPDATE STATUS</button>
                         </form>
-                        <div  class="needs-validation">
-                                <div class="row g-3">
-                                    <div class="col-sm-12">
-                                        <label for="firstName" class="form-label">First name</label>
-                                        <p class=" test">{{order.deliveryDetails.FirstName}}</p>       
-                                    </div>
-
-                                    <div class="col-sm-12">
-                                        <label for="lastName" class="form-label">Name</label>
-                                        <p class=" test">{{order.deliveryDetails.FirstName}} {{order.deliveryDetails.LastName}}</p>  
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label for="firstName" class="form-label">First name</label>
-                                        <p class=" test">{{order.deliveryDetails.Email}}</p>    
-                                    </div>
-
-                                    <div class="col-sm-12">
-                                        <label for="lastName" class="form-label">Last name</label>
-                                       <p class=" test">{{order.deliveryDetails.Address}},{{order.deliveryDetails.Address2}},{{order.deliveryDetails.Zip}},</p>  
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label for="firstName" class="form-label">First name</label>
-                                        <p class=" test">{{order.deliveryDetails.Mobile}},</p>  
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <label for="lastName" class="form-label">Last name</label>
-                                        <p class=" test">dsdsg</p>  
-                                    </div>
+                        <div class="needs-validation">
+                            <div class="row g-3">
+                                <h4 class="mb-3">Billing address</h4>
+                                <div class="col-sm-12">
+                                    <label for="lastName" class="form-label">Name</label>
+                                    <p class=" test">{{order.deliveryDetails.FirstName}}
+                                        {{order.deliveryDetails.LastName}}</p>
                                 </div>
-                                <input type="text" name="userId" id="" value="{{user._id}}" hidden>
-                                <hr class="my-4">
-                                <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
+                                <div class="col-sm-12">
+                                    <label for="firstName" class="form-label">Email</label>
+                                    <p class=" test">{{order.deliveryDetails.Email}}</p>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <label for="lastName" class="form-label">Address</label>
+                                    <p class=" test">
+                                        {{order.deliveryDetails.Address}},{{order.deliveryDetails.Address2}},{{order.deliveryDetails.Zip}},
+                                    </p>
+                                </div>
+                                <div class="col-sm-12">
+                                    <label for="firstName" class="form-label">Mobile No</label>
+                                    <p class=" test">{{order.deliveryDetails.Mobile}},</p>
+                                </div>
+
                             </div>
-                        <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                            <div class="col">TOTAL PRICE</div>
-                            <div class="col text-right"> RS:{{total}}</div>
+
+
                         </div>
+
                     </div>
                     <div class="col-md-8 cart">
                         <div class="col-md-7 col-lg-12">
-                            <h4 class="mb-3">Billing address</h4>
-                            <form id="checkout-form" class="needs-validation">
-                                <div class="row g-3">
-                                    <div class="col-sm-6">
-                                        <label for="firstName" class="form-label">First name</label>
-                                        <input type="text" name="firstName" class="form-control" id="firstName"
-                                            placeholder="" value="" required>
-                                        <div class="invalid-feedback">
-                                            Valid first name is required.
+                            <div class="row">
+                                <div class="bbb_advs">
+                                <div class="container">
+                                    <div class="row">
+                                        {{#each Orderproducts}}
+                                        <div class="col-lg-6 bbb_adv_col">
+                                            <!-- bbb_adv Item -->
+                                            <div
+                                                class="bbb_adv d-flex flex-row align-items-center justify-content-start">
+                                                <div class="bbb_adv_content">
+                                                    <div class="bbb_adv_title">{{this.product.Name}}</div>
+                                                    <div class="bbb_adv_text">Quantity:{{this.quantity}}</div>
+                                                </div>
+                                                <div class="ml-auto">
+                                                    <div class="bbb_adv_image"><img
+                                                            src="/product-images/{{this.item}}.jpg"
+                                                            alt=""></div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="col-sm-6">
-                                        <label for="lastName" class="form-label">Last name</label>
-                                        <input type="text" class="form-control" name="lastName" id="lastName"
-                                            placeholder="" value="" required>
-                                        <div class="invalid-feedback">
-                                            Valid last name is required.
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="email" class="form-label">Email <span
-                                                class="text-muted">(Optional)</span></label>
-                                        <input type="email" class="form-control" name="Email" id="email"
-                                            placeholder="you@example.com">
-                                        <div class="invalid-feedback">
-                                            Please enter a valid email address for shipping updates.
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <label for="mobile" class="form-label">Mobile</label>
-                                        <input type="number" class="form-control" name="Mobile" id="Mobile"
-                                            placeholder="" required>
-                                        <div class="invalid-feedback">
-                                            Mobile required.
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label for="address" class="form-label">Address</label>
-                                        <input type="text" class="form-control " name="Address" id="address"
-                                            placeholder="1234 Main St" required>
-                                        <div class="invalid-feedback">
-                                            Please enter your shipping address.
-                                        </div>
-                                    </div>
-
-                                    <div class="col-9">
-                                        <label for="address2" class="form-label">Address 2 <span
-                                                class="text-muted">(Optional)</span></label>
-                                        <input type="text" class="form-control" name="Address2" id="address2"
-                                            placeholder="Apartment or suite">
-                                    </div>
-
-
-
-                                    <div class="col-md-3">
-                                        <label for="zip" class="form-label">Zip</label>
-                                        <input type="number" class="form-control" name="zip" id="zip" placeholder=""
-                                            required>
-                                        <div class="invalid-feedback">
-                                            Zip code required.
-                                        </div>
+                                        {{/each}}
+                                       
+                                        
                                     </div>
                                 </div>
-                                <input type="text" name="userId" id="" value="{{user._id}}" hidden>
+                            </div>
+                            
+                            </div>
+                            
 
-
-                                <hr class="my-4">
-
-                                <h4 class="mb-3">Payment</h4>
-
-                                <div class="my-3">
-                                    <div class="form-check">
-                                        <input id="credit" name="payment-method" type="radio" value="COD"
-                                            class="form-check-input" checked required>
-                                        <label class="form-check-label" for="credit">COD</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input id="debit" name="payment-method" value="online" type="radio"
-                                            class="form-check-input" required>
-                                        <label class="form-check-label" for="debit">Debit card</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input id="paypal" name="payment-method" type="radio" class="form-check-input"
-                                            required>
-                                        <label class="form-check-label" for="paypal">PayPal</label>
-                                    </div>
-                                </div>
-
-
-
-                                <hr class="my-4">
-
-                                <button class="w-100 btn btn-primary btn-lg" type="submit">Continue to checkout</button>
-                            </form>
                         </div>
                     </div>
 
@@ -398,26 +385,26 @@
                 data: $('#update-form').serialize(),
                 method: 'post',
                 success: (response) => {
-                    
-                    if (response=== true) {
-                        
+
+                    if (response === true) {
+
                     } else {
-                        
+
                     }
                 }
             })
         });
     });
     $("#bar").click(function () {
-            $(this).toggleClass("open");
-            $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
-        });
-        //
-         function toggleMenu() {
+        $(this).toggleClass("open");
+        $("#page-content-wrapper ,#sidebar-wrapper").toggleClass("toggled");
+    });
+    //
+    function toggleMenu() {
         let navigation = document.querySelector(".navigation");
         let toggle = document.querySelector(".toggle");
 
         navigation.classList.toggle("active");
         toggle.classList.toggle("active");
-       }
+    }
 </script>
