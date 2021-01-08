@@ -16,7 +16,7 @@ module.exports = {
         });
     },
 
-
+    //this function for admin login
     doLogin: (adminData) => {
         return new Promise(async (resolve, reject) => {
             let loginStatus = false;
@@ -43,6 +43,9 @@ module.exports = {
             }
         });
     },
+
+
+    //this is for  update admin profile
     updateProfile:(adminId, adminDetails) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.ADMIN_COLLECTIONS).updateOne({ _id: objectId(adminId) }, {
@@ -58,6 +61,8 @@ module.exports = {
         })
     },
     
+
+    //this is for  check admin password 
     checkPassword:(adminId,oldPassword)=>{
         return new Promise (async(resolve,reject)=>{
           let response={};
@@ -81,6 +86,8 @@ module.exports = {
         })
     },
 
+
+    //this is for reset admin password 
     resetPassword:(adminId,newPassword)=>{
         return new Promise (async(resolve ,reject)=>{
          newPassword = await bcrypt.hash(newPassword, 10);
@@ -94,7 +101,7 @@ module.exports = {
     },
         
        
-       
+    //this is for  get enquery
     getEnquiries: () => {
         return new Promise(async (resolve, reject) => {
             let enquiries = await db.get().collection(collections.ENQUIRIES_COLLECTIONS).aggregate([
@@ -107,7 +114,7 @@ module.exports = {
         })
     },
 
-
+    //this is for add vendor by admin
     addVendor: (vendorData) => {
         return new Promise(async (resolve, reject) => {
             let Name = await db.get().collection(collections.VENDOR_COLLECTIONS).findOne({ Name: vendorData.Name })
@@ -129,7 +136,7 @@ module.exports = {
     },
 
 
-
+    //this is for get all vendors
     getAllVendors: () => {
         return new Promise(async (resolve, reject) => {
             let vendors = await db.get().collection(collections.VENDOR_COLLECTIONS).find().toArray()
@@ -137,13 +144,19 @@ module.exports = {
 
         })
     },
-    editVendor: (vendorId) => {
+
+
+    //this is for admin can get vendor details for editing
+    getVendorDetails: (vendorId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.VENDOR_COLLECTIONS).findOne({ _id: objectId(vendorId) }).then((vendorDetails) => {
                 resolve(vendorDetails)
             })
         })
     },
+
+
+    //this is for edit vendors by admin
     updateVendor: (vendorId, vendorDetails) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.VENDOR_COLLECTIONS).updateOne({ _id: objectId(vendorId) }, {
@@ -161,13 +174,23 @@ module.exports = {
 
         })
     },
+
+
+    // this is for delet vendor (set vendor status is block)
     deleteVendor: (vendorId) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collections.VENDOR_COLLECTIONS).removeOne({ _id: objectId(vendorId) }).then((response) => {
+            db.get().collection(collections.VENDOR_COLLECTIONS).updateOne({ _id: objectId(vendorId) }, {
+                $set: {
+                    Status: "block"
+                }.then((response) => {
                 resolve(response)
+                })
             })
         })
     },
+
+
+    //this is for get all users 
     getAllUsers: () => {
         return new Promise(async (resolve, reject) => {
             let users = await db.get().collection(collections.USER_COLLECTIONS).find().toArray()
@@ -175,6 +198,9 @@ module.exports = {
 
         })
     },
+
+
+    //this is for admin can add user
     addUser: (userData) => {
         return new Promise(async (resolve, reject) => {
 
@@ -194,6 +220,8 @@ module.exports = {
         });
     },
 
+
+    ///this function for admin can edit user data
     editUsers: (userId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.USER_COLLECTIONS).findOne({ _id: objectId(userId) }).then((userDetails) => {
@@ -202,6 +230,8 @@ module.exports = {
         })
     },
 
+
+    //this is for update user  by admin
     updateUser: (userId, userDetails) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.USER_COLLECTIONS).updateOne({ _id: objectId(userId) }, {
@@ -218,6 +248,8 @@ module.exports = {
         })
     },
 
+
+    //add category by admin
     addCategory: (categoryData) => {
         return new Promise(async (resolve, reject) => {
             db.get().collection(collections.CATEGORY_COLLECTIONS).insertOne(categoryData)
@@ -227,6 +259,9 @@ module.exports = {
                 });
         });
     },
+
+
+    //this for get all category
     getAllCategorys: () => {
         return new Promise(async (resolve, reject) => {
             let Categorys = await db.get().collection(collections.CATEGORY_COLLECTIONS).find().toArray()
@@ -234,6 +269,9 @@ module.exports = {
 
         })
     },
+
+
+    //this is for get  category
     editCategory: (categoryId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.CATEGORY_COLLECTIONS).findOne({ _id: objectId(categoryId) }).then((categoryDetails) => {
@@ -241,6 +279,9 @@ module.exports = {
             })
         })
     },
+
+
+    //this is for update category
     updateCategory: (categoryId, categoryDetails) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.CATEGORY_COLLECTIONS).updateOne({ _id: objectId(categoryId) }, {
@@ -251,10 +292,11 @@ module.exports = {
             }).then((response) => {
                 resolve(response)
             })
-
-
         })
     },
+
+
+    //this is for delete category
     deletecategory: (categoryId) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collections.CATEGORY_COLLECTIONS).removeOne({ _id: objectId(categoryId) }).then((response) => {
@@ -263,7 +305,8 @@ module.exports = {
         })
     },
 
-
+     
+    //this is for get sales report
     getSalesReport: () => {
         return new Promise(async (resolve, reject) => {
             sales = await db.get().collection(collections.ORDER_COLLECTIONS).aggregate([
@@ -311,6 +354,9 @@ module.exports = {
             resolve(sales)
         })
     },
+
+
+    //this is for get this month sales report
     getThisMonthSalesReport: () => {
         return new Promise(async (resolve, reject) => {
             let thismonth = new Date().getMonth() + 1
@@ -363,6 +409,8 @@ module.exports = {
         })
     },
 
+
+    //this is for get  this day sales report
     getThisDaySalesReport: () => {
         return new Promise(async (resolve, reject) => {
             let thisday = new Date().getUTCDate()
@@ -415,6 +463,8 @@ module.exports = {
         })
     },
 
+
+    //this is for get this month sales report
     thisMonthSales: () => {
         return new Promise(async (resolve, reject) => {
             let thismonth = new Date().getMonth() + 1
@@ -433,6 +483,9 @@ module.exports = {
             resolve(thisMonhtSales[0].total)
         })
     },
+
+
+    //this is for get best selling products
     getBestSellingProducts: () => {
         return new Promise(async (resolve, reject) => {
             let bestSelling = await db.get().collection(collections.ORDER_COLLECTIONS).aggregate([
@@ -484,6 +537,9 @@ module.exports = {
             resolve(bestSelling)
         })
     },
+
+
+    //this is for get lasst  three day sales report
     getDaySales: () => {
         return new Promise(async (resolve, reject) => {
             let sales = await db.get().collection(collections.ORDER_COLLECTIONS).aggregate([
@@ -511,6 +567,9 @@ module.exports = {
             resolve(sales)
         })
     },
+
+
+    //this for get today sales earning
     todaySales: () => {
         return new Promise(async (resolve, reject) => {
             today = moment(new Date()).format('DD-MM-YYYY');
@@ -547,6 +606,8 @@ module.exports = {
         })
     },
 
+ 
+    //this is for last two month sales report
     monthlyWiseSales: () => {
         return new Promise(async (resolve, reject) => {
             let monthlyWiseSales = await db.get().collection(collections.ORDER_COLLECTIONS).aggregate([
@@ -568,6 +629,8 @@ module.exports = {
         })
     },
 
+
+    //get total earnings
     totalEarnings: () => {
         return new Promise(async (resolve, reject) => {
             let totalEarnings = await db.get().collection(collections.ORDER_COLLECTIONS).aggregate([
@@ -583,6 +646,9 @@ module.exports = {
 
         })
     },
+
+
+    //get total order
     totalOrder: () => {
         return new Promise(async (resolve, reject) => {
             let totalOrder = await db.get().collection(collections.ORDER_COLLECTIONS).aggregate([
@@ -595,8 +661,6 @@ module.exports = {
 
         })
     }
-
-
 
 
 

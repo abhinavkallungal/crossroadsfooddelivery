@@ -5,6 +5,8 @@ var objectId = require("mongodb").ObjectID;
 var moment = require("moment");
 
 module.exports = {
+
+  //this is for vendor login
   doLogin: (vendorData) => {
     return new Promise(async (resolve, reject) => {
       let loginStatus = false;
@@ -32,7 +34,8 @@ module.exports = {
     });
   },
  
-
+ 
+  // this is for get vendor profile details
   getVendorsDetail: (vendorId) => {
     return new Promise(async (resolve, reject) => {
         let VendorsDetail = await db.get().collection(collections.VENDOR_COLLECTIONS).find({ _id: objectId(vendorId) }).toArray()
@@ -40,7 +43,7 @@ module.exports = {
     })
   },
 
-
+  // this is for update vendor profile
   updateProfile:(vendorId, vendorDetails) => {
     return new Promise((resolve, reject) => {
         db.get().collection(collections.VENDOR_COLLECTIONS).updateOne({ _id: objectId(vendorId) }, {
@@ -56,7 +59,10 @@ module.exports = {
     })
 },
 
-checkPassword:(vendorId,oldPassword)=>{
+
+
+  // this function for check vendor password before password change
+  checkPassword:(vendorId,oldPassword)=>{
     return new Promise (async(resolve,reject)=>{
       let response={};
       let admin = await db.get().collection(collections.VENDOR_COLLECTIONS)
@@ -77,9 +83,11 @@ checkPassword:(vendorId,oldPassword)=>{
         resolve({ status: false });
       }
     })
-},
+  },
 
-resetPassword:(vendorId,newPassword)=>{
+
+  //this is for reset vendor password
+  resetPassword:(vendorId,newPassword)=>{
     return new Promise (async(resolve ,reject)=>{
      newPassword = await bcrypt.hash(newPassword, 10);
       await db.get().collection(collections.VENDOR_COLLECTIONS).updateOne({_id:objectId(vendorId)}, {
@@ -89,9 +97,9 @@ resetPassword:(vendorId,newPassword)=>{
      }).then()
      resolve()
     })
-},
+  },
    
-
+  // this is for get all category
   getAllCategorys: () => {
     return new Promise(async (resolve, reject) => {
       let Categorys = await db
@@ -103,6 +111,9 @@ resetPassword:(vendorId,newPassword)=>{
       resolve(Categorys);
     });
   },
+
+
+  //this is for get vendor orders
   getVendorsOrder: (vendorId) => {
     return new Promise(async (resolve, reject) => {
       let vendorOrder = await db
@@ -133,6 +144,8 @@ resetPassword:(vendorId,newPassword)=>{
       resolve(vendorOrder);
     });
   },
+
+  //this is for get order details 
   getOrderDetails: (orderId, vendorId) => {
     return new Promise(async (resolve, reject) => {
       let OrderDetails = await db
@@ -154,6 +167,9 @@ resetPassword:(vendorId,newPassword)=>{
       resolve(OrderDetails[0]);
     });
   },
+
+
+  //this is for get order product details
   getOrderproducts: (orderId, vendorId) => {
     return new Promise(async (resolve, reject) => {
       let Orderproducts = await db
@@ -200,6 +216,9 @@ resetPassword:(vendorId,newPassword)=>{
       resolve(Orderproducts);
     });
   },
+
+
+  // this is for update order status
   updateOrderStatus: (orderId, status, vendorId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -215,7 +234,9 @@ resetPassword:(vendorId,newPassword)=>{
         );
     });
   },
-  //for chart
+
+
+  //this is for get best selling product for chart
   getBestSellingProducts: (vendorId) => {
     return new Promise(async (resolve, reject) => {
       let bestSelling = await db
@@ -277,6 +298,7 @@ resetPassword:(vendorId,newPassword)=>{
     });
   },
 
+
   // for sales page selection box and dashboard
   getSalesReport: (vendorId) => {
     return new Promise(async (resolve, reject) => {
@@ -313,7 +335,9 @@ resetPassword:(vendorId,newPassword)=>{
       resolve(sales);
     });
   },
-  //for sales page
+
+
+  //get monthly vendor sales for sales page 
   getThisMonthSalesReport: (vendorId) => {
     return new Promise(async (resolve, reject) => {
       let thismonth = new Date().getMonth() + 1;
@@ -357,7 +381,9 @@ resetPassword:(vendorId,newPassword)=>{
       resolve(thisMonthSales);
     });
   },
-  //for sales page
+
+
+  //get today sales report for sales page
   getThisDaySalesReport: (vendorId) => {
     return new Promise(async (resolve, reject) => {
       let thisday = new Date().getUTCDate();
@@ -408,7 +434,8 @@ resetPassword:(vendorId,newPassword)=>{
     });
   },
 
-  //for chart
+
+  //this is for last three days sales report for  chart
   getDaySales: (vendorId) => {
     return new Promise(async (resolve, reject) => {
       let sales = await db
@@ -451,6 +478,8 @@ resetPassword:(vendorId,newPassword)=>{
     });
   },
 
+
+  //this is for last two month sales report  
   monthlyWiseSales: (vendorId) => {
     return new Promise(async (resolve, reject) => {
       let monthlyWiseSales = await db
@@ -487,6 +516,8 @@ resetPassword:(vendorId,newPassword)=>{
     });
   },
 
+
+  //this is for get todays earning
   todayEarnings: (vendorId) => {
     return new Promise(async (resolve, reject) => {
       today = moment(new Date()).format("DD-MM-YYYY");
@@ -537,6 +568,9 @@ resetPassword:(vendorId,newPassword)=>{
       }
     });
   },
+
+
+  //this is for get this month earnings
   thisMonthEarnings: (VendorId) => {
     return new Promise(async (resolve, reject) => {
       let thismonth = new Date().getMonth() + 1;
@@ -575,6 +609,8 @@ resetPassword:(vendorId,newPassword)=>{
     });
   },
 
+
+  //this is for get total earnings of vendor 
   totalEarnings: (vendorId) => {
     return new Promise(async (resolve, reject) => {
       let totalEarnings = await db
@@ -608,6 +644,9 @@ resetPassword:(vendorId,newPassword)=>{
       }
     });
   },
+
+
+  //this is for get total number of orders successfuly done 
   totalOrder: (vendorId) => {
     return new Promise(async (resolve, reject) => {
       let totalOrder = await db

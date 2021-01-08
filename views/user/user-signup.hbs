@@ -73,11 +73,7 @@
 										<input type="password" class="form-control form-control-user" id="password"
 											placeholder="Enter password" name="Password" />
 									</div>
-									<div class="form-group col-md-6">
-										<label for="">2 PASSWORD</label>
-										<input type="password" class="form-control form-control-user" id="cPassword"
-											placeholder="Enter password" name="PasswordAgain" />
-									</div>
+									
 									<input type="text" name="Status" value="active" hidden>
 
 									 
@@ -126,10 +122,12 @@
 				},
 				Password: {
 					required: true,
-					minlength: 5
+					minlength: 5,
 				},
 				PasswordAgain: {
 					required: true,
+					minlength: 5,
+					equalTo: "#Password",
 					
 				},
 

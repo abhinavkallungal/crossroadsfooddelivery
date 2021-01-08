@@ -205,7 +205,7 @@ router.post("/add-vendor",verifyLogin, async (req, res) => {
 });
 
 router.get("/edit-vendor/:id", verifyLogin, async (req, res) => {
-  let vendorDetails = await adminHelpers.editVendor(req.params.id);
+  let vendorDetails = await adminHelpers.getVendorDetails(req.params.id);
   console.log(vendorDetails);
  
   res.render("admin/edit-vendor", { admin: true, vendorDetails });

@@ -1,47 +1,37 @@
 <style>
     @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css");
-
-    .body {
-        color: #5a5a5a;
-        background-color: #eee;
-    }
-    main{
-        margin-top: 100px;
-    }
-    .card {
-        background: #DCFAFB;
-        margin-top: 25px;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
-        padding: 5px;
-        border-radius: 10px;
-        
-    }
-    .card:hover{
-        border-color: darkgray;
-    }
-
-    .buttons {}
-
-    .btn {
-        border-radius: 25px;
-        height: 50;
-        padding: 10px;
-    }
-
-    .card-body {
-        width: 100%;
-        text-align: center;
-        padding-bottom: 5px;
-    }
+    .nav__item > .ourbakers{
+     color: var(--first-color);
+}
+    
 </style>
 
 <main>
      
      <h2 style="text-align: center;" >products</h2>
       <hr class="featurette-divider">
-    <div class="row ">
+      <section class="menu section bd-container" id="menu">
+                <span class="section-subtitle">Special</span>
+                <h2 class="section-title">Menu of the week</h2>
+
+                <div class="menu__container bd-grid">
+                    {{#each products}}
+                    <div class="menu__content">
+                        <img class="rounded-circle" width="140" height="140" alt="100x100"
+                           src="/product-images/{{this._id}}.jpg" data-holder-rendered="true">
+                        <h3 class="menu__name">{{this.Name}}</h3>
+                        <span class="menu__detail">{{this.Category}}</span>
+                        <span class="menu__preci">RS:{{this.Price}}</span>
+                        
+                        <button onclick="addToCart('{{this._id}}','{{VendorId}}')" class="button menu__button"><i class="fas fa-cart-plus"></i></button>
+
+                    </div>
+                    {{/each}}
+
+                   
+                </div>
+            </section>
+    {{!-- <div class="row ">
         {{#each products}}
         <div class="card mx-auto" style="width: 18rem;">
             <img class="rounded-circle" width="140" height="140" alt="100x100"
@@ -61,7 +51,7 @@
         
         
 
-    </div>
+    </div> --}}
 </main>
 
 

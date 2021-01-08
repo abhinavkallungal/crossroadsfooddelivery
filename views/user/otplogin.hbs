@@ -1,0 +1,106 @@
+<style>
+    .login,
+    .image {
+        min-height: 75vh
+    }
+
+    .bg-image {
+        background-image: url('/images/Untitled\ design.png');
+        background-size: cover;
+        background-position: center center
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+        -moz-appearance: textfield;
+    }
+    .fotm-group{
+        margin-bottom: 0px;
+    }
+</style>
+<main>
+    <section>
+        <div class="container mt-5">
+            <div class="row no-gutter">
+                <div class="col-md-6 d-none d-md-flex bg-image"></div>
+                <div class="col-md-6 bg-light">
+                    <div class="login d-flex align-items-center py-5">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-7 col-xl-6 mx-auto">
+                                    <h3 class="">LOGIN With otp</h3> <br>
+                                    <hr>
+                                    <form id="otplogin">
+                                        <div class="form-group mb-3">
+                                            <input id="inputmobileno" type="number" placeholder="MOBILE NUMBER"
+                                                required="true" autofocus="" name="MobileNumber"
+                                                class="form-control rounded-pill border-0 shadow-sm px-4  mb-3">
+                                            <button type="submit"
+                                                class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">Send
+                                                OTP</button>
+                                        </div>
+                                    </form>
+                                    <form action="/verifyotp" method="POST" id="verifyotp">
+                                        <div class=" mt-5"> <input type="text" id="verifyno" name="mobileno" hidden>
+                                            <input id="otp" type="number" placeholder="OTP" required="" name="Otp"
+                                                class="form-control rounded-pill border-0 shadow-sm px-4 text-danger" onfocus="getMobileNo()">
+                                            <br>
+                                        </div>
+                                        <button type="submit"
+                                            class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">verify
+                                            OTP
+                                        </button>
+
+                                    </form>
+
+                                    <div class="text-center d-flex justify-content-between mt-4">
+                                        <p> OR &nbsp<a href="/signup" class="font-italic text-muted"> <u>Create
+                                                    Account</u></a></p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<!-- login -->
+<script>
+    $(document).ready(function () {
+        $("#otplogin").submit(function (e) {
+            e.preventDefault();
+            let mobile = $("#inputmobileno").val()
+            mobile = "+91"+mobile
+            localStorage.setItem("mobile", mobile);
+            $.ajax({
+                url: '/otplogin',
+                data: {
+                    MobileNumber: mobile
+                },
+                method: 'post',
+                success: (response) => {
+                    
+                }
+            });
+        });
+
+
+
+      
+    });
+
+    function getMobileNo() {
+         mobileNo= localStorage.getItem("mobile");
+         alert(mobileNo)
+         document.getElementById('verifyno').value  = mobileNo
+    };
+</script>

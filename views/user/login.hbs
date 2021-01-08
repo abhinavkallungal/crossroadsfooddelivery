@@ -17,7 +17,7 @@
 </style>
 <main>
 	<section>
-		<div class="container-fluid mt-5">
+		<div class="container mt-5">
 			<div class="row no-gutter">
 				<div class="col-md-6 d-none d-md-flex bg-image"></div>
 				<div class="col-md-6 bg-light">
@@ -42,33 +42,10 @@
 											in</button>
 									</form>
 									<hr>
-									<h3>Login With otp</h3>
-									<form id="otplogin">
-										<div class="form-group mb-3">
-											<input id="inputmobileno" type="number" placeholder="MOBILE NUMBER"
-												required="true" autofocus="" name="MobileNumber"
-												class="form-control rounded-pill border-0 shadow-sm px-4">
-											<button type="submit"
-												class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">Send
-												OTP</button>
-										</div>
-									</form>
-									<form action="/verifyotp" method="POST" id="verifyotp">
-										<div class="form-group mb-3"> <input type="text" id="verifyno" name="mobileno">
-											<input id="otp" type="number" placeholder="OTP" required="" name="Otp"
-												class="form-control rounded-pill border-0 shadow-sm px-4 text-danger">
-											<br>
-										</div>
-										<button type="submit"
-											class="btn btn-danger btn-block text-uppercase mb-2 rounded-pill shadow-sm">verify
-											OTP
-										</button>
-
-									</form>
+									
 
 									<div class="text-center d-flex justify-content-between mt-4">
-										<p> OR &nbsp<a href=" " class="font-italic text-muted"> <u>Create
-													Account</u></a></p>
+										<p> <a href="/otplogin" class="font-italic text-muted"> <u>Login with otp </u></a> OR &nbsp<a href="/signup" class="font-italic text-muted"> <u>Sign-up</u></a></p>
 									</div>
 
 								</div>

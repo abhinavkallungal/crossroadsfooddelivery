@@ -1,79 +1,53 @@
 <style>
-body{
-    background-image: linear-gradient(to left top, #f0042d, #f52726, #f93a1d, #fc4a12, #ff5900);
-}    
-.nav .nav-item .nav-link{
-    color: #fff;
-    border: cornsilk;
-}
-.nav .nav-item:hover{
- color: #000;
-
-}
+    @import url(/stylesheets/userstyle.css);
+    @import url("https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css");
 </style>
+<!--========== SCROLL TOP ==========-->
+<a href="#" class="scrolltop" id="scroll-top">
+    <i class='bx bx-chevron-up scrolltop__icon'></i>
+</a>
 
+<!--========== HEADER ==========-->
 
-{{!-- nav bar start --}}
+<header class="l-header" id="header">
+    <nav class="nav bd-container">
+        <a href="/" class="nav__logo">FOOD DELIVERY</a>
 
-<header>
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Food Delivery</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-end" id="navbarCollapse">
+        <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+                <li class="nav__item "><a href="/" class="nav__link active-link home">Home</a></li>
+                <li class="nav__item"><a href="/ourbakers" class="nav__link ourbakers">Our bakers</a></li>
+                <li class="nav__item"><a href="/aboutus" class="nav__link aboutus">About us</a></li>
+                <li class="nav__item"><a href="/contactus" class="nav__link contactus ">Contact us</a></li>
+
+                {{#if user}}
+                <li class="nav__item"><a href="/cart" class="nav__link cart" >Cart<span class="badge badge-light"
+                            id="cart-count">{{cartCount}}</span></a></li>
+                <li class="nav__item"><a href="/orders" class="nav__link orders">Orders</a></li>
+                <li class="nav__item"><a href="/profile" class="nav__link profile">Profile</a></li>
+                <li class="nav__item"><a href="/logout" id="logout" class="nav__link ">Logout</a></li>
+                {{else}}
+                <li class="nav__item"><a href="/signup" class="nav__link">Sign up</a></li>
+                <li class="nav__item"><a href="/login" class="nav__link">Login</a></li>
+                {{/if}}
                 
-                <ul class="nav navbar-nav navbar-right ">
-                    <li class="nav-item active">
-                        <a class="nav-link" aria-current="page" href="/">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/aboutus">About Us </a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" aria-current="page" href="/ourbakers">our bakers</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contactus">Conatact Us </a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right ">
-                    {{#if user}}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cart">Cart <span class="badge badge-light" id="cart-count">{{cartCount}}</span></a>
-                        
-                    </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="/orders">Orders</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/profile">Profile</a>
-                        
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/logout">Log Out</a>
-                        
-                    </li>
-                   
-                    {{else}}
-                  
-                     <li class="nav-item">
-                        <a class="nav-link" href="/signup">Sign Up </a>
-                        
-                    </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="/login">Login </a>
-                    </li>
-                    {{/if }}
-                   
-                </ul>
-                
-            </div>
+                {{!-- <li><i class='bx bx-moon change-theme' id="theme-button"></i></li > --}}
+            </ul>
+        </div>
+
+        <div class="nav__toggle" id="nav-toggle">
+            <i class='bx bx-menu'></i>
         </div>
     </nav>
 </header>
 
+<!--========== SCROLL REVEAL ==========-->
+<script src="https://unpkg.com/scrollreveal"></script>
 
-{{!-- nav bar end --}}
+<!--========== MAIN JS ==========-->
+<script src="/javascripts/userside.js"></script>
+
+
+
+
+

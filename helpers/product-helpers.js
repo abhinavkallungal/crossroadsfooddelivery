@@ -18,9 +18,9 @@ module.exports = {
     //=> product get from database
     getAllProducts: (vendorId) => {
         return new Promise(async (resolve, reject) => {
-            let products = await db.get().collection(collections.PRODUCT_COLLECTIONS).find().toArray()
+            let products = await db.get().collection(collections.PRODUCT_COLLECTIONS).find({Status:"Active"}).toArray()
             resolve(products)
-
+           
         })
     },
 
@@ -36,7 +36,11 @@ module.exports = {
 
     deleteProduct: (proId) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collections.PRODUCT_COLLECTIONS).removeOne({ _id: objectId(proId) }).then((response) => {
+          db.get().collection(collections.PRODUCT_COLLECTIONS).updateOne({ _id: objectId(proId) }, {
+                $set: {
+                    Status:"Block"
+                }
+            }).then((response) => {
                 resolve(response)
             })
         })

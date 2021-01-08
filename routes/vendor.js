@@ -129,6 +129,9 @@ router.get("/add-product", verifyLogin, function (req, res) {
 
 
 router.post("/add-product",  (req, res) => {
+  req.body.Price=parseInt(req.body.Price)
+  req.body.Status = "Active";
+  
   productHelpers.addProduct(req.body, (id) => {
     let image = req.files.Image;
     image.mv("./public/product-images/" + id + ".jpg", (err, done) => {
@@ -158,6 +161,7 @@ router.get("/edit-product/:id", async (req, res) => {
   res.render("vendor/edit-product", { product,categorys,vendor: true,  tiltes });
 });
 router.post("/edit-product/:id", (req, res) => {
+  req.body.Price=parseInt(req.body.Price)
   productHelpers.updateProduct(req.params.id, req.body).then(() => {
     res.redirect("/vendor/products");
     let id = req.params.id;
@@ -186,9 +190,9 @@ router.post("/changestatus",(req,res)=>{
   let  status = req.body.status
   let orderId =req.body.orderId
   vendorHelpers.updateOrderStatus(orderId,status, req.session.vendor._id).then(() => {
-    res.redirect("/vendor/products");
-    let id = req.params.id;
     
+    res.redirect("/vendor/orders");
+   
   });
 })
 

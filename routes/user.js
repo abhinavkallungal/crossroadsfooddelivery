@@ -2,10 +2,8 @@ var express = require("express");
 var router = express.Router();
 var productHelpers = require("../helpers/product-helpers");
 var userHelpers = require("../helpers/user-helpers");
-var adminHelpers = require("../helpers/admin-helpers");
 const { response, request } = require("express");
-const config = require("../config/config");
-const client = require("twilio")(config.accountSID, config.authToken);
+
 
 const verifyLogin = (req, res, next) => {
   if (req.session.userLoggedIn) {
@@ -27,15 +25,12 @@ const verifyLogin = (req, res, next) => {
 /* GET home page. */
 router.get("/", async function (req, res, next) {
   let user = req.session.user;
-  let cartCount = null;
+  let cartCount
   if (user) {
     userCart= await userHelpers.checkCartAvaiable(req.session.user._id)
     if(userCart){
-      cartCount = await userHelpers.getCartCount(req.session.user._id);
-    }else{
-      cartCount = 0
+       cartCount = await userHelpers.getCartCount(req.session.user._id);
     }
-    
   }
   productHelpers.getAllProducts().then((products) => {
     res.render("user/homepage", { userhead: true, user, products, cartCount });
@@ -104,9 +99,12 @@ router.post("/login", (req, res) => {
     }
   });
 });
+router.get("/otplogin",(req,res)=>{
+  res.render("user/otplogin",{userhead:true})
+})
 
 router.post("/otpLogin", (req, res) => {
-  MobileNumber = "+91"+ req.body.MobileNumber;
+  MobileNumber =  req.body.MobileNumber;
   console.log("mobile", MobileNumber);
   userHelpers.doMobileValidation(MobileNumber).then((response) => {
     console.log("response",response);
@@ -192,9 +190,10 @@ router.post("/resetpassword/:id",verifyLogin,async(req,res)=>{
 
 router.get("/ourbakers", async function (req, res) {
   let user = req.session.user;
-  let cartCount = null;
+  let cartCount
   if (user) {
     cartCount = await userHelpers.getCartCount(req.session.user._id);
+    console.log("cartCount",cartCount);
   }
   userHelpers.getAllVendors(response).then((vendors) => {
     res.render("user/ourbakers", { userhead: true, vendors, user, cartCount });
@@ -203,7 +202,7 @@ router.get("/ourbakers", async function (req, res) {
 
 router.get("/viewproducts/:id", verifyLogin, async function (req, res) {
   let user = req.session.user;
-  let cartCount = null;
+ 
   if (user) {
     cartCount = await userHelpers.getCartCount(req.session.user._id);
   }
@@ -220,16 +219,17 @@ router.get("/viewproducts/:id", verifyLogin, async function (req, res) {
 
 router.get("/aboutus", async function (req, res) {
   let user = req.session.user;
-  let cartCount = null;
+  let cartCount = 0;
   if (user) {
     cartCount = await userHelpers.getCartCount(req.session.user._id);
+    
   }
   res.render("user/aboutus", { userhead: true, user, cartCount });
 });
 
 router.get("/contactus", async function (req, res) {
   let user = req.session.user;
-  let cartCount = null;
+  let cartCount
   if (user) {
     cartCount = await userHelpers.getCartCount(req.session.user._id);
   }
@@ -262,6 +262,7 @@ router.get("/cart", verifyLogin, async (req, res) => {
   user = req.session.user
   userId = req.session.user._id
   let userCart = await userHelpers.checkCartAvaiable(userId)
+  console.log(userCart);
   if (userCart) {
     let total = await userHelpers.getTotelAmount(req.session.user._id);
     let cartCount = await userHelpers.getCartCount(req.session.user._id);
@@ -281,6 +282,14 @@ router.get("/cart", verifyLogin, async (req, res) => {
 
 router.post("/change-product-quantity", verifyLogin, (req, res, next) => {
   userHelpers.changeProductQuantity(req.body).then(async (response) => {
+    response.total = await userHelpers.getTotelAmount(req.body.user);
+    res.json(response);
+  });
+});
+
+router.post("/removeCartItem", verifyLogin, async (req, res) => {
+  console.log(req.body);
+  await userHelpers.removeCartItem(req.body).then(async (response) => {
     response.total = await userHelpers.getTotelAmount(req.body.user);
     res.json(response);
   });
@@ -325,7 +334,7 @@ router.get("/order-success/:id",verifyLogin,async (req, res) => {
 
 router.get("/orders", verifyLogin, async (req, res) => {
   let user = req.session.user;
-  let cartCount = null;
+  
   if (user) {
     cartCount = await userHelpers.getCartCount(req.session.user._id);
   }
@@ -352,9 +361,11 @@ router.get("/view-order-products/:id/:vendorId", async (req, res) => {
   console.log(products);
   res.render("user/view-orderproduct", { user: req.session.user, products });
 });
-
-router.get("/crop",(req,res)=>{
-  res.render("user/crop")
+router.get("/test",async(req,res)=>{
+  let cartCount = await userHelpers.getCartCount(req.session.user._id)
+  console.log(cartCount);
 })
+
+
 
 module.exports = router;

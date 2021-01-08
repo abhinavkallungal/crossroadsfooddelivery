@@ -2,130 +2,64 @@
     @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap");
 
 
+    /* our bakers */
+    .marketing .col-lg-4 {
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .marketing h2 {
+        font-weight: 400;
+    }
 
 
-body {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-    color: #5a5a5a;
-    background-color: #eee;
-}
+    .marketing .col-lg-4 p {
+        margin-right: .75rem;
+        margin-left: .75rem;
+    }
 
-/* our bakers */
-.marketing .col-lg-4 {
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.marketing h2 {
-    font-weight: 400;
-}
-
-
-.marketing .col-lg-4 p {
-    margin-right: .75rem;
-    margin-left: .75rem;
+    .img{
+        border: #d50000 1px solid;
+    }
+    .card{
+        box-shadow: 2px 2px 1px rgba(50, 50, 50, 0.75);
+    }
+    .nav__item > .ourbakers{
+     color: var(--first-color);
 }
 </style>
 
 
 
 <main>
-        <section class="my-5 ">
-            <hr class="featurette-divider">
-            <div class="container marketing">
+    <section class="my-5 ">
+        <hr class="featurette-divider">
+        <div class="container marketing">
 
-                <!-- Three columns of text below the carousel -->
-                <div class="row">
-                    <h1 class="text-center mb-5">Our Bakers</h1><br>
-                    {{#each vendors}}
-                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
-                        <a href="/viewproducts/{{this._id}}" class="btn"><img class="rounded-circle "    width="140" height="140" alt="100x100"
-                            src="/vendor-logo/{{this._id}}.jpg" data-holder-rendered="true"></a>
-                        
-                        <h2>{{this.Name}}</h2>
-                        <p>{{this.Place}}</p>
-                        <p><a class="btn btn-secondary" href="/viewproducts/{{this._id}}" role="button">VIEW PRODUCTS </a></p>
-                    </div>
-                    {{/each}}
-                </div><!-- /.row -->
+            <!-- Three columns of text below the carousel -->
+            <h1 class="text-center mb-5">Our Bakers</h1><br>
+            <div class="row">
 
+                {{#each vendors}}
+                <div class="card mx-auto text-center mb-5" style="width: 18rem;">
+                     <a href="/viewproducts/{{this._id}}" class="btn"><img class="rounded-circle img " width="140"
+                            height="140" alt="100x100" src="/vendor-logo/{{this._id}}.jpg"
+                            data-holder-rendered="true"></a>
 
-                <!-- START THE FEATURETTES -->
-
-                <hr class="featurette-divider">
-               
-                
-        </section>
-    </main>
-
-
-    <!-- FOOTER -->
-    <footer class="bg-white">
-            <div class="container py-5">
-                <div class="row py-3">
-                    <div class="col-lg-2 col-md-4 col-sm-6 col-xs-6 mb-4 ">
-                        <h6 class="text-uppercase font-weight-bold mb-4">About</h6>
-                        <ul class="list-unstyled mb-0">
-                            <li class="mb-2 Max-width 50%"><a href="#" class="text-muted">Contact Us</a></li>
-                            <li class="mb-2 Max-width 50%"><a href="#" class="text-muted">About Us</a></li>
-                            <li class="mb-2 Max-width 50%"><a href="#" class="text-muted">Stories</a></li>
-                            <li class="mb-2 Max-width 50%"><a href="#" class="text-muted">Press</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6  col-xs-6 mb-4 ">
-                        <h6 class="text-uppercase font-weight-bold mb-4">Help</h6>
-                        <ul class="list-unstyled mb-0">
-                            <li class="mb-2"><a href="#" class="text-muted">Payments</a></li>
-                            <li class="mb-2"><a href="#" class="text-muted">Shipping</a></li>
-                            <li class="mb-2"><a href="#" class="text-muted">Cancellation</a></li>
-                            <li class="mb-2"><a href="#" class="text-muted">Returns</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6  col-xs-6 mb-4 ">
-                        <h6 class="text-uppercase font-weight-bold mb-4">Policy</h6>
-                        <ul class="list-unstyled mb-0">
-                            <li class="mb-2"><a href="#" class="text-muted">Return Policy</a></li>
-                            <li class="mb-2"><a href="#" class="text-muted">Terms Of Use</a></li>
-                            <li class="mb-2"><a href="#" class="text-muted">Security</a></li>
-                            <li class="mb-2"><a href="#" class="text-muted">Privacy</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 col-md-6 col-sm-6  col-xs-6 mb-4">
-                        <h6 class="text-uppercase font-weight-bold mb-4">Company</h6>
-                        <ul class="list-unstyled mb-0">
-                            <li class="mb-2"><a href="#" class="text-muted">Login</a></li>
-                            <li class="mb-2"><a href="#" class="text-muted">Register</a></li>
-                            <li class="mb-2"><a href="#" class="text-muted">Sitemap</a></li>
-                            <li class="mb-2"><a href="#" class="text-muted">Our Products</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6  col-xs-6"> 
-                        <h6 class="text-uppercase font-weight-bold mb-4">Registered Office Address</h6>
-                        <p class="text-muted mb-4">Here , write the complete address of the Registered office address
-                            along
-                            with telephone number.</p>
-                        <ul class="list-inline mt-4">
-                            <li class="list-inline-item"><a href="#" target="_blank" title="twitter"><i
-                                        class=" fa-2x fa fa-twitter"></i></a></li>
-                            <li class="list-inline-item"><a href="#" target="_blank" title="facebook"><i
-                                        class=" fa-2x fa fa-facebook-f"></i></a></li>
-                            <li class="list-inline-item"><a href="#" target="_blank" title="instagram"><i
-                                        class="fa-2x  fa  fa-instagram"></i></a></li>
-                            <li class="list-inline-item"><a href="#" target="_blank" title="pinterest"><i
-                                        class=" fa-2x fa fa-youtube"></i></a></li>
-                            <li class="list-inline-item"><a href="#" target="_blank" title="vimeo"><i
-                                        class=" fa-2x fa fa-google"></i></a></li>
-                        </ul>
-                    </div>
+                    <h2>{{this.Name}}</h2>
+                    <p>{{this.Place}}</p>
+                    <p><a class="btn btn-secondary" href="/viewproducts/{{this._id}}" role="button">VIEW PRODUCTS </a>
                 </div>
-            </div>
-            <hr class="p-0 m-0 b-0">
-            <div class="bg-light py-2">
-                <div class="container text-center">
-                    <p class="text-muted mb-0 py-2"></p>
-                </div>
-            </div>
-        </footer>
-    
+               {{/each}}
+
+        </div><!-- /.row -->
+
+
+        <!-- START THE FEATURETTES -->
+
+        <hr class="featurette-divider">
+
+
+    </section>
+</main>
 
