@@ -94,7 +94,7 @@ app.use(function(err, req, res, next) {
 
 
 app.listen(process.env.PORT || 3000, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  console.log("Express server running");
 });
 
 
