@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node app.js"
   },
   "engines": {
     "node": "12.19.0"
@@ -30,5 +30,4 @@
     "twilio": "^3.54.2",
     "handlebars": "^4.7.6"
   }
-  
 }
