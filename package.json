@@ -27,9 +27,8 @@
     "nodemailer": "^6.4.17",
     "nodemon": "^2.0.6",
     "razorpay": "^2.0.6",
-    "twilio": "^3.54.2"
-  },
-  "devDependencies": {
+    "twilio": "^3.54.2",
     "handlebars": "^4.7.6"
   }
+  
 }
